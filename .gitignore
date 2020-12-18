@@ -1,3 +1,5 @@
 /target/
 pom.xml
 .project
+.classpath
+.DS_Store
