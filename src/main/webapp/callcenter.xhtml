@@ -286,22 +286,31 @@
 							var="cliente">
 
 							<h:column>
-								<f:facet name="header" data-field="nombres" data-sortable="true">Nombres</f:facet>
-											#{clienteController.cliente.nombre}
+								<f:facet name="header" data-field="Nombres" data-sortable="true">Nombres</f:facet>
+											#{cliente.nombre}
+												</h:column>
+						  
+							<h:column>
+								<f:facet name="header" data-field="Apellidos" data-sortable="true">Apellidos</f:facet>
+											#{cliente.apellidos}
 												</h:column>
 
 							<h:column>
 								<f:facet name="header" data-field="direccion"
 									data-sortable="true">Direccion</f:facet>
+									<h:outputText value = "DIR.PRINCIPAL" />
+									
 													<h:inputText class="cabecera" value="#{cliente.direccionPrincipal}" />
 													<br />
+													<h:outputText value = "DIR.SECUNDARIAL" />
 					<h:inputText class="cabecera" value="#{cliente.direccionSecundaria}" />
 					<br />
+					<h:outputText value = "DIR.REFERENCIA" />
 					<h:inputText class="cabecera" value="#{cliente.direccionReferencia}" />
 												</h:column>
 												<h:column>
 			
-						  <label for="sel2" class="etiquetas">Telfonos:</label>     
+						  <label for="sel2" class="etiquetas">Telefonos:</label>     
 						<h:selectOneMenu class="form-control" id="sel2">
 							<f:selectItems value="#{cliente.telefonos}" var="pro1"
 								itemLabel="#{pro1.tipoTelefono}" itemValue="#{pro1.tipoTelefono}" />
