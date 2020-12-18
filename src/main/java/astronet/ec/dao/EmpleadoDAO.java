@@ -26,7 +26,7 @@ public class EmpleadoDAO {
 		
 	}
 	
-	//Funcionamiento
+	//Funcionamiento.
 	
 	public void create(Empleado emp) {
 		em.persist(emp);
