@@ -70,30 +70,33 @@
 					<div class="modal-body">
 					<div class="form-group col-sm-4">
 						  <label for="sel1">Antena Designada:</label>  
-						<h:selectOneMenu value="#{clienteController.cliente.codigoAntenaTemp}" id="txtAntena">
-						<f:ajax listener="#{clienteController.consultarAntena()}"
-										render="datosPersona errores" />
-						<f:selectItems value="#{clienteController.listadoAntena}" var="antena"
-						itemLabel="#{antena.modelo}" itemValue="#{antena.id}"/>
+														
+						<h:selectOneMenu value="#{clienteController.antenaElegida}" id="txtAntena">
+						<f:selectItems value="#{clienteController.listadoAntenas}" var="equipo"
+						itemLabel="#{equipo.modelo}" itemValue="#{equipo.modelo}"/>
 						</h:selectOneMenu>
-					</div>
-							<div class="form-group">
+						<div class="form-group">
 							<h:inputText type="text" class="form-control" id="Cedula"
-								value="#{clienteController.cliente.cedula}"
+								value="#{clienteController.cedula}"
 								a:placeholder="Cedula" />
 						</div>
 						<div class="form-group">
 							<h:inputText type="text" class="form-control" id="Nombres"
-								value="#{clienteController.cliente.nombre}"
+								value="#{clienteController.nombre}"
 								a:placeholder="Nombres" />
 						</div>
 						<div class="form-group">
+							<h:inputText type="text" class="form-control" id="Apellidos"
+								value="#{clienteController.apellidos}"
+								a:placeholder="Apellidos" />
+						</div>
+						<div class="form-group">
 							<h:inputText type="text" class="form-control" id="Email"
-								value="#{clienteController.cliente.email}" a:placeholder="Email" />
+								value="#{clienteController.email}" a:placeholder="Email" />
 						</div>
 						<div class="form-group">
 							<h:inputText type="text" class="form-control" id="Convencional"
-								value="#{clienteController.cliente.convencional}"
+								value="#{clienteController.convencional}"
 								a:placeholder="Convencional" />
 						</div>
 						<div class="form-group">
@@ -104,88 +107,45 @@
 						<div class="form-group">
 							<h:inputText type="text" class="form-control"
 								id="DireccionPrincipal"
-								value="#{clienteController.cliente.direccionPrincipal}"
+								value="#{clienteController.direccionPrincipal}"
 								a:placeholder="Direccion Principal" />
 						</div>
 						<div class="form-group">
 							<h:inputText type="text" class="form-control"
 								id="DireccionSecundaria"
-								value="#{clienteController.cliente.direccionSecundaria}"
+								value="#{clienteController.direccionSecundaria}"
 								a:placeholder="Direccion Secundaria" />
 						</div>
 						<div class="form-group">
 							<h:inputText type="text" class="form-control"
 								id="DireccionReferencia"
-								value="#{clienteController.cliente.direccionReferencia}"
+								value="#{clienteController.direccionReferencia}"
 								a:placeholder="Direccion Referencia" />
 						</div>
 						<div class="form-group">
 							<h:inputText type="text" class="form-control" id="Latitud"
-								value="#{clienteController.cliente.latitud}"
+								value="#{clienteController.latitud}"
 								a:placeholder="Latitud" />
 						</div>
 						<div class="form-group">
 							<h:inputText type="text" class="form-control" id="Longitud"
-								value="#{clienteController.cliente.longitud}"
+								value="#{clienteController.longitud}"
 								a:placeholder="Longitud" />
 						</div>
 						
-						<div class="form-group">
-							<h:inputText type="text" class="form-control" id="idReg"
-								value="#{clienteController.servicio.idClienteTemp}"
-								a:placeholder="IDClienteTemp" />
-						</div>
-						
-						<div class="form-group">
-							<h:inputText type="text" class="form-control" id="NumeroContrato"
-								value="#{clienteController.servicio.numeroContrato}"
-								a:placeholder="Numero Contrato" />
-						</div>
-						<div class="form-group">
-							<h:inputText type="text" class="form-control" id="FechaContrato"
-								value="#{clienteController.servicio.fechaContrato}"
-								a:placeholder="Fecha Contrato" />
-						</div>
-						<div class="form-group">
-							<h:inputText type="text" class="form-control" id="DireccionIP"
-								value="#{clienteController.servicio.ip}"
-								a:placeholder="Direccion IP" />
-						</div>
-						<div class="form-group">
-						<h:dataTable>
-							<h:inputText type="text" class="form-control" id="Password"
-								value="#{clienteController.servicio.password}"
-								a:placeholder="Password" />
-								</h:dataTable>
-						</div>
-						<div class="form-group">
-							<h:inputText type="text" class="form-control" id="Plan"
-								value="#{clienteController.servicio.plan}"
-								a:placeholder="Plan" />
-						</div>
-						<div class="form-group">
-							<h:inputText type="text" class="form-control" id="Observaciones"
-								value="#{clienteController.servicio.observaciones}"
-								a:placeholder="Observaciones" />
-						</div>
-						
-
-						<!-- Modal footer -->
-						<div class="modal-footer">
-							
-								<h:commandButton class="btn btn-primary" data-dismiss="modal" 
-									action="#{clienteController.crearCliente()}" 
+						<h:commandButton class="btn btn-primary" data-dismiss="modal" 
+									action="#{clienteController.crearCliente}" 
 									 value="Guardar" />
 								<h:commandButton action="clientes1" value="Cancelar"
 									class="btn btn-danger" data-dismiss="modal" />
-							
-						</div>
 
+					
 					</div>
+					
 				</div>
 			</div>
 		</div>
-
+</div>
 </h:form>
 
 </body> 
