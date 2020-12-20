@@ -18,6 +18,10 @@ public class TelefonoON {
 	@Inject
 	private TelefonoDAO teldao;
 	
+	public void guardar(Telefono tel) {
+
+		teldao.save(tel);
+	}
 	
 	public List<Telefono> getTelefonos(Cliente cliente){
 		List<Telefono> aux = teldao.getTelefonos(cliente);

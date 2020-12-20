@@ -1,5 +1,6 @@
 package astronet.ec.modelo;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,7 +17,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Equipo")
 
-public class Equipo {
+public class Equipo implements Serializable{
 	
 	/**
 	 * 

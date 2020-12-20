@@ -103,10 +103,4 @@ public class Telefono implements Serializable {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Telefono [id=" + id + ", tipoTelefono=" + tipoTelefono + ", telNumero=" + telNumero + ", cliente="
-				+ cliente + "]";
-	}
-
 }
