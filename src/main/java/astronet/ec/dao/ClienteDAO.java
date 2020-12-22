@@ -66,12 +66,17 @@ public class ClienteDAO {
 		Cliente cli = read(id);
 		em.remove(cli);
 	}
+
 	public List<Cliente> getCliente() {
 		String jpql = "SELECT cliente FROM Cliente cliente ";
 		Query q = em.createQuery(jpql, Cliente.class);
 		List<Cliente> clientes = q.getResultList();
 		return clientes;
 	}
+	
+	 
+	
+	
 	
 	public List<Telefono> getTelefonos(String cedula) {
 		System.out.println("CLIENTE BUSCADO -----> "+ cedula);

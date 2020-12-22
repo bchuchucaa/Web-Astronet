@@ -53,14 +53,15 @@ public class ClienteController implements Serializable {
 	private Instalacion instalacion = new Instalacion();
 	private Agendamiento agendamiento = new Agendamiento();
 	private Equipo equipo = new Equipo();
-
+	private Telefono telefono;
 	private List<Telefono> telefonos;
+	private Telefono nuevoTelefono;
 	/**
 	 * Declaraacion de variables
 	 */
 	private int id;
 	private int idR;
-	private String cedula;
+	private String cedula; 
 	private String nombre;
 	private String apellidos;
 	private String IP;
@@ -81,12 +82,12 @@ public class ClienteController implements Serializable {
 	public String soluciones;
 	private String empleados1;
 	private String servicioRB;
+
 	private String item;
 	private String antenaElegida;
 	private String planElegido;
 	private List<Equipo> listadoAntenas;
 	
-
 	public int idEmpl;
 
 	private int codigoReg;
@@ -102,6 +103,9 @@ public class ClienteController implements Serializable {
 		listadoCliente = clion.getListadoCliente();
 		registros = regon.getListadoRegistro();
 		listaInstalaciones = inson.getListadoInstalacion();
+    
+		nuevoTelefono= new Telefono();
+
 		telefonos = new ArrayList<Telefono>();
 		equipo = new Equipo();
 		listadoAntenas = eqOn.getListadoAntenas();
@@ -150,11 +154,6 @@ public class ClienteController implements Serializable {
 	/**
 	 * Fin de la inyeccion
 	 */
-
-	/**
-	 * Creacion del Constructor
-	 */
-
 
 	/**
 	 * Metodo para la accion de editar los clientes
@@ -594,10 +593,13 @@ public class ClienteController implements Serializable {
 		this.empCon = empCon;
 	}
 	
+	
+	
 
 	/*
 	 * Hasta aqui llega la creacion de los getters and setters
 	 */
+
 
 	public List<Telefono> getTelefonos() {
 		return telefonos;
@@ -780,6 +782,7 @@ try {
 		return null;
 	}
 
+	
 	/**
 	 * Metodo para la ejecuccion del sistema de simbolo (cmd)
 	 */
@@ -880,6 +883,15 @@ try {
 		}
 	}
 	
+	
+
+	public Telefono getNuevoTelefono() {
+		return nuevoTelefono;
+	}
+
+	public void setNuevoTelefono(Telefono nuevoTelefono) {
+		this.nuevoTelefono = nuevoTelefono;
+	}
 
 	public problema[] listaProblema;
 
@@ -1246,6 +1258,40 @@ try {
 
 		return servicioLista;
 	}
+
+	
+	//Metodo para actualizar los telefonos;
+	
+	public void editTelefono(Telefono telefono) {
+		this.telefono=telefono;
+		telOn.updateTelefono(telefono);
+		System.out.println("TELEFONO A UPDATE -> "+ telefono.getTipoTelefono());
+	
+	}
+	
+	public void newTelefono(Telefono telefono) {
+		System.out.println("Telefono de parametro "+ telefono.getTelNumero());
+		System.out.println("Telefono de parametro "+ telefono.getTipoTelefono());
+		this.nuevoTelefono= telefono;
+		nuevoTelefono.setCliente(cliente);
+		
+		if(nuevoTelefono.getTipoTelefono()!="" && nuevoTelefono.getTelNumero()!="" && nuevoTelefono.getTipoTelefono()!=null) {
+		try {
+				clion.getClienteCedula(cliente.getCedula());
+				nuevoTelefono.setId(telOn.getMaxId()+1);
+				telOn.createTelefono(nuevoTelefono);
+				
+			System.out.println("ALL RIGHT BABE");
+		}catch (Exception e) {
+			System.out.println("PILAS PARA AGREGAR EL NUEVO TELEFONO "+ nuevoTelefono.getTelNumero());
+
+		}
+		this.nuevoTelefono= new Telefono();
+	
+		}
+		
+	}
+
 
 	public String getPlanElegido() {
 		return planElegido;

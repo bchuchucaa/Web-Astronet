@@ -27,8 +27,6 @@ public class Telefono implements Serializable {
 
 	@Id
 	@Column(name = "tel_id")
-	@GeneratedValue(generator = "secuenciaTel")
-	@SequenceGenerator(name = "secuenciaTel", initialValue = 14)
 	@NotNull
 	private int id;
 	
@@ -46,6 +44,21 @@ public class Telefono implements Serializable {
 	@JoinColumn(name="cliTel_fk")
 	@JsonIgnore
 	private Cliente cliente;
+	
+	
+	
+
+	public Telefono() {
+		super();
+	}
+
+	public Telefono(int id, String tipoTelefono, String telNumero, Cliente cliente) {
+		super();
+		this.id = id;
+		this.tipoTelefono = tipoTelefono;
+		this.telNumero = telNumero;
+		this.cliente = cliente;
+	}
 
 	public int getId() {
 		return id;
@@ -81,6 +94,10 @@ public class Telefono implements Serializable {
 
 	
 	
+	
+
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -103,4 +120,3 @@ public class Telefono implements Serializable {
 		return true;
 	}
 
-}
