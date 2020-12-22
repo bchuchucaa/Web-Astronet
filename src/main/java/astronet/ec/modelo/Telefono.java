@@ -26,7 +26,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 	    allocationSize = 1
 )
 
-
 public class Telefono implements Serializable {
 	
 	/**
