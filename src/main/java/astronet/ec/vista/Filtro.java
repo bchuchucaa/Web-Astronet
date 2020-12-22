@@ -15,9 +15,8 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet Filter implementation class Filtro
  */
-@WebFilter({"/listadoEmpleado.xhtml","/listadoInstalaciones.xhtml","/registrarEmpleado.xhtml","/registro.xhtml","/menu.xhtml","/clientes1.xhtml"})
+@WebFilter({"/listadoEmpleado.xhtml","/listadoInstalaciones.xhtml","/registrarEmpleado.xhtml","/registro.xhtml","/clientes1.xhtml","/agendamiento.xhtml"})
 public class Filtro implements Filter {
-
     /**
      * Default constructor. 
      */

@@ -68,14 +68,6 @@
 
 				<div class="panel-body ">
 					<div class="modal-body">
-					<div class="form-group col-sm-4">
-						  <label for="sel1">Antena Designada:</label>  
-						<h:selectOneMenu value="#{clienteController.cliente.codigoAntenaTemp}" id="txtAntena">
-						<f:ajax listener="#{clienteController.consultarAntena()}"
-										render="datosPersona errores" />
-						<f:selectItems value="#{clienteController.listadoAntena}" var="antena"
-						itemLabel="#{antena.modelo}" itemValue="#{antena.id}"/>
-						</h:selectOneMenu>
 					</div>
 							<div class="form-group">
 							<h:inputText type="text" class="form-control" id="Cedula"
@@ -90,16 +82,6 @@
 						<div class="form-group">
 							<h:inputText type="text" class="form-control" id="Email"
 								value="#{clienteController.cliente.email}" a:placeholder="Email" />
-						</div>
-						<div class="form-group">
-							<h:inputText type="text" class="form-control" id="Convencional"
-								value="#{clienteController.cliente.convencional}"
-								a:placeholder="Convencional" />
-						</div>
-						<div class="form-group">
-							<h:inputText type="text" class="form-control" id="Celular"
-								value="#{clienteController.cliente.celular}"
-								a:placeholder="Celular" />
 						</div>
 						<div class="form-group">
 							<h:inputText type="text" class="form-control"
@@ -135,29 +117,6 @@
 								value="#{clienteController.servicio.idClienteTemp}"
 								a:placeholder="IDClienteTemp" />
 						</div>
-						
-						<div class="form-group">
-							<h:inputText type="text" class="form-control" id="NumeroContrato"
-								value="#{clienteController.servicio.numeroContrato}"
-								a:placeholder="Numero Contrato" />
-						</div>
-						<div class="form-group">
-							<h:inputText type="text" class="form-control" id="FechaContrato"
-								value="#{clienteController.servicio.fechaContrato}"
-								a:placeholder="Fecha Contrato" />
-						</div>
-						<div class="form-group">
-							<h:inputText type="text" class="form-control" id="DireccionIP"
-								value="#{clienteController.servicio.ip}"
-								a:placeholder="Direccion IP" />
-						</div>
-						<div class="form-group">
-						<h:dataTable>
-							<h:inputText type="text" class="form-control" id="Password"
-								value="#{clienteController.servicio.password}"
-								a:placeholder="Password" />
-								</h:dataTable>
-						</div>
 						<div class="form-group">
 							<h:inputText type="text" class="form-control" id="Plan"
 								value="#{clienteController.servicio.plan}"
@@ -169,22 +128,20 @@
 								a:placeholder="Observaciones" />
 						</div>
 						
-
-						<!-- Modal footer -->
-						<div class="modal-footer">
-							
-								<h:commandButton class="btn btn-primary" data-dismiss="modal" 
-									action="#{clienteController.crearCliente()}" 
-									 value="Guardar" />
-								<h:commandButton action="clientes1" value="Cancelar"
-									class="btn btn-danger" data-dismiss="modal" />
-							
+							<div class="form-group">
+							<h:inputText type="text" class="form-control" id="TipoServicio"
+								value="#{clienteController.servicio.observaciones}"
+								a:placeholder="TipoServicio" />
 						</div>
+						
+						
+						
 
+				
 					</div>
 				</div>
 			</div>
-		</div>
+		
 
 </h:form>
 

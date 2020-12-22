@@ -994,9 +994,14 @@ try {
 
 		return servicioLista;
 	}
-	
+		
 
+	public List<Equipo> equipos(){
+	
+		
+		
+		return null;
 	
 	
-
+	}	
 }
