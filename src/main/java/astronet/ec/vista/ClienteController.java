@@ -884,6 +884,7 @@ try {
 			empleado.setId(registro.getEmpleado().getId());
 			registro.getEmpleado().setId(empleado.getId());
 			regon.guardar(registro);
+			System.out.println("imprime esto:   "+ registro.getFechaHora());
 			init();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -1366,12 +1367,5 @@ try {
 		
 	}
 
-
-	public String getPlanElegido() {
-		return planElegido;
-	}
-
-	public void setPlanElegido(String planElegido) {
-		this.planElegido = planElegido;
-	}	
+	
 }
