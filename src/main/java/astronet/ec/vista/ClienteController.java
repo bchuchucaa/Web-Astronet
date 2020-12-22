@@ -1311,12 +1311,5 @@ try {
 		
 	}
 
-
-	public String getPlanElegido() {
-		return planElegido;
-	}
-
-	public void setPlanElegido(String planElegido) {
-		this.planElegido = planElegido;
-	}	
+	
 }
