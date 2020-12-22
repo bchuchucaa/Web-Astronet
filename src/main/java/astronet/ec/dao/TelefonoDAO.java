@@ -32,11 +32,7 @@ public class TelefonoDAO {
 		return em.find(Telefono.class, id);
 	}
 	
-	public void update(Telefono tel) {
-		//System.out.println("registro "+cli.getRegistro().get(0).toString());
-		em.merge(tel);
-		
-	}
+	
 	
 	public void create(Telefono tel) {
 		em.persist(tel);
@@ -82,26 +78,5 @@ public class TelefonoDAO {
 	
 		
 	}
-	public void create(Telefono telefono) {
-		em.merge(telefono);
-		
-	}
-	
-	
-	public void save(Telefono tel) {
-		if (this.read(tel.getId())!=null) {
-			this.update(tel);
-		}else 
-			this.create(tel);
-	}
-	
-		public Telefono read(int id) {
-			return em.find(Telefono.class, id);
-		}
-	
-
 	//THIS THE NEW SHIT
-
-
-
 }

@@ -35,13 +35,6 @@ public class EquipoOn {
 	}
 */
 	
-	public List<Equipo> equiselec() {
-		equipoDao.find();
-		System.out.println("asdasdasdas"+equipoDao.find());
-		List<Equipo> xxx= equipoDao.find();
-		return xxx;
-		}
-	}
 
 	public List<Equipo> getListadoAntenas() {
 		return equipoDao.find();
