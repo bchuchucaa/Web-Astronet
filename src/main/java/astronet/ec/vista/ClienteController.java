@@ -22,6 +22,7 @@ import astronet.ec.modelo.Cliente;
 import astronet.ec.modelo.Empleado;
 import astronet.ec.modelo.Equipo;
 import astronet.ec.modelo.Instalacion;
+import astronet.ec.modelo.Plan;
 import astronet.ec.modelo.Registro;
 import astronet.ec.modelo.Servicio;
 import astronet.ec.modelo.Telefono;
@@ -30,6 +31,7 @@ import astronet.ec.on.ClienteON;
 import astronet.ec.on.EmpleadoON;
 import astronet.ec.on.EquipoOn;
 import astronet.ec.on.InstalacionON;
+import astronet.ec.on.PlanON;
 import astronet.ec.on.RegistroON;
 import astronet.ec.on.ServicioON;
 import astronet.ec.on.TelefonoON;
@@ -74,9 +76,6 @@ public class ClienteController implements Serializable {
 	private String direccionReferencia;
 	private String latitud;
 	private String longitud;
-	
-	
-
 	private String antenaC;
 	public String problemas;
 	public String soluciones;
@@ -85,8 +84,9 @@ public class ClienteController implements Serializable {
 
 	private String item;
 	private String antenaElegida;
-	private String planElegido;
+	private String planElegida;
 	private List<Equipo> listadoAntenas;
+	private List<Plan> listadoPlanes;
 	
 	public int idEmpl;
 
@@ -109,6 +109,7 @@ public class ClienteController implements Serializable {
 		telefonos = new ArrayList<Telefono>();
 		equipo = new Equipo();
 		listadoAntenas = eqOn.getListadoAntenas();
+		listadoPlanes = planOn.getListadoPlan();
 		System.out.println("Si tomoo las antenaas" + listadoAntenas.size());
 
 	}
@@ -150,6 +151,9 @@ public class ClienteController implements Serializable {
 	
 	@Inject 
 	private TelefonoON telOn;
+	
+	@Inject 
+	private PlanON planOn;
 
 	/**
 	 * Fin de la inyeccion
@@ -1258,7 +1262,22 @@ try {
 
 		return servicioLista;
 	}
+  
+	public List<Plan> getListadoPlanes() {
+		return listadoPlanes;
+	}
 
+	public void setListadoPlanes(List<Plan> listadoPlanes) {
+		this.listadoPlanes = listadoPlanes;
+	}
+
+	public String getPlanElegida() {
+		return planElegida;
+	}
+
+	public void setPlanElegida(String planElegida) {
+		this.planElegida = planElegida;
+	}
 	
 	//Metodo para actualizar los telefonos;
 	

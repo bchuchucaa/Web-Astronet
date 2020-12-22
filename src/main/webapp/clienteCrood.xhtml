@@ -173,7 +173,7 @@
 					</div>
 					<div class="form-row">
 						<div class="form-group col-md-4">
-							<label for="sel1">Antena</label>
+							<label for="txtEmpleado11">Antena</label><br></br>
 							<h:selectOneMenu value="#{clienteController.antenaElegida}"
 								id="txtEmpleado11">
 								<f:selectItems value="#{clienteController.listadoAntenas}"
@@ -181,14 +181,26 @@
 									itemValue="#{equipo.id}" />
 							</h:selectOneMenu>
 						</div>
+						<div class="form-group col-md-4">
+							<label for="plan">Plan</label><br></br>
+							<h:selectOneMenu value="#{clienteController.planElegida}"
+								id="plan">
+								<f:selectItems value="#{clienteController.listadoPlanes}"
+									var="plan" itemLabel="#{plan.tipoPlan}"
+									itemValue="#{plan.id}" />
+							</h:selectOneMenu>
+						</div>
 					</div>
-					<h:commandButton class="btn btn-primary" data-dismiss="modal"
-						action="#{clienteController.crearCliente}" value="Guardar" />
-					<h:commandButton action="clientes1" value="Cancelar"
-						class="btn btn-danger" data-dismiss="modal" />
 
 
 				</div>
+
+				<h:commandButton class="btn btn-primary" data-dismiss="modal"
+					action="#{clienteController.crearCliente}" value="Guardar" />
+				<h:commandButton action="clientes1" value="Cancelar"
+					class="btn btn-danger" data-dismiss="modal" />
+
+
 
 			</div>
 		</div>
