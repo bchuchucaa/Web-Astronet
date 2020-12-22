@@ -32,7 +32,7 @@ public class Cliente implements Serializable {
 	@Id
 	@Column(name = "cli_id")
 	@GeneratedValue(generator = "secuenciaCliente")
-	@SequenceGenerator(name = "secuenciaCliente", initialValue = 14)
+	@SequenceGenerator(name = "secuenciaCliente", initialValue = 6000)
 	private int id;
 	
 	@Column(name = "cli_cedula")
@@ -224,8 +224,6 @@ public class Cliente implements Serializable {
 		return true;
 	}
 
-	
-	
 	
 
 }

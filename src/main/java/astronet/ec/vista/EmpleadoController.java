@@ -10,10 +10,12 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import astronet.ec.dao.EquipoDAO;
 import astronet.ec.modelo.Empleado;
 import astronet.ec.modelo.Instalacion;
 import astronet.ec.modelo.Registro;
 import astronet.ec.on.EmpleadoON;
+import astronet.ec.on.EquipoOn;
 import astronet.ec.util.SessionUtils;
 
 @ManagedBean(name = "login")
@@ -22,6 +24,7 @@ public class EmpleadoController {
 
 	@Inject
 	private EmpleadoON empon;
+	private EquipoOn equipoDao;	
 
 
 
@@ -154,15 +157,21 @@ public class EmpleadoController {
 					session.setAttribute("username", empleado);
 					registro = new Registro();
 					instalacion = new Instalacion();
+					equipoDao.equiselec();
+					//ei.equiselec();
+					System.out.println("vamooooos "+ equipoDao.equiselec());
 					System.out.println("login exitoso" + " " + empleado.getId() + " " + empleado.getNombre());
 					id = empleado.getId();
 					System.out.println("Login saliendo datos " + id);
 					registro.setIdEmpleadoTemp(id);
 					instalacion.setCodigoEmpTemp(id);
+				
 					System.out.println("permisos solo de tecnico");
-					
-
+					/*
+					equipoDao.seleccionar("LGH");
+					System.out.println("soooooooooy: " + equipoDao.seleccionar("LGH"));
 					direccion= "callcenter";
+				*/
 				}
 			} 
 
