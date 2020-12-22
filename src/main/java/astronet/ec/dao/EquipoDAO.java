@@ -1,4 +1,5 @@
 package astronet.ec.dao;
+import java.util.List;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import astronet.ec.modelo.Cliente;
+import astronet.ec.modelo.Empleado;
 import astronet.ec.modelo.Equipo;
 import astronet.ec.modelo.Telefono;
 
@@ -46,7 +48,6 @@ public class EquipoDAO {
 		em.persist(equipo);
 		
 	}
-	
 	public List<Equipo> find(){
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 		CriteriaQuery<Equipo> criteriaQuery = criteriaBuilder.createQuery(Equipo.class);
@@ -54,8 +55,8 @@ public class EquipoDAO {
 		criteriaQuery.select(criteriaQuery.from(Equipo.class));
 		System.out.println("Sech");
 		return em.createQuery(criteriaQuery).getResultList();
-		
 	}
-	
+
+
 
 }

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -25,9 +26,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 	    allocationSize = 1
 )
 
+
 public class Telefono implements Serializable {
 	
-
 	/**
 	 * 
 	 */
@@ -53,6 +54,18 @@ public class Telefono implements Serializable {
 	@JoinColumn(name="cliTel_fk")
 	@JsonIgnore
 	private Cliente cliente;
+
+  public Telefono() {
+		super();
+	}
+
+	public Telefono(int id, String tipoTelefono, String telNumero, Cliente cliente) {
+		super();
+		this.id = id;
+		this.tipoTelefono = tipoTelefono;
+		this.telNumero = telNumero;
+		this.cliente = cliente;
+	}
 
 	public int getId() {
 		return id;
@@ -86,8 +99,6 @@ public class Telefono implements Serializable {
 		this.cliente = cliente;
 	}
 
-	
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -109,5 +120,4 @@ public class Telefono implements Serializable {
 			return false;
 		return true;
 	}
-
 }

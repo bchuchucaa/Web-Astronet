@@ -95,9 +95,7 @@ public class Cliente implements Serializable {
 	@JsonIgnore
 	private List<Telefono> telefonos;
 	
-	
-	@Transient
-	private int codigoAntenaTemp;
+
 
 	public int getId() {
 		return id;
@@ -195,9 +193,7 @@ public class Cliente implements Serializable {
 		this.registros = registros;
 	}
 
-	public int getCodigoAntenaTemp() {
-		return codigoAntenaTemp;
-	}
+
 
 	public List<Telefono> getTelefonos() {
 		return telefonos;
@@ -207,12 +203,12 @@ public class Cliente implements Serializable {
 		this.telefonos = telefonos;
 	}
 
-	public void setCodigoAntenaTemp(int codigoAntenaTemp) {
-		this.codigoAntenaTemp = codigoAntenaTemp;
-	}
+
 
 	
 	
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
