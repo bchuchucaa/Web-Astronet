@@ -16,6 +16,8 @@ public class EquipoOn {
 	@Inject
 	private EquipoDAO equipoDao;
 	
+	private List<Equipo> listadoAntenas;
+	
 	public void guardar(Equipo equipo) {
 
 		equipoDao.save(equipo);
@@ -41,4 +43,12 @@ public class EquipoOn {
 		}
 	}
 
+	public List<Equipo> getListadoAntenas() {
+		return equipoDao.find();
+	}
 
+	public void setListadoAntenas(List<Equipo> listadoAntenas) {
+		this.listadoAntenas = equipoDao.find();
+	}
+
+}

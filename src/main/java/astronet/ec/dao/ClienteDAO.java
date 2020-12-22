@@ -28,6 +28,7 @@ public class ClienteDAO {
 		
 	}
 	
+	//kkhh
 	public void create(Cliente cli) {
 		em.persist(cli);
 		
