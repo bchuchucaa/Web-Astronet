@@ -56,6 +56,7 @@ public class ClienteController implements Serializable {
 	private Agendamiento agendamiento = new Agendamiento();
 	private Equipo equipo = new Equipo();
 
+
 	private List<Telefono> telefonos;
 	/**
 	 * Declaraacion de variables
@@ -65,8 +66,9 @@ public class ClienteController implements Serializable {
 	private String cedula;
 	private String nombre;
 	private String apellidos;
-	private String IP;
-	private String Password;
+	private String ip;
+	private String password;
+	private String serial;
 	private String email;
 	private String convencional;
 	private String celular;
@@ -83,6 +85,10 @@ public class ClienteController implements Serializable {
 	private String item;
 	private String antenaElegida;
 	private String planElegida;
+	private String observaciones;
+	private String routerVendido;
+	
+	private List<String> opciones;
 	private List<Equipo> listadoAntenas;
 	private List<Plan> listadoPlanes;
 	
@@ -107,6 +113,9 @@ public class ClienteController implements Serializable {
 		listadoAntenas = eqOn.getListadoAntenas();
 		listadoPlanes = planOn.getListadoPlan();
 		System.out.println("Si tomoo las antenaas" + listadoAntenas.size());
+		opciones = new ArrayList<String>();
+		opciones.add("Si");
+		opciones.add("No");
 
 	}
 
@@ -239,6 +248,30 @@ public class ClienteController implements Serializable {
 
 	public String getEmail() {
 		return email;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public PlanON getPlanOn() {
+		return planOn;
+	}
+
+	public void setPlanOn(PlanON planOn) {
+		this.planOn = planOn;
 	}
 
 	public void setEmail(String email) {
@@ -438,13 +471,6 @@ public class ClienteController implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public String getIP() {
-		return IP;
-	}
-
-	public void setIP(String iP) {
-		IP = iP;
-	}
 
 	public String getCedula() {
 		return cedula;
@@ -454,13 +480,6 @@ public class ClienteController implements Serializable {
 		this.cedula = cedula;
 	}
 
-	public String getPassword() {
-		return Password;
-	}
-
-	public void setPassword(String password) {
-		Password = password;
-	}
 
 	public String getAntenaC() {
 		return antenaC;
@@ -1265,6 +1284,38 @@ try {
 
 	public void setPlanElegida(String planElegida) {
 		this.planElegida = planElegida;
+	}
+
+	public String getRouterVendido() {
+		return routerVendido;
+	}
+
+	public void setRouterVendido(String routerVendido) {
+		this.routerVendido = routerVendido;
+	}
+
+	public List<String> getOpciones() {
+		return opciones;
+	}
+
+	public void setOpciones(List<String> opciones) {
+		this.opciones = opciones;
+	}
+
+	public String getSerial() {
+		return serial;
+	}
+
+	public void setSerial(String serial) {
+		this.serial = serial;
+	}
+
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
 	}
 	
 

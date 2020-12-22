@@ -4,11 +4,6 @@
 	Color borde: 0F362D;
 	Color iluminado: 369681;
 */
-.value {
-	font-weight: bold;
-	background-color: white;
-	
-}
 
 /*Body parte de atras de la tabla fondo blanco*/
 .menuColor {
@@ -23,15 +18,17 @@
 
 .cabecera {
 	padding: 10px;
+	
 }
 
-.nuevaInstalacion {
+.nuevaInstalacion{
 	background: white;
 	border: none;
 	font-style: normal;
 	font-size: 14px;
 	font-weight: normal;
 	padding: 6px;
+	
 }
 
 /*Margen entre la caja y el titulo*/
@@ -80,7 +77,7 @@
 }
 
 .anchoBoton {
-	/*Un tama;o de 100% para que se expanda a toda la pantalla nuestro contenedor*/
+		/*Un tama;o de 100% para que se expanda a toda la pantalla nuestro contenedor*/
 	width: 10%;
 	/*tama;no maximo de 1000px para que no se sobrepase*/
 	max-width: 1000px;
@@ -96,6 +93,7 @@
 
 .ui-icon-excel {
 	background: url(../img/archivo.png) no-repeat top left !important;
+	
 }
 /*Hasta aqui esto para el boton de solicitud*/
 
@@ -135,7 +133,7 @@ table {
 
 th, td {
 	padding: 20px;
-	border: 1px solid #C4C6C8;
+	border: hidden;
 	text-align: center;
 }
 
@@ -165,18 +163,18 @@ thead {
 }
 
 /*Boton actualizar*/
-.btnUpdate {
-	background: #EAEDED;
+.btnUpdate{
+	background: #EAEDED ;
 	margin: 5px;
 }
 
 /*Espacio debajo del boton actualizar*/
-.etiquetas {
+.etiquetas{
 	padding: 10px;
 }
 
 /*boton listar empleado*/
-.btnEmpleado {
+.btnEmpleado{
 	padding: 10px;
 	margin: 10px;
 	position: relative;
