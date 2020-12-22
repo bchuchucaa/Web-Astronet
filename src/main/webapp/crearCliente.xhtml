@@ -63,20 +63,13 @@
 <h:form>
 <div class="container">
 			<h2></h2>
+			
 			<div class="panel panel-default">
 				<div class="panel-heading">Crear Cliente</div>
 
 				<div class="panel-body ">
 					<div class="modal-body">
-					<div class="form-group col-sm-4">
-						  <label for="sel1">Antena Designada:</label>  
-						<h:selectOneMenu value="#{clienteController.cliente.codigoAntenaTemp}" id="txtAntena">
-						<f:ajax listener="#{clienteController.consultarAntena()}"
-										render="datosPersona errores" />
-						<f:selectItems value="#{clienteController.listadoAntena}" var="antena"
-						itemLabel="#{antena.modelo}" itemValue="#{antena.id}"/>
-						</h:selectOneMenu>
-					</div>
+
 							<div class="form-group">
 							<h:inputText type="text" class="form-control" id="Cedula"
 								value="#{clienteController.cliente.cedula}"
@@ -91,11 +84,7 @@
 							<h:inputText type="text" class="form-control" id="Email"
 								value="#{clienteController.cliente.email}" a:placeholder="Email" />
 						</div>
-						<div class="form-group">
-							<h:inputText type="text" class="form-control" id="Convencional"
-								value="#{clienteController.cliente.convencional}"
-								a:placeholder="Convencional" />
-						</div>
+
 						<div class="form-group">
 							<h:inputText type="text" class="form-control" id="Celular"
 								value="#{clienteController.celular}"
@@ -148,15 +137,15 @@
 						</div>
 						<div class="form-group">
 							<h:inputText type="text" class="form-control" id="DireccionIP"
-								value="#{clienteController.servicio.ip}"
+								value="gg"
 								a:placeholder="Direccion IP" />
 						</div>
 						<div class="form-group">
-						<h:dataTable>
-							<h:inputText type="text" class="form-control" id="Password"
-								value="#{clienteController.servicio.password}"
-								a:placeholder="Password" />
-								</h:dataTable>
+							<h:dataTable>
+								<h:inputText type="text" class="form-control" id="Password"
+									value="hh"
+									a:placeholder="Password" />
+							</h:dataTable>
 						</div>
 						<div class="form-group">
 							<h:inputText type="text" class="form-control" id="Plan"

@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:h="http://java.sun.com/jsf/html"> 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
-<title>Crear De Datos</title>
+	<title>Crear De Datos</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet"
@@ -18,11 +18,12 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="resources/assets/js/permisos.js">
+	<script type="text/javascript" src="resources/assets/js/permisos.js">
+		
 	</script>
-</h:head> 
+</h:head>
 <body>
-<nav class="navbar navbar-default">
+	<nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="callcenter.xhtml"><img
@@ -38,11 +39,13 @@
 
 				</ul></li>
 
-			<li class="dropdown" ><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#" onclick="acceso()" >Clientes<span class="caret"></span></a>
+			<li class="dropdown"><a class="dropdown-toggle"
+				data-toggle="dropdown" href="#" onclick="acceso()">Clientes<span
+					class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="clientes1.xhtml" id="boton">Clientes</a></li>
-					<li><a href="crearCliente.xhtml" id="boton12">Nuevo Cliente</a></li>
+					<li><a href="crearCliente.xhtml" id="boton12">Nuevo
+							Cliente</a></li>
 				</ul></li>
 
 		</ul>
@@ -60,93 +63,136 @@
 
 	</div>
 	</nav>
-<h:form>
-<div class="container">
-			<h2></h2>
-			<div class="panel panel-default">
-				<div class="panel-heading">Crear Cliente</div>
 
+	<h:form>
+		<div class="container">
+			<h2></h2>
+			<br></br> <br></br> <br></br>
+
+			<div class="panel panel-default">
 				<div class="panel-body ">
-					<div class="modal-body">
-					<div class="form-group col-sm-4">
-						  <label for="sel1">Antena Designada:</label>  
-														
-						<h:selectOneMenu value="#{clienteController.antenaElegida}" id="txtAntena">
-						<f:selectItems value="#{clienteController.listadoAntenas}" var="equipo"
-						itemLabel="#{equipo.modelo}" itemValue="#{equipo.modelo}"/>
-						</h:selectOneMenu>
-						<div class="form-group">
+
+
+
+					<div class="ppp">
+						<p style="color: #275ca8">
+							<b>Datos Personales</b>
+						</p>
+						<br></br>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-4">
+							<h:outputLabel for="Cedula">Cedula</h:outputLabel>
 							<h:inputText type="text" class="form-control" id="Cedula"
-								value="#{clienteController.cedula}"
-								a:placeholder="Cedula" />
+								value="#{clienteController.cedula}" a:placeholder="Cedula" />
 						</div>
-						<div class="form-group">
+						<div class="form-group col-md-4">
+
+							<h:outputLabel for="Nombres">Nombres</h:outputLabel>
 							<h:inputText type="text" class="form-control" id="Nombres"
-								value="#{clienteController.nombre}"
-								a:placeholder="Nombres" />
+								value="#{clienteController.nombre}" a:placeholder="Nombres" />
 						</div>
-						<div class="form-group">
+
+						<div class="form-group col-md-4">
+
+							<h:outputLabel for="Apellidos">Apellidos</h:outputLabel>
 							<h:inputText type="text" class="form-control" id="Apellidos"
-								value="#{clienteController.apellidos}"
-								a:placeholder="Apellidos" />
+								value="#{clienteController.apellidos}" a:placeholder="Apellidos" />
 						</div>
-						<div class="form-group">
-							<h:inputText type="text" class="form-control" id="Email"
-								value="#{clienteController.email}" a:placeholder="Email" />
-						</div>
-						<div class="form-group">
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+
+							<h:outputLabel for="Convencional">Convencional</h:outputLabel>
 							<h:inputText type="text" class="form-control" id="Convencional"
 								value="#{clienteController.convencional}"
 								a:placeholder="Convencional" />
 						</div>
-						<div class="form-group">
+						<div class="form-group col-md-6">
+							<h:outputLabel for="Celular">Celular</h:outputLabel>
 							<h:inputText type="text" class="form-control" id="Celular"
-								value="#{clienteController.celular}"
-								a:placeholder="Celular" />
+								value="#{clienteController.celular}" a:placeholder="Celular" />
 						</div>
-						<div class="form-group">
+					</div>
+
+					<div class="form-row">
+						<div class="form-group col-md-12">
+							<h:outputLabel for="DireccionPrincipal">Direccion principal</h:outputLabel>
 							<h:inputText type="text" class="form-control"
 								id="DireccionPrincipal"
 								value="#{clienteController.direccionPrincipal}"
 								a:placeholder="Direccion Principal" />
 						</div>
-						<div class="form-group">
+
+						<div class="form-group col-md-12">
+							<h:outputLabel for="DireccionSecundaria">Direccion secundaria</h:outputLabel>
 							<h:inputText type="text" class="form-control"
 								id="DireccionSecundaria"
 								value="#{clienteController.direccionSecundaria}"
 								a:placeholder="Direccion Secundaria" />
 						</div>
-						<div class="form-group">
+
+						<div class="form-group col-md-12">
+
+							<h:outputLabel for="DireccionReferencia">Direccion de referencia</h:outputLabel>
+
 							<h:inputText type="text" class="form-control"
 								id="DireccionReferencia"
 								value="#{clienteController.direccionReferencia}"
 								a:placeholder="Direccion Referencia" />
 						</div>
-						<div class="form-group">
-							<h:inputText type="text" class="form-control" id="Latitud"
-								value="#{clienteController.latitud}"
-								a:placeholder="Latitud" />
-						</div>
-						<div class="form-group">
-							<h:inputText type="text" class="form-control" id="Longitud"
-								value="#{clienteController.longitud}"
-								a:placeholder="Longitud" />
-						</div>
-						
-						<h:commandButton class="btn btn-primary" data-dismiss="modal" 
-									action="#{clienteController.crearCliente}" 
-									 value="Guardar" />
-								<h:commandButton action="clientes1" value="Cancelar"
-									class="btn btn-danger" data-dismiss="modal" />
-
-					
 					</div>
-					
+					<div class="form-row">
+						<div class="form-group col-md-6">
+
+							<h:outputLabel for="Latitud">Latitud</h:outputLabel>
+
+							<h:inputText type="text" class="form-control" id="Latitud"
+								value="#{clienteController.latitud}" a:placeholder="Latitud" />
+						</div>
+						<div class="form-group col-md-6">
+							<h:outputLabel for="Longitud">Longitud</h:outputLabel>
+
+							<h:inputText type="text" class="form-control" id="Longitud"
+								value="#{clienteController.longitud}" a:placeholder="Longitud" />
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-12">
+
+							<h:outputLabel for="Email">E-mail</h:outputLabel>
+							<h:inputText type="text" class="form-control" id="Email"
+								value="#{clienteController.email}" a:placeholder="Email" />
+						</div>
+					</div>
+					<div class="ppp">
+						<p style="color: #275ca8">
+							<b>Datos Tecnicos</b>
+						</p>
+						<br></br>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-4">
+							<label for="sel1">Antena</label>
+							<h:selectOneMenu value="#{clienteController.antenaElegida}"
+								id="txtEmpleado11">
+								<f:selectItems value="#{clienteController.listadoAntenas}"
+									var="equipo" itemLabel="#{equipo.modelo}"
+									itemValue="#{equipo.id}" />
+							</h:selectOneMenu>
+						</div>
+					</div>
+					<h:commandButton class="btn btn-primary" data-dismiss="modal"
+						action="#{clienteController.crearCliente}" value="Guardar" />
+					<h:commandButton action="clientes1" value="Cancelar"
+						class="btn btn-danger" data-dismiss="modal" />
+
+
 				</div>
+
 			</div>
 		</div>
-</div>
-</h:form>
+	</h:form>
 
-</body> 
+</body>
 </html>

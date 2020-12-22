@@ -83,6 +83,7 @@ public class ClienteController implements Serializable {
 	private String servicioRB;
 	private String item;
 	private String antenaElegida;
+	private String planElegido;
 	private List<Equipo> listadoAntenas;
 	
 
@@ -1154,35 +1155,32 @@ try {
 		Telefono tele = new Telefono();
 		Telefono teleMovil = new Telefono();
 		Cliente cli = new Cliente();
+		String hola = "ww";
+		System.out.println(hola);
 		cli.setCedula(this.cedula);
 		cli.setApellidos(this.apellidos);
+		cli.setNombre(this.nombre);
 		cli.setDireccionPrincipal(this.direccionPrincipal);
 		cli.setDireccionSecundaria(this.direccionSecundaria);
 		cli.setDireccionReferencia(this.direccionReferencia);
 		cli.setEmail(this.email);
 		cli.setLatitud(this.latitud);
 		cli.setLongitud(this.longitud);
+	
+		clion.guardar(cli);
 		
 		tele.setTipoTelefono("Convencional");
 		tele.setTelNumero(this.convencional);
 		tele.setCliente(cli);
 
+		telOn.guardar(tele);
+		
 		teleMovil.setTipoTelefono("Movil");
 		teleMovil.setTelNumero(this.celular);
 		teleMovil.setCliente(cli);
 		
-		List<Telefono> telefonos = new ArrayList<Telefono>();
-		telefonos.add(tele);
-		telefonos.add(teleMovil);
-		cli.setTelefonos(telefonos);
-		cli.setId(6000);
-	
-
-		System.out.println(cli);
-		
-		clion.guardar(cli);
-		telOn.guardar(tele);
 		telOn.guardar(teleMovil);
+		
 		
 		return null;
 	}
@@ -1247,6 +1245,14 @@ try {
 		servicioLista[1] = new ServicioFA("Antena", "RE");
 
 		return servicioLista;
+	}
+
+	public String getPlanElegido() {
+		return planElegido;
+	}
+
+	public void setPlanElegido(String planElegido) {
+		this.planElegido = planElegido;
 	}
 	
 
