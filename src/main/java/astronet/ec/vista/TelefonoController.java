@@ -48,7 +48,7 @@ public class TelefonoController implements Serializable {
 	 */
 	private String cedula;
 	private String nombre;
-
+	private Telefono telefonoNuevo;
 
 	/**
 	 * Fin de la declaracion
@@ -79,7 +79,7 @@ public class TelefonoController implements Serializable {
 	@PostConstruct
 	public void init() {
 		cliente = new Cliente();
-
+		telefonoNuevo= new Telefono();
 		telefonos = new ArrayList<Telefono>();
 
 	}
@@ -110,6 +110,30 @@ public class TelefonoController implements Serializable {
 	public String editarRegistro(int codigo) {
 		return "agendamiento?faces-redirect=true&id=" + codigo;
 	}
+	
+	
+
+	public Telefono getTelefonoNuevo() {
+		return telefonoNuevo;
+	}
+
+
+
+
+
+
+
+
+	public void setTelefonoNuevo(Telefono telefonoNuevo) {
+		this.telefonoNuevo = telefonoNuevo;
+	}
+
+
+
+
+
+
+
 
 	/**
 	 * Metodo para la creacion de los clientes
@@ -153,6 +177,11 @@ public class TelefonoController implements Serializable {
 
 		return cliente;
 
+	}
+	
+	//Metodo para agregar nuevos telefonos del cleinte
+	public void agregarTelefono() {
+		System.out.println("PILAS PARA AGREGAR EL TELEFONO");
 	}
 	/**
 	 * public List<Telefono> getTelefonos(){

@@ -88,9 +88,7 @@ public class Cliente implements Serializable {
 	@JsonIgnore
 	private List<Telefono> telefonos;
 	
-	
-	@Transient
-	private int codigoAntenaTemp;
+
 
 	public int getId() {
 		return id;
@@ -188,9 +186,7 @@ public class Cliente implements Serializable {
 		this.registros = registros;
 	}
 
-	public int getCodigoAntenaTemp() {
-		return codigoAntenaTemp;
-	}
+
 
 	public List<Telefono> getTelefonos() {
 		return telefonos;
@@ -200,12 +196,12 @@ public class Cliente implements Serializable {
 		this.telefonos = telefonos;
 	}
 
-	public void setCodigoAntenaTemp(int codigoAntenaTemp) {
-		this.codigoAntenaTemp = codigoAntenaTemp;
-	}
+
 
 	
 	
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -228,14 +224,7 @@ public class Cliente implements Serializable {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Cliente [id=" + id + ", cedula=" + cedula + ", nombre=" + nombre + ", apellidos=" + apellidos
-				+ ", email=" + email + ", direccionPrincipal=" + direccionPrincipal + ", direccionSecundaria="
-				+ direccionSecundaria + ", direccionReferencia=" + direccionReferencia + ", latitud=" + latitud
-				+ ", longitud=" + longitud + ", servicios=" + servicios + ", registros=" + registros + ", telefonos="
-				+ telefonos + ", codigoAntenaTemp=" + codigoAntenaTemp + "]";
-	}
+	
 	
 	
 
