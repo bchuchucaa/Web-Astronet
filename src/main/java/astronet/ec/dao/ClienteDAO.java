@@ -66,7 +66,6 @@ public class ClienteDAO {
 		Cliente cli = read(id);
 		em.remove(cli);
 	}
-	
 	public List<Cliente> getCliente() {
 		String jpql = "SELECT cliente FROM Cliente cliente ";
 		Query q = em.createQuery(jpql, Cliente.class);

@@ -1253,7 +1253,5 @@ try {
 
 	public void setPlanElegido(String planElegido) {
 		this.planElegido = planElegido;
-	}
-	
-
+	}	
 }
