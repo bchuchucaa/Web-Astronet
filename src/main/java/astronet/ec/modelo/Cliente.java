@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -22,6 +23,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Cliente")
+@SequenceGenerator(
+	    name="ClienteSeq",
+	    sequenceName = "Cliente_SEQ",
+	    initialValue = 6000, 
+	    allocationSize = 1
+)
 public class Cliente implements Serializable {
 	
 	/**
@@ -31,8 +38,8 @@ public class Cliente implements Serializable {
 
 	@Id
 	@Column(name = "cli_id")
-	@GeneratedValue(generator = "secuenciaCliente")
-	@SequenceGenerator(name = "secuenciaCliente", initialValue = 6000)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ClienteSeq")
+	@NotNull
 	private int id;
 	
 	@Column(name = "cli_cedula")

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,9 +18,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Telefono")
+@SequenceGenerator(
+	    name="TelefonoSeq",
+	    sequenceName = "Telefono_SEQ",
+	    initialValue = 6000, 
+	    allocationSize = 1
+)
 
 public class Telefono implements Serializable {
 	
+
 	/**
 	 * 
 	 */
@@ -27,8 +35,7 @@ public class Telefono implements Serializable {
 
 	@Id
 	@Column(name = "tel_id")
-	@GeneratedValue(generator = "secuenciaTel")
-	@SequenceGenerator(name = "secuenciaTel", initialValue = 14)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TelefonoSeq")
 	@NotNull
 	private int id;
 	
