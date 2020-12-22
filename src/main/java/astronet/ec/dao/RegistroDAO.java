@@ -52,7 +52,7 @@ public class RegistroDAO {
 	public List<Registro> listarRegistrosVT() {
 		
 		String estado="VISITA TECNICA";
-		String jpql = "SELECT reg FROM Registro reg  WHERE reg.accion = :a";
+		String jpql = "SELECT reg FROM Registro reg ORDER BY 3 WHERE reg.accion = :a";
 		Query q = em.createQuery(jpql, Registro.class);
 		q.setParameter("a", estado);
 		List<Registro> registros = q.getResultList();
@@ -73,10 +73,10 @@ public class RegistroDAO {
 	
 		
 	public List<Registro> listarRegistros() {
-		String jpql = "SELECT reg FROM Registro reg ";
+		String jpql = "SELECT reg FROM Registro reg ORDER BY\n"
+				+ "        reg_fechahora";
 		Query q = em.createQuery(jpql, Registro.class);
 		List<Registro> registros = q.getResultList();
-		
 		return registros;
 	}
 	

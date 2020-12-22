@@ -861,6 +861,7 @@ try {
 			empleado.setId(registro.getEmpleado().getId());
 			registro.getEmpleado().setId(empleado.getId());
 			regon.guardar(registro);
+			System.out.println("imprime esto:   "+ registro.getFechaHora());
 			init();
 		} catch (Exception e) {
 			// TODO: handle exception

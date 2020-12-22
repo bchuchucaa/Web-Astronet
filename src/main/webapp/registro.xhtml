@@ -117,17 +117,6 @@
 
 
 
-
-						<h:column>
-							<f:facet name="header" data-field="city">Telefono</f:facet>
-
-							<h:column>
-								#{registro.cliente.convencional}
-								
-							</h:column>
-
-						</h:column>
-
 						<h:column>
 							<f:facet name="header">Coordenadas</f:facet>
 							<h:column>
@@ -170,6 +159,15 @@
 
 						</h:column>
 						
+							<h:column>
+							<f:facet name="header">HOra</f:facet>
+
+							<h:column>
+								#{registro.fechaHora}
+
+							</h:column>
+
+						</h:column>
 							
 
 						<h:column>
