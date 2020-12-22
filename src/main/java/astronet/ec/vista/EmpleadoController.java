@@ -157,9 +157,8 @@ public class EmpleadoController {
 					session.setAttribute("username", empleado);
 					registro = new Registro();
 					instalacion = new Instalacion();
-					equipoDao.equiselec();
+					
 					//ei.equiselec();
-					System.out.println("vamooooos "+ equipoDao.equiselec());
 					System.out.println("login exitoso" + " " + empleado.getId() + " " + empleado.getNombre());
 					id = empleado.getId();
 					System.out.println("Login saliendo datos " + id);
