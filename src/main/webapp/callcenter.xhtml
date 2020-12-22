@@ -22,8 +22,9 @@
 	<link rel="stylesheet" href="resources/assets/css/table.css" />
 	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
 
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	
@@ -50,7 +51,13 @@
 			
 			}
 		}
+	function showGrpMemberSearchPageCalenderLeave() { 
+	     window.open('./index.xhtml','mywindow', 'resizable=no,toolbar=no,scrollbars=yes,height=450,width=530,top=145,left=235');
+	     return true;
+	 }
+	
 	</script>
+	
 
 </h:head>
 
@@ -77,6 +84,9 @@
 
 	</div>
 	</nav>
+	
+	
+	
 	<div class="centerTexto">
 		<h2>INGRESO DE RECLAMOS E INSTALACIONES NUEVAS</h2>
 	</div>
@@ -194,6 +204,10 @@
 				
 
 				</div>
+				
+				
+				
+				
 				<div class="panel-body">
 
 					<div class="row">
@@ -286,46 +300,62 @@
 							var="cliente">
 
 							<h:column>
-								<f:facet name="header" data-field="nombres" data-sortable="true">Nombres</f:facet>
-											#{clienteController.cliente.nombre}
+								<f:facet name="header" data-field="Nombres" data-sortable="true">Nombres</f:facet>
+											#{cliente.nombre}
+												</h:column>
+						  
+							<h:column>
+								<f:facet name="header" data-field="Apellidos" data-sortable="true">Apellidos</f:facet>
+											#{cliente.apellidos}
 												</h:column>
 
 							<h:column>
 								<f:facet name="header" data-field="direccion"
 									data-sortable="true">Direccion</f:facet>
+									<h:outputText value = "DIR.PRINCIPAL" />
+									
 													<h:inputText class="cabecera" value="#{cliente.direccionPrincipal}" />
 													<br />
+													<h:outputText value = "SECUNDARIA" />
 					<h:inputText class="cabecera" value="#{cliente.direccionSecundaria}" />
 					<br />
+					<h:outputText value = "REFERENCIA" />
 					<h:inputText class="cabecera" value="#{cliente.direccionReferencia}" />
 												</h:column>
 												<h:column>
-			
-						  <label for="sel2" class="etiquetas">Telfonos:</label>     
-						<h:selectOneMenu class="form-control" id="sel2">
-							<f:selectItems value="#{cliente.telefonos}" var="pro1"
-								itemLabel="#{pro1.tipoTelefono}" itemValue="#{pro1.tipoTelefono}" />
-						</h:selectOneMenu>
-					
-					
-												</h:column>
-<!-- 
+					<!-- ARRAY CON LOS TELEFONOS -->
+									<!-- TABLA TELEFONOS -->
+						<h:dataTable value="#{cliente.telefonos}" var="t" styleClass="table"
+							headerClass="cabeceraTabla" rowClasses="filaPar,filaImpar">
+							
 							<h:column>
-								<f:facet name="header" data-field="telefono"
-									data-sortable="true">Telefono</f:facet>
-											<h:inputText value="#{cliente.convencional}" />
-											<br />
-					<h:inputText value="#{cliente.celular}" />
-												</h:column>
-												
-
+								<f:facet name="header">NUMERO</f:facet>
+								<h:outputText value="N#"  />
+								<h:inputText value="#{t.tipoTelefono}" size="10" />
+								
+							</h:column>
 							<h:column>
-								<f:facet name="header" data-field="direccionIp"
-									data-sortable="true">Direccion IP</f:facet>
-											#{cliente.servicio.get(i).ip}
-												</h:column>
-												 -->
-
+							<f:facet name="header">TIPO</f:facet>
+							<h:inputText value="#{t.telNumero}" size="10" />
+							</h:column>
+							
+							<!-- BOTONES -->
+							<h:column>
+								<f:facet name="header">Accion</f:facet>
+								<h:commandButton value="Editar" action="#{clienteController.editTelefono(t)}" styleClass="btn btn-primary"/>
+								<h:commandLink value="Cancelar" action="#{clienteController.editTelefono()}" styleClass="btn btn-danger"/>
+								
+							
+							</h:column>
+							
+							
+						</h:dataTable>
+						
+						<!--  FINARRAY CON LOS TELEFONOS -->
+						
+							
+							</h:column>
+							 d
 						</h:dataTable>
 						
 
@@ -372,6 +402,11 @@
 						<h:commandButton
 							action="#{clienteController.cargarDatosRegistro()}"
 							class="btn btn-primary btnIn" value="Ingresar"  />
+							
+							<h:panelGrid columns="1" cellpadding="5">
+    <p:commandButton value="Basic" type="button" onclick="PF('dlg1').show();" />
+
+</h:panelGrid>
 					</div>
 
 				</div>
@@ -381,6 +416,51 @@
 
 
 	</h:form>
+	
+	
+
+<p:dialog header="Registrar Nuevo Telefono" widgetVar="dlg1" minHeight="40">
+
+	<h:form>
+		
+						
+						<h:dataTable value="#{clienteController.nuevoTelefono}" var="tel" styleClass="table"
+							headerClass="cabeceraTabla" rowClasses="filaPar,filaImpar">
+							
+							<h:column>
+							
+								<f:facet name="header">NUMERO</f:facet>
+								<h:outputText value="numero"  />
+								<h:inputText value="#{tel.tipoTelefono}" size="10" />
+								
+							</h:column>
+					
+							<h:column>
+								<f:facet name="header">TIPO</f:facet>
+								<h:selectOneMenu value="#{tel.telNumero}">
+								<f:selectItem itemValue="Movil" itemLabel="Movil" />
+								<f:selectItem itemValue="Convencional" itemLabel="Convencionell" />
+								</h:selectOneMenu>
+							</h:column>
+					
+							
+							<!-- BOTONES -->
+							<h:column>
+							<h:form>
+								<f:facet name="header">Accion</f:facet>
+								<h:commandButton value="Guardar" onclick="#{clienteController.newTelefono(tel)}" styleClass="btn btn-success"/>
+								<h:commandLink value="Cancelar" action="#{clienteController.editTelefono()}" styleClass="btn btn-danger"/>
+							</h:form>
+							</h:column>
+							
+							
+						</h:dataTable>
+						
+						
+						
+						
+						</h:form>
+						</p:dialog>
 
 </body>
 

@@ -27,7 +27,18 @@ public class TelefonoON {
 		List<Telefono> aux = teldao.getTelefonos(cliente);
 		return aux;
 	}
+	 
+	public void updateTelefono(Telefono telefono) {
+		teldao.update(telefono);
+		
+	}
+	public void createTelefono(Telefono telefono) {
+		teldao.save(telefono);
+	}
 	
+	public int getMaxId() {
+		return teldao.getMaxId();
+	}
 	
 	
 
