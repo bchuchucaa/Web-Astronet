@@ -11,7 +11,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet"
 		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="resources/assets/css/table.css" />
+	<link rel="stylesheet" href="resources/assets/css/table2.css" />
 	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
 
 	<script
@@ -186,12 +186,49 @@
 							<h:selectOneMenu value="#{clienteController.planElegida}"
 								id="plan">
 								<f:selectItems value="#{clienteController.listadoPlanes}"
-									var="plan" itemLabel="#{plan.tipoPlan}"
-									itemValue="#{plan.id}" />
+									var="plan" itemLabel="#{plan.tipoPlan}" itemValue="#{plan.id}" />
 							</h:selectOneMenu>
 						</div>
-					</div>
 
+						<div class="form-group col-md-4">
+
+							<label for="routerVendido">Router Vendido</label><br></br>
+							<h:selectOneRadio styleClass="radio-inline"
+								style="background-color: white;"
+								value="#{clienteController.routerVendido}" id="routerVendido">
+								<f:selectItems style="border: hidden;"
+									value="#{clienteController.opciones}" itemLabel="#{opcion}"
+									itemValue="#{opcion}" />
+							</h:selectOneRadio>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-4">
+							<h:outputLabel for="ip">IP</h:outputLabel>
+							<h:inputText type="text" class="form-control" id="ip"
+								value="#{clienteController.ip}" a:placeholder="IP" />
+						</div>
+						<div class="form-group col-md-4">
+
+							<h:outputLabel for="password">Contraseña</h:outputLabel>
+							<h:inputText type="text" class="form-control" id="password"
+								value="#{clienteController.password}" a:placeholder="Contraseña" />
+						</div>
+
+						<div class="form-group col-md-4">
+
+							<h:outputLabel for="serial">Serial</h:outputLabel>
+							<h:inputText type="text" class="form-control" id="serial"
+								value="#{clienteController.serial}" a:placeholder="Serial" />
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-12">
+						<h:outputLabel for="observaciones">Observaciones</h:outputLabel>
+							<h:inputTextarea type="text" class="form-control" id="observaciones"
+								value="#{clienteController.observaciones}" a:placeholder="Digite aqui sus observaciones" />
+						</div>
+					</div>
 
 				</div>
 
@@ -205,6 +242,7 @@
 			</div>
 		</div>
 	</h:form>
+
 
 </body>
 </html>
