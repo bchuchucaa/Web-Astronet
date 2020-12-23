@@ -38,7 +38,9 @@ public class EquipoOn {
 		return equipoDao.getListadoEquipos();
 	}
 */
-	
+	public Equipo getAntenaByName(String name) {
+		return equipoDao.getAntenaByName(name);
+	}
 
 	public List<Equipo> getListadoAntenas() {
 		return equipoDao.find();

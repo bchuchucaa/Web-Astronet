@@ -53,7 +53,7 @@ public class Equipo implements Serializable{
 	 * Relacion Equipo Nodo
 	 */
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "equipoServicioEquipo_fk")
+	@JoinColumn
 	private List<EquipoServicio> equipoServicio;
 
 	public int getId() {

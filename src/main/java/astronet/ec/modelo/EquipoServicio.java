@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "EquipoServicio")
 
 public class EquipoServicio implements Serializable {
-	
+
 	/**
 	 * 
 	 */
@@ -28,30 +28,29 @@ public class EquipoServicio implements Serializable {
 	@GeneratedValue(generator = "secuenciaEquiServ")
 	@SequenceGenerator(name = "secuenciaEquiServ", initialValue = 14)
 	private int id;
-	
+
 	@Column(name = "equipoServi_serial")
 	private String serial;
-	
+
 	@Column(name = "equipoServi_passwd")
 	private String password;
 
 	@Column(name = "equipoServi_ip")
 	private String ip;
-	
-	
+
 	/*
 	 * Relacion EquipoServicio con Equipo
 	 */
 	@OneToOne
-	@JoinColumn(name="equipoServicioEquipo_fk")
+	@JoinColumn
 	@JsonIgnore
 	private Equipo equipo;
-	
+
 	/*
 	 * Relacion EquipoServicio con Servicio
 	 */
 	@OneToOne
-	@JoinColumn(name="equipoServicioServicio_fk")
+	@JoinColumn
 	@JsonIgnore
 	private Servicio servicio;
 
@@ -108,9 +107,5 @@ public class EquipoServicio implements Serializable {
 		return "EquipoServicio [id=" + id + ", serial=" + serial + ", password=" + password + ", ip=" + ip + ", equipo="
 				+ equipo + ", servicio=" + servicio + "]";
 	}
-
-	
-	
-	
 
 }

@@ -6,8 +6,11 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
+import astronet.ec.modelo.Cliente;
 import astronet.ec.modelo.Plan;
+import astronet.ec.modelo.Telefono;
 
 public class PlanDAO {
 	@Inject
@@ -48,6 +51,20 @@ public class PlanDAO {
 		criteriaQuery.select(criteriaQuery.from(Plan.class));
 		System.out.println("Sech");
 		return em.createQuery(criteriaQuery).getResultList();
+		
+	}
+	
+	public Plan getPlanByName(String name) {
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+		CriteriaQuery<Plan> criteriaQuery = criteriaBuilder.createQuery(Plan.class);
+		// Se establece la clausula FROM
+		Root<Plan> root = criteriaQuery.from(Plan.class);
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("tipoPlan"), name)); // criteriaQuery.multiselect(root.get(atr))
+		// // Se configuran los predicados,
+		// combinados por AND
+		System.out.println("************8");
+		
+		return em.createQuery(criteriaQuery).getSingleResult();
 		
 	}
 }

@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
 	<title>Crear De Datos</title>
@@ -44,7 +44,7 @@
 					class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="clientes1.xhtml" id="boton">Clientes</a></li>
-					<li><a href="crearCliente.xhtml" id="boton12">Nuevo
+					<li><a href="clienteCrood.xhtml" id="boton12">Nuevo
 							Cliente</a></li>
 				</ul></li>
 
@@ -80,49 +80,82 @@
 						</p>
 						<br></br>
 					</div>
+
 					<div class="form-row">
 						<div class="form-group col-md-4">
-							<h:outputLabel for="Cedula">Cedula</h:outputLabel>
+
+							<h:outputLabel class="req" for="Cedula">Cedula *</h:outputLabel>
+
 							<h:inputText type="text" class="form-control" id="Cedula"
-								value="#{clienteController.cedula}" a:placeholder="Cedula" />
+								required="true" requiredMessage="  Campo Obligatorio"
+								a:placeholder="Cedula" redisplay="true"
+								value="#{clienteController.cedula}" maxlength="10">
+
+								<f:ajax event="blur" render="messageForUser" />
+
+							</h:inputText>
+							<h:message id="messageForUser" for="Cedula" style="color:red" />
+
+
 						</div>
+
 						<div class="form-group col-md-4">
 
-							<h:outputLabel for="Nombres">Nombres</h:outputLabel>
+							<h:outputLabel for="Nombres">Nombres *</h:outputLabel>
+
 							<h:inputText type="text" class="form-control" id="Nombres"
-								value="#{clienteController.nombre}" a:placeholder="Nombres" />
+								required="true" requiredMessage="  Campo Obligatorio"
+								a:placeholder="Nombres" value="#{clienteController.nombre}">
+								<f:ajax event="blur" render="messageForNom" />
+							</h:inputText>
+							<h:message id="messageForNom" for="Nombres" style="color:red" />
+
 						</div>
 
 						<div class="form-group col-md-4">
 
-							<h:outputLabel for="Apellidos">Apellidos</h:outputLabel>
+							<h:outputLabel for="Apellidos">Apellidos *</h:outputLabel>
+
 							<h:inputText type="text" class="form-control" id="Apellidos"
-								value="#{clienteController.apellidos}" a:placeholder="Apellidos" />
+								required="true" requiredMessage="  Campo Obligatorio"
+								value="#{clienteController.apellidos}" a:placeholder="Apellidos">
+								<f:ajax event="blur" render="messageForAp" />
+							</h:inputText>
+							<h:message id="messageForAp" for="Apellidos" style="color:red" />
 						</div>
-					</div>
-					<div class="form-row">
+						<div class="form-group col-md-12"></div>
+
 						<div class="form-group col-md-6">
 
-							<h:outputLabel for="Convencional">Convencional</h:outputLabel>
+							<h:outputLabel for="Convencional">Convencional </h:outputLabel>
 							<h:inputText type="text" class="form-control" id="Convencional"
 								value="#{clienteController.convencional}"
-								a:placeholder="Convencional" />
+								a:placeholder="Convencional" maxlength="7" />
+
 						</div>
 						<div class="form-group col-md-6">
-							<h:outputLabel for="Celular">Celular</h:outputLabel>
-							<h:inputText type="text" class="form-control" id="Celular"
-								value="#{clienteController.celular}" a:placeholder="Celular" />
+							<h:outputLabel for="Celular">Celular </h:outputLabel>
+							<h:inputText type="text" class="form-control" maxlength="10"
+								id="Celular" value="#{clienteController.celular}"
+								a:placeholder="Celular" />
 						</div>
-					</div>
+						<div class="form-group col-md-4"></div>
 
-					<div class="form-row">
 						<div class="form-group col-md-12">
-							<h:outputLabel for="DireccionPrincipal">Direccion principal</h:outputLabel>
+							<h:outputLabel for="DireccionPrincipal">Direccion principal *</h:outputLabel>
+
 							<h:inputText type="text" class="form-control"
-								id="DireccionPrincipal"
+								id="DireccionPrincipal" required="true"
+								requiredMessage="  Campo Obligatorio"
 								value="#{clienteController.direccionPrincipal}"
-								a:placeholder="Direccion Principal" />
+								a:placeholder="Direccion Principal">
+								<f:ajax event="blur" render="messageForDir" />
+							</h:inputText>
+							<h:message id="messageForDir" for="DireccionPrincipal"
+								style="color:red" />
+
 						</div>
+						<div class="form-group col-md-12"></div>
 
 						<div class="form-group col-md-12">
 							<h:outputLabel for="DireccionSecundaria">Direccion secundaria</h:outputLabel>
@@ -131,6 +164,8 @@
 								value="#{clienteController.direccionSecundaria}"
 								a:placeholder="Direccion Secundaria" />
 						</div>
+						<div class="form-group col-md-12"></div>
+
 
 						<div class="form-group col-md-12">
 
@@ -141,23 +176,41 @@
 								value="#{clienteController.direccionReferencia}"
 								a:placeholder="Direccion Referencia" />
 						</div>
-					</div>
-					<div class="form-row">
+						<div class="form-group col-md-12"></div>
+
+
 						<div class="form-group col-md-6">
 
-							<h:outputLabel for="Latitud">Latitud</h:outputLabel>
+							<h:outputLabel for="Latitud">Latitud *</h:outputLabel>
+
 
 							<h:inputText type="text" class="form-control" id="Latitud"
-								value="#{clienteController.latitud}" a:placeholder="Latitud" />
+								required="true" requiredMessage="  Campo Obligatorio"
+								value="#{clienteController.latitud}" a:placeholder="Latitud">
+
+								<f:ajax event="blur" render="messageForLatitud" />
+
+							</h:inputText>
+							<h:message id="messageForLatitud" for="Latitud" style="color:red" />
+
+
 						</div>
 						<div class="form-group col-md-6">
-							<h:outputLabel for="Longitud">Longitud</h:outputLabel>
+							<h:outputLabel for="Longitud">Longitud *</h:outputLabel>
+
 
 							<h:inputText type="text" class="form-control" id="Longitud"
-								value="#{clienteController.longitud}" a:placeholder="Longitud" />
+								required="true" requiredMessage="  Campo Obligatorio"
+								value="#{clienteController.longitud}" a:placeholder="Longitud">
+
+								<f:ajax event="blur" render="messageForLongitud" />
+							</h:inputText>
+							<h:message id="messageForLongitud" for="Longitud"
+								style="color:red" />
+
 						</div>
-					</div>
-					<div class="form-row">
+						<div class="form-group col-md-12"></div>
+
 						<div class="form-group col-md-12">
 
 							<h:outputLabel for="Email">E-mail</h:outputLabel>
@@ -165,15 +218,22 @@
 								value="#{clienteController.email}" a:placeholder="Email" />
 						</div>
 					</div>
-					<div class="ppp">
-						<p style="color: #275ca8">
-							<b>Datos Tecnicos</b>
-						</p>
-						<br></br>
+					<br></br>
+					<div class="form-group col-md-12">
+						<div class="ppp">
+
+							<p style="color: #275ca8">
+
+								<b>Datos Tecnicos</b>
+							</p>
+							<br></br>
+						</div>
 					</div>
+
+
 					<div class="form-row">
 						<div class="form-group col-md-4">
-							<label for="txtEmpleado11">Antena</label><br></br>
+							<label for="txtEmpleado11">Antena *</label><br></br>
 							<h:selectOneMenu value="#{clienteController.antenaElegida}"
 								id="txtEmpleado11">
 								<f:selectItems value="#{clienteController.listadoAntenas}"
@@ -182,7 +242,7 @@
 							</h:selectOneMenu>
 						</div>
 						<div class="form-group col-md-4">
-							<label for="plan">Plan</label><br></br>
+							<label for="plan">Plan *</label><br></br>
 							<h:selectOneMenu value="#{clienteController.planElegida}"
 								id="plan">
 								<f:selectItems value="#{clienteController.listadoPlanes}"
@@ -192,51 +252,79 @@
 
 						<div class="form-group col-md-4">
 
-							<label for="routerVendido">Router Vendido</label><br></br>
+							<label for="routerVendido">Router Vendido *</label><br></br>
 							<h:selectOneRadio styleClass="radio-inline"
 								style="background-color: white;"
-								value="#{clienteController.routerVendido}" id="routerVendido">
+								value="#{clienteController.routerVendido}" id="routerVendido"
+								required="true"
+								requiredMessage="Por favor, seleccione una opcion !">
 								<f:selectItems style="border: hidden;"
 									value="#{clienteController.opciones}" itemLabel="#{opcion}"
-									itemValue="#{opcion}" />
+									itemValue="#{opcion}">
+
+								</f:selectItems>
+								<h:message id="messageForRadio" for="routerVendido"
+									style="color:red" />
 							</h:selectOneRadio>
 						</div>
-					</div>
-					<div class="form-row">
+						<div class="form-group col-md-12"></div>
+
 						<div class="form-group col-md-4">
-							<h:outputLabel for="ip">IP</h:outputLabel>
+							<h:outputLabel for="ip">IP *</h:outputLabel>
+
 							<h:inputText type="text" class="form-control" id="ip"
-								value="#{clienteController.ip}" a:placeholder="IP" />
+								required="true" requiredMessage="  Campo Obligatorio"
+								value="#{clienteController.ip}" a:placeholder="IP"
+								maxlength="16">
+
+								<f:ajax event="blur" render="messageForIp" />
+							</h:inputText>
+							<h:message id="messageForIp" for="ip" style="color:red" />
+
 						</div>
 						<div class="form-group col-md-4">
 
-							<h:outputLabel for="password">Contraseña</h:outputLabel>
+							<h:outputLabel for="password">Contraseña *</h:outputLabel>
+
 							<h:inputText type="text" class="form-control" id="password"
-								value="#{clienteController.password}" a:placeholder="Contraseña" />
+								required="true" requiredMessage="  Campo Obligatorio"
+								value="#{clienteController.password}" a:placeholder="Contraseña">
+
+								<f:ajax event="blur" render="messageForPass" />
+							</h:inputText>
+							<h:message id="messageForPass" for="password" style="color:red" />
 						</div>
 
 						<div class="form-group col-md-4">
 
-							<h:outputLabel for="serial">Serial</h:outputLabel>
+							<h:outputLabel for="serial">Serial *</h:outputLabel>
+
 							<h:inputText type="text" class="form-control" id="serial"
-								value="#{clienteController.serial}" a:placeholder="Serial" />
+								required="true" requiredMessage="  Campo Obligatorio"
+								value="#{clienteController.serial}" a:placeholder="Serial">
+								<f:ajax event="blur" render="messageForSerial" />
+							</h:inputText>
+							<h:message id="messageForSerial" for="serial" style="color:red" />
 						</div>
-					</div>
-					<div class="form-row">
+						<div class="form-group col-md-12"></div>
+
 						<div class="form-group col-md-12">
-						<h:outputLabel for="observaciones">Observaciones</h:outputLabel>
-							<h:inputTextarea type="text" class="form-control" id="observaciones"
-								value="#{clienteController.observaciones}" a:placeholder="Digite aqui sus observaciones" />
+							<h:outputLabel for="observaciones">Observaciones</h:outputLabel>
+							<h:inputTextarea type="text" class="form-control" rows="5"
+								id="observaciones" value="#{clienteController.observaciones}"
+								a:placeholder="Digite aqui sus observaciones" />
+
 						</div>
 					</div>
 
 				</div>
+				<div class="modal-footer">
 
-				<h:commandButton class="btn btn-primary" data-dismiss="modal"
-					action="#{clienteController.crearCliente}" value="Guardar" />
-				<h:commandButton action="clientes1" value="Cancelar"
-					class="btn btn-danger" data-dismiss="modal" />
-
+					<h:commandButton class="btn btn-primary" data-dismiss="modal"
+						action="#{clienteController.crearCliente}" value="Guardar" />
+					<h:commandButton action="clientes1" value="Cancelar"
+						class="btn btn-danger" data-dismiss="modal" />
+				</div>
 
 
 			</div>

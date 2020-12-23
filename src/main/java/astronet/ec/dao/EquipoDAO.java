@@ -13,6 +13,7 @@ import javax.persistence.criteria.Root;
 import astronet.ec.modelo.Cliente;
 import astronet.ec.modelo.Empleado;
 import astronet.ec.modelo.Equipo;
+import astronet.ec.modelo.Plan;
 import astronet.ec.modelo.Telefono;
 
 @Stateless
@@ -56,7 +57,19 @@ public class EquipoDAO {
 		System.out.println("Sech");
 		return em.createQuery(criteriaQuery).getResultList();
 	}
-
-
+	
+	public Equipo getAntenaByName(String name) {
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+		CriteriaQuery<Equipo> criteriaQuery = criteriaBuilder.createQuery(Equipo.class);
+		// Se establece la clausula FROM
+		Root<Equipo> root = criteriaQuery.from(Equipo.class);
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("modelo"), name)); // criteriaQuery.multiselect(root.get(atr))
+		// // Se configuran los predicados,
+		// combinados por AND
+		System.out.println("************8");
+		
+		return em.createQuery(criteriaQuery).getSingleResult();
+		
+	}
 
 }
