@@ -23,6 +23,10 @@ public class EquipoOn {
 		equipoDao.save(equipo);
 		
 	}
+	
+	public Equipo buscarAntena(int id) {
+		return equipoDao.read(id);
+	}
 	public void guardarEquipo(Equipo equipo) {
 		equipoDao.create(equipo);
 	}

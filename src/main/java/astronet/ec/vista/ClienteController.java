@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import astronet.ec.modelo.Agendamiento;
 import astronet.ec.modelo.Cliente;
 import astronet.ec.modelo.Empleado;
 import astronet.ec.modelo.Equipo;
+import astronet.ec.modelo.EquipoServicio;
 import astronet.ec.modelo.Instalacion;
 import astronet.ec.modelo.Plan;
 import astronet.ec.modelo.Registro;
@@ -30,6 +32,7 @@ import astronet.ec.on.AgendamientoON;
 import astronet.ec.on.ClienteON;
 import astronet.ec.on.EmpleadoON;
 import astronet.ec.on.EquipoOn;
+import astronet.ec.on.EquipoServicioON;
 import astronet.ec.on.InstalacionON;
 import astronet.ec.on.PlanON;
 import astronet.ec.on.RegistroON;
@@ -55,12 +58,8 @@ public class ClienteController implements Serializable {
 	private Instalacion instalacion = new Instalacion();
 	private Agendamiento agendamiento = new Agendamiento();
 	private Equipo equipo = new Equipo();
-<<<<<<< HEAD
-
-
-=======
+	private Servicio servicioTmp;
 	private Telefono telefono;
->>>>>>> refs/remotes/origin/Bguzman
 	private List<Telefono> telefonos;
 	private Telefono nuevoTelefono;
 	/**
@@ -97,6 +96,8 @@ public class ClienteController implements Serializable {
 	private List<String> opciones;
 	private List<Equipo> listadoAntenas;
 	private List<Plan> listadoPlanes;
+	private List<Plan> listadoPlanesTmp;
+	
 	
 	public int idEmpl;
 
@@ -113,17 +114,25 @@ public class ClienteController implements Serializable {
 		listadoCliente = clion.getListadoCliente();
 		registros = regon.getListadoRegistro();
 		listaInstalaciones = inson.getListadoInstalacion();
-    
 		nuevoTelefono= new Telefono();
+		servicioTmp =new Servicio();
+		
 
 		telefonos = new ArrayList<Telefono>();
+		listadoPlanesTmp =new ArrayList<Plan>();
+
+		listadoPlanes =new ArrayList<Plan>();
 		equipo = new Equipo();
 		listadoAntenas = eqOn.getListadoAntenas();
-		listadoPlanes = planOn.getListadoPlan();
-		System.out.println("Si tomoo las antenaas" + listadoAntenas.size());
+		listadoPlanesTmp = planOn.getListadoPlan();
 		opciones = new ArrayList<String>();
+		listadoPlanes.add(listadoPlanesTmp.get(0));
+		listadoPlanes.add(listadoPlanesTmp.get(1));
+		listadoPlanes.add(listadoPlanesTmp.get(2));
+		
 		opciones.add("Si");
 		opciones.add("No");
+		
 
 	}
 
@@ -167,6 +176,9 @@ public class ClienteController implements Serializable {
 	
 	@Inject 
 	private PlanON planOn;
+	
+	@Inject
+	private EquipoServicioON eqServOn;
 
 	/**
 	 * Fin de la inyeccion
@@ -1221,7 +1233,52 @@ try {
 		
 		telOn.guardar(teleMovil);
 		
+		Plan planTmp = new Plan();
+		Equipo antenaTmp = new Equipo();
+		EquipoServicio eqServicio = new EquipoServicio();
 		
+		antenaTmp = eqOn.buscarAntena(Integer.parseInt(antenaElegida));
+		planTmp = planOn.buscarPlan(Integer.parseInt(planElegida));	
+		System.out.println("plan" + planTmp.getId());
+		System.out.println("antena" +antenaTmp.getId());
+		
+		servicioTmp.setTipoServicio("radio");
+		servicioTmp.setNumeroContrato("0000" + cli.getId());
+		java.util.Date fecha = new Date();
+		System.out.println ("esta es la fecha actual" + fecha.toString());
+		servicioTmp.setCliente(cli);
+		servicioTmp.setFechaContrato(fecha.toString());
+		servicioTmp.setRouterVendido(this.routerVendido);
+		servicioTmp.setObservaciones(this.observaciones);
+		servicioTmp.setPlan(planTmp);
+		seron.guardar(servicioTmp);
+		
+		eqServicio.setSerial(this.serial);
+		eqServicio.setPassword(this.password);
+		eqServicio.setIp(this.ip);
+		
+		eqServicio.setEquipo(antenaTmp);
+		eqServicio.setServicio(servicioTmp);
+		
+		eqServOn.crearI(eqServicio);
+		
+		this.cedula = "";
+		this.nombre = "";
+		this.apellidos = "";
+		this.convencional = "";
+		this.celular = "";
+		this.direccionPrincipal ="";
+		this.direccionSecundaria ="";
+		this.direccionReferencia ="";
+		this.latitud ="";
+		this.longitud ="";
+		this.email ="";
+		this.antenaElegida ="";
+		this.planElegida ="";
+		this.ip ="";
+		this.password ="";
+		this.serial ="";
+		this.observaciones ="";
 		return null;
 	}
 	/**
@@ -1327,6 +1384,14 @@ try {
 		this.serial = serial;
 	}
 
+	public Servicio getServicioTmp() {
+		return servicioTmp;
+	}
+
+	public void setServicioTmp(Servicio servicioTmp) {
+		this.servicioTmp = servicioTmp;
+	}
+
 	public String getObservaciones() {
 		return observaciones;
 	}
@@ -1365,6 +1430,14 @@ try {
 	
 		}
 		
+	}
+
+	public EquipoServicioON getEqServOn() {
+		return eqServOn;
+	}
+
+	public void setEqServOn(EquipoServicioON eqServOn) {
+		this.eqServOn = eqServOn;
 	}
 
 	
