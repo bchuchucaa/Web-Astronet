@@ -42,18 +42,26 @@ public class InstalacionDAO {
 		String jpql = "SELECT inst FROM Instalacion inst ";
 		Query q = em.createQuery(jpql,Instalacion.class);
 		List<Instalacion> instalaciones= q.getResultList();
-		for (Instalacion instalacion : instalaciones) {
-			instalacion.getTipoServicio();
-			instalacion.getNombre();
-			instalacion.getDireccion();
-			instalacion.getTelefono();
-			instalacion.getCoordenadas();
-			instalacion.getObservaciones();
-			instalacion.getEmpleado().getNombre();
+		try {
+			for (Instalacion instalacion : instalaciones) {
+				instalacion.getTipoServicio();
+				instalacion.getNombre();
+				instalacion.getDireccion();
+				instalacion.getTelefono();
+				instalacion.getCoordenadas();
+				instalacion.getObservaciones();
+				instalacion.getEmpleado().getNombre();
+				}
+			
+		} catch (Exception e) {
+			System.out.println("NO EXSISTEN INSTALACIONES");
+		}		
+		return instalaciones;
+			
 		}
 		
-		return instalaciones;
-	}
+		
+		
 	
 	public List<Instalacion> getActividades(String nombre) {
 		String jpql = "SELECT ins FROM Instalacion ins  where ins.tecnico = :busqueda";

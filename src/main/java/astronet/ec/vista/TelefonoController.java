@@ -78,17 +78,13 @@ public class TelefonoController implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		cliente = new Cliente();
-
-		telefonos = new ArrayList<Telefono>();
-
+		try {
+			cliente = new Cliente();
+			telefonos = new ArrayList<Telefono>();
+		} catch (Exception e) {
+			System.out.println("CONTROL DE ERRORES EN TELEFONOS CONTROLLER");
+		}		
 	}
-
-
-
-
-
-
 
 
 	/*

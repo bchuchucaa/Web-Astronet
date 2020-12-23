@@ -49,9 +49,14 @@ public class InstalacionController implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-		instalacion = new Instalacion();
-		listaInstalaciones = inson.getListadoInstalacion();
-		empleados = empon.getListadoEmpleado();
+		try {
+			instalacion = new Instalacion();
+			listaInstalaciones = inson.getListadoInstalacion();
+			empleados = empon.getListadoEmpleado();
+		} catch (Exception e) {
+			System.out.println("CONTROLAR ERROES EN INSTALACION CONTROLLER");
+		}
+		
 
 	}
 	

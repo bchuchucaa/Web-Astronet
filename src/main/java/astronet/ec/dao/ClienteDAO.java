@@ -21,10 +21,15 @@ public class ClienteDAO {
 	private EntityManager em;
 	
 	public void save(Cliente cli) {
-		if (this.read(cli.getId())!=null) {
-			this.update(cli);
-		}else 
-			this.create(cli);
+		try {
+			if (this.read(cli.getId())!=null) {
+				this.update(cli);
+			}else 
+				this.create(cli);
+		} catch (java.lang.NullPointerException e) {
+			System.out.println("Error controlado clienteDao metodo save()");
+		}
+		
 		
 	}
 	
@@ -90,10 +95,6 @@ public class ClienteDAO {
 		
 	}
 	
-
-	
-
-	
 	public Cliente buscarCedula(String cedula) {
 		String jpql = "SELECT cli FROM Cliente cli WHERE cli.cedula = :cedula";
 		Query q = em.createQuery(jpql, Cliente.class);
@@ -105,10 +106,16 @@ public class ClienteDAO {
 	}
 	
 	public Cliente buscarNombre(String nombre) {
+		System.out.println("PUTA - "+nombre);
 		String jpql = "SELECT cli FROM Cliente cli WHERE cli.nombre = :nombre";
 		Query q = em.createQuery(jpql, Cliente.class);
 		q.setParameter("nombre", nombre);
-		Cliente clien = (Cliente) q.getSingleResult();
+		Cliente clien =null;
+		try {
+			 clien=(Cliente) q.getSingleResult();
+		} catch (javax.persistence.NoResultException e) {
+			System.out.println("No encontro nombre clienteDAO");
+		}
 		return clien;
 	}
 

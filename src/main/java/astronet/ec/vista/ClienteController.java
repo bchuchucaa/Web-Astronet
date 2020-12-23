@@ -77,8 +77,8 @@ public class ClienteController implements Serializable {
 	 * Fin de la declaracion
 	 */
 
-	@ManagedProperty(value = "#{login}")
-	private EmpleadoController empCon;
+	//@ManagedProperty(value ="#{login}" )//"#{login}" <- 
+	//private EmpleadoController empCon;
 
 	/**
 	 * Inyeccion de las clases ON
@@ -120,17 +120,22 @@ public class ClienteController implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		cliente = new Cliente();
-		registro = new Registro();
-		instalacion=new Instalacion();
-		servicio = new Servicio();
-		agendamiento = new Agendamiento();
-		empleados = empon.getListadoEmpleado();
-		listadoCliente = clion.getListadoCliente();
-		registros = regon.getListadoRegistro();
-		listaInstalaciones = inson.getListadoInstalacion();
-		telefonos = new ArrayList<Telefono>();
-		equipo = new Equipo();
+		try {
+			cliente = new Cliente();
+			registro = new Registro();
+			instalacion=new Instalacion();
+			servicio = new Servicio();
+			agendamiento = new Agendamiento();
+			empleados = empon.getListadoEmpleado();
+			listadoCliente = clion.getListadoCliente();
+			registros = regon.getListadoRegistro();
+			listaInstalaciones = inson.getListadoInstalacion();
+			telefonos = new ArrayList<Telefono>();
+			equipo = new Equipo();
+		} catch (Exception e) {
+			System.out.println("CONTROLANDO DATOS FALTANTES CLIENTECONTROLLER");
+		}
+		
 
 	}
 
@@ -138,7 +143,7 @@ public class ClienteController implements Serializable {
 	 * Metodo para la accion de editar los clientes
 	 */
 	public void loadData() {
-		if (id == 0)
+		if (id == 0)//una especie de seguridad cuando no hay clientes
 			return;
 		cliente = clion.getCliente(id);
 
@@ -342,13 +347,15 @@ public class ClienteController implements Serializable {
 		this.idR = idR;
 	}
 
+	
+	/* comentario para evitar errores 
 	public EmpleadoController getEmpCon() {
 		return empCon;
 	}
 
 	public void setEmpCon(EmpleadoController empCon) {
 		this.empCon = empCon;
-	}
+	}*/
 	
 
 	/*
@@ -405,14 +412,6 @@ public class ClienteController implements Serializable {
 	 * @return
 	 */
 
-
-	
-	
-
-	
-	
-	
-	
 	public String buscarCedula() {
 		System.out.println("esta es la cedula hpta "+ this.cedula);
 		try {
@@ -430,7 +429,7 @@ public class ClienteController implements Serializable {
 				registro.setIdClienteTemp(cliente.getId());
 				cliente.setTelefonos(telefonos2);
 				fechaHora();
-				datoR();
+				//datoR();
 				
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
 
@@ -456,7 +455,7 @@ try {
 		cliente = clion.getClienteCedula(cliente.getCedula());
 		registro.setIdClienteTemp(cliente.getId());
 		fechaHora();
-		datoR();
+		//datoR()
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
 
 	}
@@ -476,22 +475,20 @@ try {
 		return telefonos;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
 
 	/**
 	 * Metodo para la busqueda del cliente por el nombre
 	 */
 	public void buscarNombre() {
 		cliente = clion.getClienteNombre(cliente.getNombre());
-		registro.setIdClienteTemp(cliente.getId());
+		try {
+			registro.setIdClienteTemp(cliente.getId());
+		} catch (java.lang.NullPointerException e) {
+			System.out.println("controlado error ClienteContoller metodo buscarNombre()");
+		}
+		
 		fechaHora();
-		datoR();
+		//datoR();
 	}
 
 	/**
@@ -853,6 +850,7 @@ try {
 
 	}
 
+	/* comentario para evitar errores
 	public void datoR() {
 		System.out.println("datos locos " + empCon.getId());
 		registro.setIdEmpleadoTemp(empCon.getId());
@@ -862,7 +860,7 @@ try {
 		System.out.println("Datos Instalacion " + empCon.getId());
 		instalacion.setCodigoEmpTemp(empCon.getId());
 		return "instalacion";
-	}
+	}*/
 
 	public boolean validadorDeCedula(String cedula) {
 		boolean cedulaCorrecta = false;

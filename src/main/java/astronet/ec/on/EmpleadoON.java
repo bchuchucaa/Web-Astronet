@@ -33,6 +33,10 @@ public class EmpleadoON {
 		return empdao.login(email, password);
 	}
 	
+	public Empleado read(int id) {
+		return empdao.read(id);
+	}
+	
 	public List<Empleado> getListadoEmpleado() {
 		return empdao.tecnicoDepartamento();
 	}

@@ -51,7 +51,7 @@ public class EmpleadoDAO {
 	}
 	
 	public Empleado login(String email, String password) {
-	
+		System.out.println(email);
 		String jpql="SELECT emp FROM Empleado emp WHERE emp.email LIKE?1 AND emp.password LIKE?2";
 		Query q= em.createQuery(jpql, Empleado.class);
 		q.setParameter(1, email);

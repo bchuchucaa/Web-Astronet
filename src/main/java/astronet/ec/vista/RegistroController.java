@@ -52,9 +52,14 @@ public class RegistroController {
 
 	@PostConstruct
 	public void init() {
-		empleados = empon.getListadoEmpleado();
-		clientes = clion.getListadoCliente();
-		registros=regon.getListadoRegistro();
+		try {
+			empleados = empon.getListadoEmpleado();
+			clientes = clion.getListadoCliente();
+			registros=regon.getListadoRegistro();
+		} catch (Exception e) {
+			System.out.println("CONTROLANDO ERRORES EN REGISTROCONTROLLER");
+		}
+		
 
 	}
 

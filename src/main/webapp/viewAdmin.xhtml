@@ -5,14 +5,13 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:h="http://java.sun.com/jsf/html">
-	
+
 <h:head>
-	<f:metadata>
-		<!-- 				<f:viewParam name="id" value="#{clienteController.id}"></f:viewParam>  --><!-- 
-					 <f:viewAction action="acceso()" />   
-		<f:event listener="acceso()" type="preRenderView" />  -->
+	<f:metadata>	
+		<f:viewParam name="id" value="#{adminBean.idAdmin}"></f:viewParam> 
+		<f:viewAction action="#{adminBean.init()}"/>		
 	</f:metadata>
-	<title>Call Center</title>
+	<title>Administrador</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -26,33 +25,30 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	
-	
 	<script type="text/javascript">
 	/*CAMBIAR ESTA FUNCIONALIDAD  */
 	function acceso(){
 		var dep=document.getElementById("dep");
-		var dir='Radio';
+		//var dir='Radio';
 		var boton=document.getElementById("boton");
 		var boton1=document.getElementById("boton1");
 		var boton12=document.getElementById("boton12")
-		if(dep.innerText != 'Radio'){
-			alert("Bloqueado no tienes los permisos establecidos contacte con tu administrador")
+		if(dep.innerText != 'Administrador'){
+			alert("Funcionalidades habilitadas solamente para usuarios Administradores.")
 				boton.disabled=true;
 			boton1.disabled=true;
 			boton12.disabled=true;
 				
 			}
 		else{
-			alert("Bievenido");
+			//alert("Bievenido");
 			boton.disabled =false;
 			boton1.disabled=false;
 			boton12.disabled=false;
 			
 			}
 		}
-	</script>
-
+	</script>		
 </h:head>
 
 <body>
@@ -64,6 +60,7 @@
 				src="resources/assets/img/logo.png" /></a>
 		</div>
 		<ul class="nav navbar-nav">
+		<!--  
 			<li class="dropdown"><a class="dropdown-toggle"
 				data-toggle="dropdown" href="#">Call Center <span class="caret"></span></a>
 				<ul class="dropdown-menu">
@@ -71,59 +68,61 @@
 					<li><a href="listadoInstalaciones.xhtml">Instalaciones</a></li>
 					<li><a href="instalacion.xhtml">N Instalacion</a></li>
 					
-				</ul></li>
+				</ul>
+			</li>-->
 
 			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#" onclick="acceso()">Datos<span
+				data-toggle="dropdown" href="#" onclick="acceso()">Clientes/Empleados<span
 					class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="clientesRadio.xhtml" id="boton">Clientes</a></li>
-					<li><a href="listadoEmpleado.xhtml" id="boton1">Empleados</a></li>
-				</ul></li>
+					<li><a href="listadoEmpleado.xhtml?id=#{adminBean.empleadoAdmin.id}" id="boton1">Empleados</a></li>
+				</ul>
+			</li>
 
 		</ul>
-		
 
 		<ul class="nav navbar-nav navbar-right">
-			<li><a> #{login.empleado.nombre}</a></li>
-			<li><a id="dep"> #{login.empleado.departamento}</a></li>
+			<li><a> #{adminBean.empleadoAdmin.nombre}</a></li>
+			<li><a id="dep"> #{adminBean.empleadoAdmin.departamento}</a></li>
 			<li><h:form>
-					<a> <h:commandButton class="btnExit" action="#{login.logout()}"
+					<a> <h:commandButton class="btnExit" action="#{loginBean.logout()}"
 							value="Exit" image="./resources/assets/img/exit.png" />
 					</a>
 				</h:form></li>
 
 		</ul>
 
+		
+
 	</div>
 	</nav>
 	<div class="centerTexto">
-		<h2>INGRESO DE RECLAMOS E INSTALACIONES NUEVAS</h2>
+		<h2>Usted accedió como: #{adminBean.empleadoAdmin.departamento}</h2>
 	</div>
 
-	<!-- Inicio boton Nueva Solicitud -->
+	<!--  
 	<div class="anchoBoton btnSolicitud">
 		<h:form>
-		<div>
-					<p:growl id="growl" showDetail="true"  >
+			<div>
+				<p:growl id="growl" showDetail="true">
 					<p:autoUpdate></p:autoUpdate>
-					</p:growl>
-					</div>
-			
+				</p:growl>
+			</div>
 
-			<!-- Ventana Modal -->
-			<!-- The Modal -->
+
+			
 			<div class="modal fade" id="myModal">
 				<div class="modal-dialog">
 					<div class="modal-content">
 
-						<!-- Modal Header -->
+						
 						<div class="modal-header" style="background-color: #048DE5;">
 							<h4 class="modal-title" style="color: aliceblue;">Instalacion</h4>
 							<button type="button" class="close" data-dismiss="modal">Cerrar</button>
 						</div>
 
-						<!-- Modal body -->
+						
 						<div class="modal-body">
 							<div class="form-group col-sm-5">
 								<div class="input-group marginBuscar">
@@ -131,10 +130,7 @@
 										value="#{clienteController.instalacion.codigoEmpTemp}"
 										a:placeholder="insid" id="txtEmpleado123" rendered="">
 									</h:inputText>
-								<!-- 	<h:panelGroup id="datosPersona124">
-										<h:message for="txtEmpleado123" />
-							#{clienteController.instalacion.empleado.nombre}
-					</h:panelGroup> -->
+									
 								</div>
 							</div>
 
@@ -190,7 +186,7 @@
 
 						</div>
 
-						<!-- Modal footer -->
+						
 						<div class="modal-footer">
 							<h:commandButton class="btn btn-primary" value="Guardar"
 								action="#{clienteController.crearInstalacion()}" />
@@ -201,7 +197,7 @@
 				</div>
 			</div>
 		</h:form>
-		
+
 	</div>
 
 	<h:form>
@@ -211,7 +207,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h>Datos Cliente</h>
-				
+
 
 				</div>
 				<div class="panel-body">
@@ -227,7 +223,7 @@
 									<h:commandButton render="Nombres"
 										class="btn btn-default botonBuscar"
 										action="#{clienteController.buscarCedula()}"
-										image="/resources/assets/img/buscar.png"/>
+										image="/resources/assets/img/buscar.png" />
 								</div>
 							</div>
 						</div>
@@ -249,43 +245,34 @@
 							<div class="input-group marginBuscar">
 								<h:inputText class="form-control"
 									value="#{clienteController.registro.fechaHora}"
-									a:placeholder="Fecha Hora" rendered=""/>
-								
+									a:placeholder="Fecha Hora" rendered="" />
+
 							</div>
-							
+
 						</div>
-						
+
 						<div class="form-group col-sm-5">
 							<div class="input-group marginBuscar">
 								<h:inputText class="form-control"
 									value="#{clienteController.registro.idClienteTemp}"
 									a:placeholder="clid" id="txtCliente1" rendered="">
-									</h:inputText>
+								</h:inputText>
 								<h:panelGroup id="datosPersona123">
-								<h:message for="txtCliente1" rendered=""/>
+									<h:message for="txtCliente1" rendered="" />
 							#{clienteController.registro.cliente.nombre}
 					</h:panelGroup>
 							</div>
 						</div>
-						
-						<!-- <div class="form-group col-sm-4">
-						  <label for="sel1">Tecnico:</label>  
-						<h:selectOneMenu value="#{clienteController.registro.idEmpleadoTemp}" id="txtEmpleado11">
-						<f:ajax listener="#{clienteController.consultarEmpleado()}"
-										render="datosPersona errores" />
-						<f:selectItems value="#{clienteController.empleados}" var="empleado"
-						itemLabel="#{empleado.nombre}" itemValue="#{empleado.id}"/>
-						</h:selectOneMenu>
-					</div> -->
-						
-						
+
+
+
 						<div class="form-group col-sm-5">
-							<div class="input-group marginBuscar">						
+							<div class="input-group marginBuscar">
 								<h:inputText class="form-control"
 									value="#{clienteController.registro.idEmpleadoTemp}"
 									a:placeholder="clid" id="txtEmpleado1" rendered=""></h:inputText>
 								<h:panelGroup id="datosPersona12">
-								<h:message for="txtEmpleado1" rendered="" />
+									<h:message for="txtEmpleado1" rendered="" />
 							#{clienteController.registro.empleado.nombre}
 					</h:panelGroup>
 							</div>
@@ -293,115 +280,107 @@
 
 
 					</div>
-				
 
-					</div>
 
-					
-				
+				</div>
 
-					<div id="main-container" class="cabecera">
-					
+
+
+
+				<div id="main-container" class="cabecera">
+
 					<h:dataTable id="Nombres" value="#{clienteController.cliente}"
-							var="cliente">
+						var="cliente">
 
-							<h:column>
-								<f:facet name="header" data-field="nombres" data-sortable="true">Nombres</f:facet>
+						<h:column>
+							<f:facet name="header" data-field="nombres" data-sortable="true">Nombres</f:facet>
 											#{clienteController.cliente.nombre}
 												</h:column>
 
-							<h:column>
-								<f:facet name="header" data-field="direccion"
-									data-sortable="true">Direccion</f:facet>
-													<h:inputText class="cabecera" value="#{cliente.direccionPrincipal}" />
-													<br />
-					<h:inputText class="cabecera" value="#{cliente.direccionSecundaria}" />
-					<br />
-					<h:inputText class="cabecera" value="#{cliente.direccionReferencia}" />
-												</h:column>
-												<h:column>
+						<h:column>
+							<f:facet name="header" data-field="direccion"
+								data-sortable="true">Direccion</f:facet>
+							<h:inputText class="cabecera"
+								value="#{cliente.direccionPrincipal}" />
+							<br />
+							<h:inputText class="cabecera"
+								value="#{cliente.direccionSecundaria}" />
+							<br />
+							<h:inputText class="cabecera"
+								value="#{cliente.direccionReferencia}" />
+						</h:column>
+						<h:column>
 			
 						  <label for="sel2" class="etiquetas">Telfonos:</label>     
 						<h:selectOneMenu class="form-control" id="sel2">
-							<f:selectItems value="#{cliente.telefonos}" var="pro1"
-								itemLabel="#{pro1.tipoTelefono}" itemValue="#{pro1.tipoTelefono}" />
-						</h:selectOneMenu>
-					
-					
-												</h:column>
-<!-- 
-							<h:column>
-								<f:facet name="header" data-field="telefono"
-									data-sortable="true">Telefono</f:facet>
-											<h:inputText value="#{cliente.convencional}" />
-											<br />
-					<h:inputText value="#{cliente.celular}" />
-												</h:column>
-												
-
-							<h:column>
-								<f:facet name="header" data-field="direccionIp"
-									data-sortable="true">Direccion IP</f:facet>
-											#{cliente.servicio.get(i).ip}
-												</h:column>
-												 -->
-
-						</h:dataTable>
-						
-
-					</div>
-					<!--  Aqui termina la tabla -->
-					
-					<div class="btnsIngre_Agen">
-					<h:commandButton class="btn btn-primary btnIn" action="#{clienteController.cargarDatosCallCenter()}" value="Actualizar" />
-					</div>
-
-					<div class="form-group col-sm-6">
-						  <label for="sel1" class="etiquetas">Problema:</label>     
-						<h:selectOneMenu class="form-control" id="sel1"
-							value="#{clienteController.registro.problema}">
-													<f:ajax execute="txtCliente1" listener="#{clienteController.consultarCliente()}" render="datosPersona123"/> 
-							<f:selectItems value="#{clienteController.problemas1}" var="pro1"
-								itemLabel="#{pro1.carLabel}" itemValue="#{pro1.carLabel}" />
-						</h:selectOneMenu>
-					</div>
+								<f:selectItems value="#{cliente.telefonos}" var="pro1"
+									itemLabel="#{pro1.tipoTelefono}"
+									itemValue="#{pro1.tipoTelefono}" />
+							</h:selectOneMenu>
 
 
-					<div class="form-group col-sm-6">
-						  <label for="sel1" class="etiquetas">Acción:</label>     
-						<h:selectOneMenu class="form-control" id="selAc"
-							value="#{clienteController.registro.accion}">
-							<f:selectItems value="#{clienteController.accion}" var="pro1"
-								itemLabel="#{pro1.carLabel}" itemValue="#{pro1.carLabel}" />
-						</h:selectOneMenu>
-					</div>
-					
+						</h:column>
+
+					</h:dataTable>
 
 
-					<div class="form-group cabecera">
-						<label for="exampleFormControlTextarea1">Observaciones</label>
-						<h:inputTextarea
-							value="#{clienteController.registro.observaciones}"
-							class="form-control" id="exampleFormControlTextarea1" rows="5">
-						</h:inputTextarea>
-					</div>
+				</div>
+				
 
-					<div class="btnsIngre_Agen">
+				<div class="btnsIngre_Agen">
+					<h:commandButton class="btn btn-primary btnIn"
+						action="#{clienteController.cargarDatosCallCenter()}"
+						value="Actualizar" />
+				</div>
+
+				<div class="form-group col-sm-6">
+					  <label for="sel1" class="etiquetas">Problema:</label>     
+					<h:selectOneMenu class="form-control" id="sel1"
+						value="#{clienteController.registro.problema}">
+						<f:ajax execute="txtCliente1"
+							listener="#{clienteController.consultarCliente()}"
+							render="datosPersona123" />
+						<f:selectItems value="#{clienteController.problemas1}" var="pro1"
+							itemLabel="#{pro1.carLabel}" itemValue="#{pro1.carLabel}" />
+					</h:selectOneMenu>
+				</div>
 
 
-						<h:commandButton
-							action="#{clienteController.cargarDatosRegistro()}"
-							class="btn btn-primary btnIn" value="Ingresar"  />
-					</div>
+				<div class="form-group col-sm-6">
+					  <label for="sel1" class="etiquetas">Acción:</label>     
+					<h:selectOneMenu class="form-control" id="selAc"
+						value="#{clienteController.registro.accion}">
+						<f:selectItems value="#{clienteController.accion}" var="pro1"
+							itemLabel="#{pro1.carLabel}" itemValue="#{pro1.carLabel}" />
+					</h:selectOneMenu>
+				</div>
 
+
+
+				<div class="form-group cabecera">
+					<label for="exampleFormControlTextarea1">Observaciones</label>
+					<h:inputTextarea
+						value="#{clienteController.registro.observaciones}"
+						class="form-control" id="exampleFormControlTextarea1" rows="5">
+					</h:inputTextarea>
+				</div>
+
+				<div class="btnsIngre_Agen">
+
+
+					<h:commandButton
+						action="#{clienteController.cargarDatosRegistro()}"
+						class="btn btn-primary btnIn" value="Ingresar" />
 				</div>
 
 			</div>
 
+		</div>
+
 
 
 	</h:form>
-
+-->
 </body>
 
 
