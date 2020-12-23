@@ -44,5 +44,8 @@ public class PlanON {
 	public void setListadoPlan(List<Plan> listadoPlan) {
 		this.listadoPlan = PlanDao.find();
 	}
-
+	
+	public Plan getPlanByName(String name) {
+		return PlanDao.getPlanByName(name);
+	}
 }
