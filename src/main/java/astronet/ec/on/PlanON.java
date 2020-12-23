@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import astronet.ec.dao.PlanDAO;
+import astronet.ec.modelo.Equipo;
 import astronet.ec.modelo.Plan;
 
 @Stateless
@@ -21,6 +22,10 @@ public class PlanON {
 
 		PlanDao.save(Plan);
 		
+	}
+	
+	public Plan buscarPlan(int id) {
+		return PlanDao.read(id);
 	}
 	
 	public void guardarPlan(Plan Plan) {
