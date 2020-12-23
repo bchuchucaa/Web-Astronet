@@ -55,6 +55,8 @@ public class ClienteController implements Serializable {
 	private Telefono telefono;
 	private List<Telefono> telefonos;
 	private Telefono nuevoTelefono;
+	private String nuevoNumero;
+	private String nuevoTipoTelefono;
 	/**
 	 * Declaraacion de variables
 	 */
@@ -132,7 +134,9 @@ public class ClienteController implements Serializable {
 		listaInstalaciones = inson.getListadoInstalacion();
 		telefonos = new ArrayList<Telefono>();
 		equipo = new Equipo();
-		nuevoTelefono= new Telefono();
+		
+		
+		
 
 	}
 
@@ -425,18 +429,17 @@ public class ClienteController implements Serializable {
 				
 				cliente = clion.getClienteCedula(this.cedula);
 				System.out.println("cliente cedula --> "+ cliente.getCedula());
-				List<Telefono>telefonos2=telOn.getTelefonos(cliente);
-				for (Telefono telefono : telefonos2) {
+				setTelefonos(telOn.getTelefonos(cliente));
+				for (Telefono telefono : telefonos) {
 					System.out.println(telefono.getTipoTelefono());
 					System.out.println("-----kiko----");
 				}
-				setTelefonos(telefonos2);
-				System.out.println("-----CHAVOOOO----");
 				registro.setIdClienteTemp(cliente.getId());
-				cliente.setTelefonos(telefonos2);
+				cliente.setTelefonos(telefonos);
 				fechaHora();
 				datoR();
-				
+				setNuevoTelefono(null);
+				setNuevoTipoTelefono(null);
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
 
 			}
@@ -454,6 +457,32 @@ public class ClienteController implements Serializable {
 	
 
 	
+	public String getNuevoNumero() {
+		return nuevoNumero;
+	}
+
+	public void setNuevoNumero(String nuevoNumero) {
+		this.nuevoNumero = nuevoNumero;
+	}
+
+	public String getNuevoTipoTelefono() {
+		return nuevoTipoTelefono;
+	}
+
+	public void setNuevoTipoTelefono(String nuevoTipoTelefono) {
+		this.nuevoTipoTelefono = nuevoTipoTelefono;
+	}
+
+
+
+	public Telefono getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(Telefono telefono) {
+		this.telefono = telefono;
+	}
+
 	public String buscarCedula1() {
 try {
 	if (cliente.getCedula()!=null) {
@@ -1013,32 +1042,43 @@ try {
 	//Metodo para actualizar los telefonos;
 	
 	public void editTelefono(Telefono telefono) {
-		this.telefono=telefono;
-		telOn.updateTelefono(telefono);
-		System.out.println("TELEFONO A UPDATE -> "+ telefono.getTipoTelefono());
+		System.out.println("Telefono a actualizar");
+		System.out.println(telefono.getTelNumero());
+		System.out.println(telefono.getTipoTelefono());
+		try {
+			this.telefono=telefono;
+			telOn.updateTelefono(telefono);
+			System.out.println("TELEFONO A UPDATE -> "+ telefono.getTipoTelefono());
+			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se actualizo el telefono correctamente"));
+			
+		}catch(Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se pudo actualizar el telefono"));
+
+		}
+	
+	
 	
 	}
 	
-	public void newTelefono(Telefono telefono) {
-		System.out.println("Telefono de parametro "+ telefono.getTelNumero());
-		System.out.println("Telefono de parametro "+ telefono.getTipoTelefono());
-		this.nuevoTelefono= telefono;
-		nuevoTelefono.setCliente(cliente);
-		
-		if(nuevoTelefono.getTipoTelefono()!="" && nuevoTelefono.getTelNumero()!="" && nuevoTelefono.getTipoTelefono()!=null) {
+	public void newTelefono() {
+		if(nuevoTipoTelefono!=null && nuevoNumero!=null) {
 		try {
-				clion.getClienteCedula(cliente.getCedula());
-				nuevoTelefono.setId(telOn.getMaxId()+1);
+				nuevoTelefono=new Telefono(telOn.getMaxId()+1,nuevoNumero,nuevoTipoTelefono,clion.getClienteCedula(cliente.getCedula()));
+				telefonos.add(nuevoTelefono);
 				telOn.createTelefono(nuevoTelefono);
-				
+				this.telefonos.add(nuevoTelefono);
+			
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Telefono Agregado Correctamente"));
 			System.out.println("ALL RIGHT BABE");
 		}catch (Exception e) {
-			System.out.println("PILAS PARA AGREGAR EL NUEVO TELEFONO "+ nuevoTelefono.getTelNumero());
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se pudo agregar el telefono"));
 
 		}
-		this.nuevoTelefono= new Telefono();
-	
+		setNuevoNumero(null);
+		setNuevoTipoTelefono(null);
 		}
+		
 		
 	}
 

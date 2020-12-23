@@ -195,6 +195,11 @@ public class Cliente implements Serializable {
 	public void setTelefonos(List<Telefono> telefonos) {
 		this.telefonos = telefonos;
 	}
+	
+	
+	public void addTelefonos(Telefono telefono) {
+		this.telefonos.add(telefono);
+	}
 
 
 
