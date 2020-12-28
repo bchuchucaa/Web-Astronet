@@ -12,7 +12,7 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Base Clientes</title>
+	<title>Base Clientes Lazy</title>
 
 	<meta
 		content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
@@ -102,7 +102,10 @@
 
 			<h:dataTable style="text-align:center;"
 				value="#{clienteController.listadoCliente}" var="cliente"
-				id="fresh-table" class="table">
+				id="fresh-table" class="table"  lazy="true"
+                paginator="true"
+                rows="10"   paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                rowsPerPageTemplate="10,50,100" filteredValue="#{clienteController.listadoCliente}">
 
 
 				<h:column>
@@ -264,12 +267,11 @@
       showRefresh: true,
       showToggle: true,
       showColumns: true,
-      pagination: true,
+     
       striped: true,
       sortable: true,
       height: $(window).height(),
-      pageSize: 25,
-      pageList: [25, 50, 100],
+    
 
       formatShowingRows: function (pageFrom, pageTo, totalRows) {
         return ''

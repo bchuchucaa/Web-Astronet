@@ -1,9 +1,13 @@
 package astronet.ec.on;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+
+import org.primefaces.model.SortOrder;
 
 import astronet.ec.dao.ClienteDAO;
 import astronet.ec.modelo.Cliente;
@@ -61,5 +65,18 @@ public class ClienteON {
 		
 		System.out.println("hola datos");
 	}
+	/***
+	 * metodo para la carga retardia y para obtener paginacion
+	 */
+	public List<Cliente> getResultList(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, String> filters) {
+        List<Cliente> all = new ArrayList<Cliente>();
+        all.addAll(this.clidao.getAll(first,pageSize,sortField,sortOrder,filters));
+        return all;
+    }
+ 
+    public int count(String sortField, SortOrder sortOrder, Map<String, String> filters) {
+        return this.clidao.getAll(-1,-1,null,null,filters).size();
+    }
+	
 
 }

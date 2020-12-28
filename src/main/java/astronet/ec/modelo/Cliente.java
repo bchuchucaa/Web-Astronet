@@ -39,12 +39,11 @@ public class Cliente implements Serializable {
 	private String cedula;
 	
 	@Column(name = "cli_nombres")
-	private String nombre;
+	public static String nombre;
 	
 
 	@Column(name = "cli_apellidos")
-	
-	private String apellidos;
+	public static String apellidos;
 	
 	
 	@Column(name = "cli_email")

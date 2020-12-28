@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -15,6 +17,9 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 
 import astronet.ec.modelo.Agendamiento;
 import astronet.ec.modelo.Cliente;
@@ -68,10 +73,22 @@ public class ClienteController implements Serializable {
 	public String soluciones;
 	private String empleados1;
 	private String servicioRB;
-
 	public int idEmpl;
-
 	private int codigoReg;
+	
+	/***
+	 * declaracion para tabla con retraso de carga y paginacion
+	 * 
+	 */
+	private LazyDataModel<Cliente> model;
+
+	public LazyDataModel<Cliente> getModel() {
+        return model;
+    }
+ 
+    public void setModel(LazyDataModel<Cliente> model) {
+        this.model = model;
+    }
 
 	/**
 	 * Fin de la declaracion
@@ -131,8 +148,29 @@ public class ClienteController implements Serializable {
 		listaInstalaciones = inson.getListadoInstalacion();
 		telefonos = new ArrayList<Telefono>();
 		equipo = new Equipo();
+		
+try {
+	
+	this.model = new LazyDataModel<Cliente>(){
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		
+		public List<Cliente> load(int first,int pageSize,String sortField,SortOrder sortOrder) {
+            List<Cliente> result = clion.getResultList(first, pageSize, sortField, sortOrder, null);
+            model.setRowCount(clion.count(sortField, sortOrder,null ));
+            return result;
+        }
+		
+	};
+	
+} catch (Exception e) {
+	// TODO: handle exception
+}
 	}
+		
 
 	/**
 	 * Metodo para la accion de editar los clientes
@@ -994,7 +1032,41 @@ try {
 
 		return servicioLista;
 	}
+	/**
+	 * funcion global para buscar en data table
+	 */
 	
+	public boolean globalFilterFunction(Object value, Object filter, Locale locale) {
+        String filterText = (filter == null) ? null : filter.toString().trim().toLowerCase();
+        if (filterText == null || filterText.equals("")) {
+            return true;
+        }
+        int filterInt = getInteger(filterText);
+ 
+        Cliente cli = (Cliente) value;
+        return cli.getCedula().toLowerCase().contains(filterText)
+                || cli.getApellidos().toLowerCase().contains(filterText)
+                || cli.getNombre().toLowerCase().contains(filterText)
+                || cli.getEmail().toLowerCase().contains(filterText)
+                || cli.getLatitud().toLowerCase().contains(filterText)
+                || cli.getLongitud().toLowerCase().contains(filterText)
+                || cli.getDireccionReferencia().toLowerCase().contains(filterText)
+        		|| cli.getDireccionSecundaria().toLowerCase().contains(filterText);
+                /*
+                || cli.isSold() ? "sold" : "sale").contains(filterText)
+                || cli.getYear() < filterInt
+                || cli.getPrice() < filterInt;
+                */
+    }
+	
+	private int getInteger(String string) {
+        try {
+            return Integer.valueOf(string);
+        }
+        catch (NumberFormatException ex) {
+            return 0;
+        }
+    }
 
 	
 	

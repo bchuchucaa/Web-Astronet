@@ -1,14 +1,22 @@
 package astronet.ec.dao;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.ws.rs.client.Client;
+
+import org.primefaces.model.SortOrder;
 
 import astronet.ec.modelo.Cliente;
 import astronet.ec.modelo.Servicio;
@@ -112,6 +120,98 @@ public class ClienteDAO {
 		Cliente clien = (Cliente) q.getSingleResult();
 		return clien;
 	}
+	/***
+	 * DAO para paginacion y datatable lazy 
+	 */
 
+	
+	public Collection<Cliente> getAll(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, String> filters) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Cliente> q = cb.createQuery(Cliente.class);
+        Root<Cliente> cliente = q.from(Cliente.class);
+        q.select(cliente);
+ 
+ 
+        Path<?> path = getPath(sortField, cliente);
+        if (sortOrder == null){
+            //just don't sort
+        }else if (sortOrder.equals(SortOrder.ASCENDING)){
+            q.orderBy(cb.asc(path));
+        }else if (sortOrder.equals(SortOrder.DESCENDING)){
+            q.orderBy(cb.asc(path));
+        }else if (sortOrder.equals(SortOrder.UNSORTED)){
+            //just don't sort
+        }else{
+            //just don't sort
+        }
+	
+        
+      //filter
+        Predicate filterCondition = cb.conjunction();
+        for (Map.Entry<String, String> filter : filters.entrySet()) {
+            if (!filter.getValue().equals("")) {
+                //try as string using like
+                Path<String> pathFilter = (Path<String>) getPath(filter.getKey(),cliente);
+                if (pathFilter != null){
+                    filterCondition = cb.and(filterCondition, cb.like(pathFilter, "%"+filter.getValue()+"%"));
+                }else{
+                    //try as non-string using equal
+                    Path<?> pathFilterNonString = getPath(filter.getKey(),cliente);
+                    filterCondition = cb.and(filterCondition, cb.equal(pathFilterNonString, filter.getValue()));
+                }
+            }
+        }
+        q.where(filterCondition);
+        
+      //pagination
+        TypedQuery<Cliente> tq = em.createQuery(q);
+        if (pageSize >= 0){
+            tq.setMaxResults(pageSize);
+        }
+        if (first >= 0){
+            tq.setFirstResult(first);
+        }
+        return tq.getResultList();
+    }
+	
 
+	private Path<?> getPath(String sortField, Root<Cliente> cliente) {
+		//sort
+        Path<?> path = null;
+        if (sortField == null){
+            path = cliente.get(Cliente.nombre);
+        }else{
+            switch(sortField){
+           
+                case "nombre":
+                    path = cliente.get(Cliente.nombre);
+                    break;
+                case "apellido":
+                    path = cliente.get(Cliente.apellidos);
+                    break;
+            
+            }
+        }
+        return path;
+    }
+	
+	private Path<String> getStringPath(String sortField, Root<Cliente> cliente) {
+		//sort
+        Path<String> path = null;
+        if (sortField == null){
+            path = cliente.get(Cliente.nombre);
+        }else{
+            switch(sortField){
+           
+                case "nombre":
+                    path = cliente.get(Cliente.nombre);
+                    break;
+                case "apellido":
+                    path = cliente.get(Cliente.apellidos);
+                    break;
+            
+            }
+        }
+        return path;
+    }
 }
