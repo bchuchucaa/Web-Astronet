@@ -11,7 +11,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import astronet.ec.modelo.Cliente;
-import astronet.ec.modelo.Equipo;
 import astronet.ec.modelo.Telefono;
 
 @Stateless
@@ -19,29 +18,6 @@ public class TelefonoDAO {
 	
 	@Inject
 	private EntityManager em;
-	
-	public void save(Telefono tel) {
-		if (this.read(tel.getId())!=null) {
-			this.update(tel);
-		}else 
-			this.create(tel);
-		
-	}
-	
-	public Telefono read(int id) {
-		return em.find(Telefono.class, id);
-	}
-	
-	public void update(Telefono tel) {
-		//System.out.println("registro "+cli.getRegistro().get(0).toString());
-		em.merge(tel);
-		
-	}
-	
-	public void create(Telefono tel) {
-		em.persist(tel);
-		
-	}
 	
 	
 	public List<Telefono> getTelefonos(Cliente cliente) {
@@ -97,6 +73,12 @@ public class TelefonoDAO {
 	
 		public Telefono read(int id) {
 			return em.find(Telefono.class, id);
+		}
+		
+		
+		public void delete(Telefono telefono) {
+			Telefono telefono2=read(telefono.getId());
+			em.remove(telefono2);
 		}
 	
 

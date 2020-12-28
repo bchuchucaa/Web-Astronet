@@ -68,7 +68,7 @@ public Empleado consultarEmpleado(int codigoEmpleado) throws Exception {
 		Empleado emp= empdao.read(codigoEmpleado);
 		if(emp==null)
 			throw new Exception("Empleado no existe");
-	
+		
 		return emp;
 	}
 

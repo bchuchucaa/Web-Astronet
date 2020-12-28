@@ -1,3 +1,4 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -30,6 +31,7 @@
 	
 	
 	<script type="text/javascript">
+	
 	function acceso(){
 		var dep=document.getElementById("dep");
 		var dir='Radio';
@@ -55,6 +57,18 @@
 	     window.open('./index.xhtml','mywindow', 'resizable=no,toolbar=no,scrollbars=yes,height=450,width=530,top=145,left=235');
 	     return true;
 	 }
+	
+	
+	
+	function CopyToLabel() {
+		alert("funcion peligrosa");
+        //Reference the TextBox.
+        var txtName = document.getElementById("itemselected");
+        
+        alert(txtName.value);
+ 
+    }
+	
 	
 	</script>
 	
@@ -214,7 +228,7 @@
 
 						<div class="form-group col-sm-3">
 							<div class="input-group marginBuscar">
-								<h:inputText class="form-control"
+								<h:inputText id="textce" class="form-control"
 									value="#{clienteController.cedula}"
 									a:placeholder="Cedula del Cliente" name="search" />
 								<div class="input-group-btn" id="txtCedula">
@@ -227,17 +241,26 @@
 						</div>
 
 						<div class="form-group col-sm-5">
-							<div class="input-group marginBuscar">
-								<h:inputText class="form-control"
-									value="#{clienteController.cliente.nombre}"
-									a:placeholder="Nombres del Cliente" name="search" />
-								<div class="input-group-btn">
-									<h:commandButton render="Nombres"
-										class="btn btn-default botonBuscar"
-										action="#{clienteController.buscarNombre()}"
-										image="/resources/assets/img/buscar.png" />
-								</div>
-							</div>
+						
+						 <h:form>
+        Enter Name:
+        <p:autoComplete id="itemselected" value="#{clienteController.inputName}"
+                        maxResults="10"
+                        completeMethod="#{clienteController.getSugerencias}" >
+                        
+                        </p:autoComplete>
+       <h:commandButton value="BUSCAR" onclick = "#{clienteController.findByNames()}" />
+                        
+
+    </h:form>
+    
+    <p:outputPanel id="outputPanel">
+        <p:outputLabel id="outlabel" value="#{clienteController.inputName}"/>
+    </p:outputPanel>
+    
+						
+						
+    
 						</div>
 						<div class="form-group col-sm-5">
 							<div class="input-group marginBuscar">
@@ -322,26 +345,33 @@
 					<h:outputText value = "REFERENCIA" />
 					<h:inputText class="cabecera" value="#{cliente.direccionReferencia}" />
 												</h:column>
-												<h:column>
+												<h:column >
 					<f:facet name="header"  data-sortable="true">Contacto</f:facet>
 												
 					<!-- ARRAY CON LOS TELEFONOS -->
 									<!-- TABLA TELEFONOS -->
-						<p:dataTable id="koka" value="#{cliente.telefonos}" var="t" styleClass="table"
-							headerClass="cabeceraTabla" rowClasses="filaPar,filaImpar">
+						<p:dataTable id="koka" value="#{cliente.telefonos}" var="t" 
+							headerClass="cabeceraTabla" rowClasses="filaPar,filaImpar"  style="width:40%">
 							
 							<p:column>
 								
 								<span class="glyphicon glyphicon-earphone"></span>
 								
-								<h:inputText value="#{t.tipoTelefono}" size="10" />
+								<h:outputText value="#{t.tipoTelefono}" size="10" />
 								
 							</p:column>
 							
 							
+							
 						</p:dataTable>
-						<h:panelGrid columns="1" cellpadding="5">
-   							 <h:commandButton value="EDITAR" icon="ui-icon-plusthick" type="button" onclick="PF('dlg1').show();" />
+						
+						
+						<h:panelGrid columns="1" cellpadding="1" style="width:40%">
+					
+   							 <h:commandButton value="EDITAR"  type="button" onclick="PF('dlg1').show();" class="btn btn-primary btnIn" >
+   							           
+   							 	<span class="glyphicon glyphicon-pencil"></span> 
+   							 </h:commandButton>
 
 						</h:panelGrid>
 						
@@ -354,7 +384,14 @@
 						
 							
 							</h:column>
+							
+							 <h:column>
+							 <f:facet name="header" data-field="Nombres" data-sortable="true">Direccion IP</f:facet>
+											
+							 		
+														
 							 
+							 </h:column>
 						</h:dataTable>
 					
 
@@ -414,11 +451,11 @@
 	
 	
 
-	<p:dialog header="Registrar Nuevo Telefono" widgetVar="dlg1" minHeight="40">
+	<p:dialog header="Editar telefonos" widgetVar="dlg1" minHeight="40">
 
-					<h:form>
+					<h:form id="form_pop1">
 	
-						<h:dataTable value="#{clienteController.telefonos}" var="t" styleClass="table"
+						<h:dataTable id="tabla_pop" value="#{clienteController.telefonos}" var="t" styleClass="table"
 							headerClass="cabeceraTabla" rowClasses="filaPar,filaImpar">
 							
 							<h:column>
@@ -430,27 +467,30 @@
 								
 							</h:column>
 							
-							<h:column>
-							<f:facet name="header">TIPO</f:facet>
-							<h:inputText value="#{t.telNumero}" size="10" />
-							</h:column>
+
 
 							<!-- BOTONES -->
 							<h:column>
+							<f:facet name="header">ACCION</f:facet>
 								<h:commandButton value="Editar" onclick="#{clienteController.editTelefono(t)}" styleClass="btn btn-primary"/>
+								<h:commandButton value="Eliminar" onclick="#{telefonoController.deleteTelefono(t)}" styleClass="btn btn-danger"/>
 								
 							</h:column>
 							
 							
 						</h:dataTable>
-						</h:form>
-						<h:form>
+								<h3>Nuevo telefono</h3>
 								<h:outputText value="numero"  />
 								<h:inputText value="#{clienteController.nuevoNumero}" size="10" />
 								<h:outputText value="Tipo"  />
 								<h:inputText value="#{clienteController.nuevoTipoTelefono}" size="10" />
-								<h:commandButton value="Guardar" icon="ui-icon-disk" onclick="#{clienteController.newTelefono()}"  update="koka" />
 							
+								<h:commandButton value="Guardar" action="#{clienteController.newTelefono()}" styleClass="btn btn-primary">
+								
+								
+								</h:commandButton>
+								
+								
 					</h:form>
 					
 						</p:dialog>

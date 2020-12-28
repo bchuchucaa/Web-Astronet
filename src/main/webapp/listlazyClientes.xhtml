@@ -12,7 +12,7 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Base Clientes</title>
+	<title>Base Clientes Lazy</title>
 
 	<meta
 		content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
@@ -96,64 +96,74 @@
 	<div class="wrapper">
 
 		<!--Cabecera-->
-		<div class="centerTexto">Registro Clientes</div>
+		<div class="centerTexto">Registro Clientes Lazy Datatable</div>
 
 		<div class="fresh-table toolbar-color-azure full-screen-table">
 
-			<h:dataTable style="text-align:center;"
+			<p:dataTable style="text-align:center;"
 				value="#{clienteController.listadoCliente}" var="cliente"
-				id="fresh-table" class="table">
+				id="fresh-table" class="table" lazy="true"
+                paginator="true"
+                rows="10"   paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                rowsPerPageTemplate="10,50,100" filteredValue="#{clienteController.filtradoCliente}"
+                widgetVar="carsTable2" globalFilterFunction="#{clienteController.globalFilterFunction}">
+             
+         <f:facet name="header">
+            <p:outputPanel>
+                <h:outputText value="Search all fields using globalFilterFunction:" />
+                <p:inputText id="globalFilter" onkeyup="PF('carsTable2').filter()" style="width:150px" placeholder="Enter keyword"/>
+            </p:outputPanel>
+        </f:facet>
 
 
-				<h:column>
+				<p:column>
 					<f:facet name="header" data-field="cedula" data-sortable="true">Cedula</f:facet>
 											#{cliente.cedula}
-												</h:column>
+												</p:column>
 
-				<h:column>
-					<f:facet name="header" data-field="salary" data-sortable="true">Nombres</f:facet>
-												#{cliente.nombre}
-											</h:column>
+				<p:column>
+					<f:facet name="header" data-field="salary" data-sortable="true" >Nombres</f:facet>
+												#{cliente.nombre} 
+											</p:column>
 
 <!--  
 				<h:column>
 					<f:facet name="header" data-field="salary" data-sortable="true">Convencional</f:facet>
 												#{cliente.convencional}
 											</h:column>
-
 				<h:column>
 				
 					<f:facet name="header" data-field="salary" data-sortable="true">Celular</f:facet>
 												#{cliente.celular}
 											</h:column>
 -->
-				<h:column>
+				<p:column>
 				
 					<f:facet name="header" data-field="salary" data-sortable="true">Direccion Principal</f:facet>
 												#{cliente.direccionPrincipal}
-											</h:column>
-				<h:column>
+											</p:column>
+				<p:column>
 					<f:facet name="header" data-field="salary" data-sortable="true">Direccion Secundaria</f:facet>
 						#{cliente.direccionSecundaria}
-						</h:column>
-				<h:column>
+						</p:column>
+				<p:column>
 					<f:facet name="header" data-field="salary" data-sortable="true">Direccion Referencia</f:facet>
 						#{cliente.direccionReferencia}
-						</h:column>
+						</p:column>
 
 
-				<h:column>
+				<p:column>
 					<f:facet name="header" data-field="salary" data-sortable="true">Email</f:facet>
 												#{cliente.email}
-											</h:column>
-				<h:column>
+											</p:column>
+				<p:column>
 					<f:facet name="header" data-field="salary" data-sortable="true">Latitud</f:facet>
 												#{cliente.latitud}
-											</h:column>
-				<h:column>
+											</p:column>
+				<p:column>
 					<f:facet name="header" data-field="salary" data-sortable="true">Longitud</f:facet>
 						#{cliente.longitud}
-						</h:column>
+						</p:column>
 				<!--  
 				<h:column>
 					<f:facet name="header" data-field="country" data-sortable="true">Numero Contrato</f:facet>
@@ -165,7 +175,6 @@
 					</h:dataTable>
 				</h:column>
 				
-
 				<h:column>
 					<f:facet name="header" data-field="city">Fecha Contrato</f:facet>
 					<h:dataTable style="text-align:center;" value="#{cliente.servicio}"
@@ -175,7 +184,6 @@
 						</h:column>
 					</h:dataTable>
 				</h:column>
-
 				<h:column>
 					<f:facet name="header" data-field="city">Direccion IP</f:facet>
 					<h:dataTable style="text-align:center;" value="#{cliente.servicio}"
@@ -185,7 +193,6 @@
 						</h:column>
 					</h:dataTable>
 				</h:column>
-
 				<h:column>
 					<f:facet name="header" data-field="city">PLAN</f:facet>
 					<h:dataTable style="text-align:center;" value="#{cliente.servicio}"
@@ -195,7 +202,6 @@
 						</h:column>
 					</h:dataTable>
 				</h:column>
-
 				<h:column>
 					<f:facet name="header" data-field="city">Contraseña</f:facet>
 					<h:dataTable style="text-align:center;" value="#{cliente.servicio}"
@@ -205,7 +211,6 @@
 						</h:column>
 					</h:dataTable>
 				</h:column>
-
 				<h:column>
 					<f:facet name="header" data-field="city">Observaciones</f:facet>
 					<h:dataTable style="text-align:center;" value="#{cliente.servicio}"
@@ -216,7 +221,7 @@
 					</h:dataTable>
 				</h:column>
 				-->
-				<h:column>
+				<p:column>
 				
 					<f:facet name="header" data-field="actions">Acciones</f:facet>
 					<h:form>
@@ -226,67 +231,16 @@
 
 
 					</h:form>
-				</h:column>
+				</p:column>
 
-			</h:dataTable>
+			</p:dataTable>
 
 		</div>
 
 
 	</div>
+	
 
-
-
-	<script>
-  var $table = $('#fresh-table')
-
-  window.operateEvents = {
-    'click .edit': function (e, value, row, index) {
-      alert('You click edit icon, row: ' + JSON.stringify(row))
-      console.log(value, row, index)
-    }
-  }
-
-  function operateFormatter(value, row, index) {
-    return [
-      '<a rel="tooltip" class="table-action edit" href="javascript:void(0)" title="Edit">',
-        '<i class="fa fa-edit"></i>',
-      '</a>'
-    ].join('')
-  }
-
-  $(function () {
-    $table.bootstrapTable({
-      classes: 'table table-hover table-striped',
-      toolbar: '.toolbar',
-
-      search: true,
-      showRefresh: true,
-      showToggle: true,
-      showColumns: true,
-      pagination: true,
-      striped: true,
-      sortable: true,
-      height: $(window).height(),
-      pageSize: 25,
-      pageList: [25, 50, 100],
-
-      formatShowingRows: function (pageFrom, pageTo, totalRows) {
-        return ''
-      },
-      formatRecordsPerPage: function (pageNumber) {
-        return pageNumber + ' Filas Visibles'
-      }
-    })
-
-    $(window).resize(function () {
-      $table.bootstrapTable('resetView', {
-        height: $(window).height()
-      })
-    })
-  })
-  
-</script>
 
 	<script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

@@ -49,13 +49,13 @@ public class TelefonoController implements Serializable {
 	private String cedula;
 	private String nombre;
 	private Telefono telefonoNuevo;
+	private TelefonoON telOn;
 
 	/**
 	 * Fin de la declaracion
 	 */
 
-	@ManagedProperty(value = "#{telefono}")
-	private EmpleadoController empCon;
+
 
 	/**
 	 * Inyeccion de las clases ON
@@ -190,6 +190,21 @@ public class TelefonoController implements Serializable {
 		return telefonos;
 	}
 	 */
+	
+public void deleteTelefono(Telefono telefono) {
+		
+		try {
+			telOn.delete(telefono);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Eliminado correctamente"));
+
+		}catch(Exception e) {
+			System.out.println("Algo salio mal eliminando el telefono "+ e.getMessage());
+		}
+
+		
+		
+		
+	}
 		
 
 

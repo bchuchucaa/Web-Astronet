@@ -20,6 +20,7 @@ import astronet.ec.modelo.Agendamiento;
 import astronet.ec.modelo.Cliente;
 import astronet.ec.modelo.Empleado;
 import astronet.ec.modelo.Equipo;
+import astronet.ec.modelo.EquipoServicio;
 import astronet.ec.modelo.Instalacion;
 import astronet.ec.modelo.Registro;
 import astronet.ec.modelo.Servicio;
@@ -33,6 +34,11 @@ import astronet.ec.on.RegistroON;
 import astronet.ec.on.ServicioON;
 import astronet.ec.on.TelefonoON;
 import astronet.ec.vista.InstalacionController.ServicioFA;
+
+//SICHA IMPORT
+
+import java.util.Locale;
+
 
 @ManagedBean
 @ViewScoped
@@ -57,6 +63,7 @@ public class ClienteController implements Serializable {
 	private Telefono nuevoTelefono;
 	private String nuevoNumero;
 	private String nuevoTipoTelefono;
+	private List<EquipoServicio> serviciosCliente;
 	/**
 	 * Declaraacion de variables
 	 */
@@ -74,6 +81,13 @@ public class ClienteController implements Serializable {
 	public int idEmpl;
 
 	private int codigoReg;
+	public String inputName;
+	
+	public List<String>listaSugerencias;
+	public List<Cliente> filtradoCliente;
+	
+	
+	public EquipoServicio clienteip;
 
 	/**
 	 * Fin de la declaracion
@@ -134,11 +148,26 @@ public class ClienteController implements Serializable {
 		listaInstalaciones = inson.getListadoInstalacion();
 		telefonos = new ArrayList<Telefono>();
 		equipo = new Equipo();
-		
+		serviciosCliente= new ArrayList<EquipoServicio>();
+		listaSugerencias= new ArrayList<String>();
 		
 		
 
 	}
+	
+	
+
+	public List<EquipoServicio> getServiciosCliente() {
+		return serviciosCliente;
+	}
+
+
+
+	public void setServiciosCliente(List<EquipoServicio> serviciosCliente) {
+		this.serviciosCliente = serviciosCliente;
+	}
+
+
 
 	/**
 	 * Metodo para la accion de editar los clientes
@@ -358,10 +387,24 @@ public class ClienteController implements Serializable {
 	
 	
 	
+	
+	
 
 	/*
 	 * Hasta aqui llega la creacion de los getters and setters
 	 */
+
+
+	public String getInputName() {
+		return inputName;
+	}
+
+
+
+	public void setInputName(String inputName) {
+		this.inputName = inputName;
+	}
+
 
 
 	public List<Telefono> getTelefonos() {
@@ -482,6 +525,22 @@ public class ClienteController implements Serializable {
 	public void setTelefono(Telefono telefono) {
 		this.telefono = telefono;
 	}
+	
+	
+	
+	
+
+	public List<String> getListaSugerencias() {
+		return listaSugerencias;
+	}
+
+
+
+	public void setListaSugerencias(List<String> listaSugerencias) {
+		this.listaSugerencias = listaSugerencias;
+	}
+
+
 
 	public String buscarCedula1() {
 try {
@@ -959,6 +1018,18 @@ try {
 	
 	
 
+	public EquipoServicio getClienteip() {
+		return clienteip;
+	}
+
+
+
+	public void setClienteip(EquipoServicio clienteip) {
+		this.clienteip = clienteip;
+	}
+
+
+
 	/**
 	 * Metodo para guardar los datos de la instalacion
 	 * 
@@ -1042,9 +1113,7 @@ try {
 	//Metodo para actualizar los telefonos;
 	
 	public void editTelefono(Telefono telefono) {
-		System.out.println("Telefono a actualizar");
-		System.out.println(telefono.getTelNumero());
-		System.out.println(telefono.getTipoTelefono());
+
 		try {
 			this.telefono=telefono;
 			telOn.updateTelefono(telefono);
@@ -1061,16 +1130,17 @@ try {
 	
 	}
 	
+	
+	
 	public void newTelefono() {
 		if(nuevoTipoTelefono!=null && nuevoNumero!=null) {
 		try {
 				nuevoTelefono=new Telefono(telOn.getMaxId()+1,nuevoNumero,nuevoTipoTelefono,clion.getClienteCedula(cliente.getCedula()));
 				telefonos.add(nuevoTelefono);
 				telOn.createTelefono(nuevoTelefono);
-				this.telefonos.add(nuevoTelefono);
 			
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Telefono Agregado Correctamente"));
-			System.out.println("ALL RIGHT BABE");
+		
 		}catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se pudo agregar el telefono"));
 
@@ -1081,7 +1151,127 @@ try {
 		
 		
 	}
+	/**
+	 * 
+	 */
+	
+	
+	
+	//SICHA METODS
+	/**
+	 * funcion global para buscar en data table
+	 */
+	
+	public boolean globalFilterFunction(Object value, Object filter, Locale locale) {
+        String filterText = (filter == null) ? null : filter.toString().trim().toLowerCase();
+        if (filterText == null || filterText.equals("")) {
+            return true;
+        }
+        int filterInt = getInteger(filterText);
+ 
+        Cliente cli = (Cliente) value;
+        return cli.getCedula().toLowerCase().contains(filterText)
+                || cli.getApellidos().toLowerCase().contains(filterText)
+                || cli.getNombre().toLowerCase().contains(filterText)
+                || cli.getEmail().toLowerCase().contains(filterText)
+                || cli.getLatitud().toLowerCase().contains(filterText)
+                || cli.getLongitud().toLowerCase().contains(filterText)
+                || cli.getDireccionReferencia().toLowerCase().contains(filterText)
+        		|| cli.getDireccionSecundaria().toLowerCase().contains(filterText);
+                /*
+                || cli.isSold() ? "sold" : "sale").contains(filterText)
+                || cli.getYear() < filterInt
+                || cli.getPrice() < filterInt;
+                */
+    }
+	
+	private int getInteger(String string) {
+        try {
+            return Integer.valueOf(string);
+        }
+        catch (NumberFormatException ex) {
+            return 0;
+        }
+    }
 
+	//Metod to autocomplete
+	
+	public List<String> getSugerencias(String enteredValue) {
+		List<String> coincidencias= new ArrayList<String>();
+				
+			System.out.println("NOMBRE BUSCADO");
+			System.out.println(enteredValue);
+			Cliente clie;
+			
+			for (int i = 0; i < listadoCliente.size(); i++) {
+				
+				clie = (Cliente)listadoCliente.get(i);
+				String nombre= clie.getNombre()+" "+clie.getApellidos()+"/"+clie.getCedula();
+				String apellido= clie.getApellidos();
+				String nombres= clie.getNombre();
+			
+				try {
+					if(	nombres.toLowerCase().startsWith(enteredValue.toLowerCase()) || apellido.toLowerCase().startsWith(enteredValue.toLowerCase())) {
+						System.out.println("Ingresa");
+						
+						coincidencias.add(nombre);
+					}
+					
+				}catch (Exception e) {
+					System.out.println("Exception "+ e);
+				}
+				
+				
+
+			}
+			
+			
+
+		return coincidencias;
+		
+			
+		
+	}
+	
+	public String findByNames() {
+		System.out.println("THIS IS THE IDENTIFICACION OF CLIENT "+ inputName);
+
+		try {
+			inputName=inputName.substring(inputName.lastIndexOf("/") + 1);
+		
+			System.out.println(inputName);
+			cliente = clion.getClienteCedula(inputName);
+			setTelefonos(telOn.getTelefonos(cliente));
+			for (Telefono telefono : telefonos) {
+				System.out.println(telefono.getTipoTelefono());
+				System.out.println("-----kiko----");
+			}
+			registro.setIdClienteTemp(cliente.getId());
+			cliente.setTelefonos(telefonos);
+			fechaHora();
+			datoR();
+			setNuevoTelefono(null);
+			setNuevoTipoTelefono(null);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
+
+
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("NO HAY TEXTO ");
+		}
+		return null;
+		
+		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
 	

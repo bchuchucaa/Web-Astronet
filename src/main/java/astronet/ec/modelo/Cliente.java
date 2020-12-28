@@ -32,19 +32,19 @@ public class Cliente implements Serializable {
 	@Id
 	@Column(name = "cli_id")
 	@GeneratedValue(generator = "secuenciaCliente")
-	@SequenceGenerator(name = "secuenciaCliente", initialValue = 6000)
+	@SequenceGenerator(name = "secuenciaCliente", initialValue = 14)
 	private int id;
 	
 	@Column(name = "cli_cedula")
 	private String cedula;
 	
 	@Column(name = "cli_nombres")
-	private String nombre;
+	public  String nombre;
 	
 
 	@Column(name = "cli_apellidos")
 	
-	private String apellidos;
+	public  String apellidos;
 	
 	
 	@Column(name = "cli_email")
@@ -229,6 +229,8 @@ public class Cliente implements Serializable {
 		return true;
 	}
 
+	
+	
 	
 
 }
