@@ -28,6 +28,7 @@ public class ClienteDAO {
 		
 	}
 	
+	//kkhh
 	public void create(Cliente cli) {
 		em.persist(cli);
 		
@@ -65,7 +66,8 @@ public class ClienteDAO {
 		Cliente cli = read(id);
 		em.remove(cli);
 	}
-	 public List<Cliente> getCliente() {
+
+	public List<Cliente> getCliente() {
 		String jpql = "SELECT cliente FROM Cliente cliente ";
 		Query q = em.createQuery(jpql, Cliente.class);
 		List<Cliente> clientes = q.getResultList();
