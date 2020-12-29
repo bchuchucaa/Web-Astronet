@@ -38,39 +38,11 @@ public class LoginBean {
 		String direccion=null;
 		try {
 			empleado = empon.login(empleado.getEmail(), empleado.getPassword());
-			if (empleado != null) {
-				
-				
-				String department=empleado.getDepartamento();
+			if (empleado != null) {										
 				HttpSession session = SessionUtils.getSession();
-				switch (department) {
-				case "Radio":  					
-					session.setAttribute("username", empleado);
-					System.out.println("login exitoso" + " " + empleado.getId() + " " + empleado.getNombre());
-					//return "agendamiento?faces-redirect=true&id=" + codigo;
-					direccion="radio";
-					break;
-				case "Administrador":  					
-					session.setAttribute("username", empleado);				
-					System.out.println("login exitoso" + " " + empleado.getId() + " " + empleado.getNombre());
-					direccion="viewAdmin?faces-redirect=true&id="+empleado.getId();
-					//direccion="viewAdmin";
-					break;
-				case "Tecnico Radio":  
-					direccion="viewTechRadio";
-					break;
-				case "Tecnico Fibra":  
-					direccion="viewTechFibra";
-					break;
-				case "Contabilidad":  
-					direccion="viewUserContabilidad";
-					break;
-				case "Secretaria":  
-					direccion="callcenter";
-					break;
-				default:
-					break;
-				}			
+				session.setAttribute("username", empleado);				
+				System.out.println("login exitoso" + " " + empleado.getId() + " " + empleado.getNombre());
+				direccion="viewUser?faces-redirect=true&id="+empleado.getId();	
 			} 
 
 		}catch (Exception e) {
@@ -83,7 +55,6 @@ public class LoginBean {
 	}
 	
 	public String logout() {
-
 		HttpSession session = SessionUtils.getSession();
 		session.invalidate();
 		return "index.xhtml";

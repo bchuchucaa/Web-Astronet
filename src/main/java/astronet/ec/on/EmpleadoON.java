@@ -19,6 +19,9 @@ public class EmpleadoON {
 		empdao.save(emp);
 	}
 	
+	public void eliminarByID(int id) {
+		empdao.deleteEmpleadoByID(id);
+	}
 	public List<Empleado> getEmpleado() {
 		return empdao.getEmpleado();
 	}

@@ -72,6 +72,10 @@ body{
   color: #fbfbfc;
 }
 
+.logoAstronet {
+       background-image: url(resources/assets/img/logo.png)
+}
+
 @media (max-width: 767px) {
   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
     color: #ecf0f1;

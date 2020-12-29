@@ -141,6 +141,7 @@ public class ClienteController implements Serializable {
 
 	/**
 	 * Metodo para la accion de editar los clientes
+	 * ESTE METODO NO TIENE SENTIDO ASI QUE AHORA NO SERA LLAMADO 
 	 */
 	public void loadData() {
 		if (id == 0)//una especie de seguridad cuando no hay clientes

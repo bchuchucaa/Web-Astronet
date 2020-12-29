@@ -7,21 +7,26 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
 	<f:metadata>
-		<f:viewParam name="id" value="#{empleadoControllerBean.idUser}"></f:viewParam>
+		<f:viewParam name="idUser" value="#{empleadoControllerBean.idUser}"></f:viewParam>
+		<f:viewParam name="idEmpleado" value="#{empleadoControllerBean.id}"></f:viewParam>
 		<f:viewAction action="#{empleadoControllerBean.init()}" />
+		<!-- Para cargar la info del empleado a editar-->
+		<f:viewAction action="#{empleadoControllerBean.loadData()}" />
 	</f:metadata>
-	<title>Registro Empleado</title>
+	<title>Editar datos Empleado</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet"
 		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="resources/assets/css/table.css" />
 	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
+	<link rel="stylesheet" href="resources/assets/css/instaEdicion.css" />
 
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" />
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" />
+	<script type="text/javascript" src="resources/assets/js/permisos.js" />
 </h:head>
 <body>
 
@@ -43,7 +48,6 @@
 				<ul class="dropdown-menu">
 					<li><a href="registro.xhtml">Registros</a></li>
 					<li><a href="listadoInstalaciones.xhtml">Instalaciones</a></li>
-					<li><a href="instalacion.xhtml">N Instalacion</a></li>
 
 				</ul></li>
 
@@ -62,12 +66,10 @@
 			<li><a id="dep">
 					#{empleadoControllerBean.empUser.rolEmpleado.nombre}</a></li>
 			<li><h:form>
-					<a> <h:commandButton class="btnExit"
-							action="#{loginBean.logout()}" value="Exit"
-							image="./resources/assets/img/exit.png" />
+					<a> <h:commandButton class="btnExit" action="#{login.logout()}"
+							value="Exit" image="./resources/assets/img/exit.png" />
 					</a>
 				</h:form></li>
-
 		</ul>
 
 	</div>
@@ -80,25 +82,19 @@
 		<h2></h2>
 	</div>
 
-
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="well well-sm">
+
 					<h:form class="form-horizontal">
-						<legend class="text-center header">Registro Empleado</legend>
-						<div>
-							<h:button class="btn-success btnEmpleado"
-								outcome="listadoEmpleado" value="Lista Empleados">
-								<f:param name="id" value="#{empleadoControllerBean.empUser.id}" />
-							</h:button>
-						</div>
+						<legend class="text-center header">Editar Datos Empleado</legend>
 						<div class="form-group">
 							<label class="control-label col-sm-2" for="Cedula">Cédula:</label>
 							<div class="col-sm-8">
-								<h:inputText type="text" class="form-control"
+								<h:inputText type="text" class="form-control" id="Cedula"
 									value="#{empleadoControllerBean.empleado.cedula}"
-									a:placeholder="Cedula" required="true" />
+									a:placeholder="Cedula" />
 							</div>
 						</div>
 						<div class="form-group">
@@ -106,16 +102,15 @@
 							<div class="col-sm-8">
 								<h:inputText type="text" class="form-control" id="Nombres"
 									value="#{empleadoControllerBean.empleado.nombre}"
-									a:placeholder="Nombres" required="true" />
+									a:placeholder="Nombres" />
 							</div>
 						</div>
-
 						<div class="form-group">
-							<label class="control-label col-sm-2" for="Cedular">Cedular:</label>
+							<label class="control-label col-sm-2" for="Celular">Celular:</label>
 							<div class="col-sm-8">
 								<h:inputText type="text" class="form-control" id="Celular"
 									value="#{empleadoControllerBean.empleado.celular}"
-									a:placeholder="Celular" required="true" />
+									a:placeholder="Celular" />
 							</div>
 						</div>
 						<div class="form-group">
@@ -123,7 +118,7 @@
 							<div class="col-sm-8">
 								<h:inputText type="text" class="form-control" id="Email"
 									value="#{empleadoControllerBean.empleado.email}"
-									a:placeholder="Email" required="true" />
+									a:placeholder="Email" />
 							</div>
 						</div>
 						<div class="form-group">
@@ -141,10 +136,13 @@
 								<!-- <h:inputText type="text" class="form-control" id="Departamento"
 									value="#{empleadoControllerBean.empleado.departamento}"
 									a:placeholder="Departamento" required="true" /> -->
-								<h:selectOneMenu
-									value="#{empleadoControllerBean.rolSelected}"
+								<h:selectOneMenu value="#{empleadoControllerBean.rolSelected}"
 									id="Departamento">
-									<f:selectItem itemLabel="Seleccionar" itemalue="Seleccionar"/>
+									<f:selectItem
+										itemLabel="#{empleadoControllerBean.empleado.rolEmpleado.nombre}"
+										itemValue="#{empleadoControllerBean.empleado.rolEmpleado.nombre}" 
+										noSelectionOption="true"/>
+										
 									<f:selectItems
 										value="#{empleadoControllerBean.listaRolesEmpleados}"
 										var="rolEmpleado" itemLabel="#{rolEmpleado.nombre}"
@@ -152,25 +150,24 @@
 								</h:selectOneMenu>
 							</div>
 						</div>
-
-						<!-- Modal footer -->
 						<div class="modal-footer">
-							<h:commandButton
+
+							<h:commandButton class="btn btn-primary" data-dismiss="modal"
 								action="#{empleadoControllerBean.guardarEmpleado()}"
-								value="Guardar" class="btn btn-primary" />
+								value="Guardar" />
 							<h:button class="btn btn-danger" outcome="listadoEmpleado"
 								value="Cancelar">
 								<f:param name="id" value="#{empleadoControllerBean.empUser.id}" />
 							</h:button>
+
 						</div>
+
 					</h:form>
+
 				</div>
 			</div>
 		</div>
 	</div>
-
-
-
 
 
 </body>
