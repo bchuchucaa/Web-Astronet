@@ -25,6 +25,7 @@ public class ClienteON {
 	@Inject
 	private Registro registro;
 	
+	//Probando
 	
 
 	public void guardar(Cliente cli) {
