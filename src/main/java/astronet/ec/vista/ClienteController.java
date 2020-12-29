@@ -87,11 +87,11 @@ public class ClienteController implements Serializable {
 	private String cedula;
 	private String nombre;
 	private String apellidos;
+
 	public String getApellidos() {
 		return apellidos;
 	}
 
-	
 	private String ip;
 	private String password;
 	private String serial;
@@ -109,6 +109,7 @@ public class ClienteController implements Serializable {
 	public String soluciones;
 	private String empleados1;
 	private String servicioRB;
+	public List<String> listaSugerencias;
 
 	private String servicioElegido;
 	private String numContrato;
@@ -132,6 +133,7 @@ public class ClienteController implements Serializable {
 
 	private List<String> opciones;
 	private List<String> tipoServicios;
+	public List<Cliente> filtradoCliente;
 	private List<Equipo> listadoAntenas;
 	private List<Plan> listadoPlanes;
 	private List<Plan> listadoPlanesTmp;
@@ -190,6 +192,7 @@ public class ClienteController implements Serializable {
 		listadoPlanesTmp = planOn.getListadoPlan();
 		opciones = new ArrayList<String>();
 		tipoServicios = new ArrayList<String>();
+		listaSugerencias= new ArrayList<String>();
 
 		listadoPlanes.add(listadoPlanesTmp.get(0));
 		listadoPlanes.add(listadoPlanesTmp.get(1));
@@ -293,9 +296,11 @@ public class ClienteController implements Serializable {
 	public void setItem(String item) {
 		this.item = item;
 	}
+
 	public void setApellidos(String apellidos) {
 		this.apellidos = apellidos;
 	}
+
 
 	public ClienteON getClion() {
 		return clion;
@@ -308,7 +313,6 @@ public class ClienteController implements Serializable {
 	public void setCelular(String celular) {
 		this.celular = celular;
 	}
-
 
 	public String getAntenaElegida() {
 		return antenaElegida;
@@ -1904,18 +1908,21 @@ public class ClienteController implements Serializable {
 	}
 
 	public void newTelefono() {
-		if(nuevoTipoTelefono!=null && nuevoNumero!=null) {
-		try {
-				nuevoTelefono=new Telefono(telOn.getMaxId()+1,nuevoNumero,nuevoTipoTelefono,clion.getClienteCedula(cliente.getCedula()));
+		if (nuevoTipoTelefono != null && nuevoNumero != null) {
+			try {
+				nuevoTelefono = new Telefono(telOn.getMaxId() + 1, nuevoNumero, nuevoTipoTelefono,
+						clion.getClienteCedula(cliente.getCedula()));
 				telefonos.add(nuevoTelefono);
 				telOn.createTelefono(nuevoTelefono);
 
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Telefono Agregado Correctamente"));
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Telefono Agregado Correctamente"));
 
-		}catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se pudo agregar el telefono"));
-			
-		}
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se pudo agregar el telefono"));
+
+			}
 		}
 	}
 
