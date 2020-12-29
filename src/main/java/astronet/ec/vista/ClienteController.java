@@ -1,12 +1,18 @@
 package astronet.ec.vista;
 
 import java.io.IOException;
+
 import java.io.Serializable;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -14,7 +20,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 
 import astronet.ec.dao.TelefonoDAO;
@@ -87,7 +98,9 @@ public class ClienteController implements Serializable {
 	public String soluciones;
 	private String empleados1;
 	private String servicioRB;
-
+	private String servicioElegido;
+	private String numContrato;
+	private String fecha;
 	private String item;
 	private String antenaElegida;
 	private String planElegida;
@@ -102,8 +115,10 @@ public class ClienteController implements Serializable {
 	private String antenaTmp;
 	private String planTmp;
 	private String router;
+	private boolean rendered;
 
 	private List<String> opciones;
+	private List<String> tipoServicios;
 	private List<Equipo> listadoAntenas;
 	private List<Plan> listadoPlanes;
 	private List<Plan> listadoPlanesTmp;
@@ -136,15 +151,27 @@ public class ClienteController implements Serializable {
 
 		listadoPlanes = new ArrayList<Plan>();
 		equipo = new Equipo();
-		listadoAntenas = eqOn.getListadoAntenas();
+		servicioElegido = "Fibra";
+		if (servicioElegido.equals("Radio")) {
+
+			listadoAntenas = eqOn.getListadoAntenas();
+		} else {
+			listadoAntenas = eqOn.getListadoEquiposFibra();
+		}
+		System.out.println("Servicio: " + servicioElegido);
 		listadoPlanesTmp = planOn.getListadoPlan();
 		opciones = new ArrayList<String>();
+		tipoServicios = new ArrayList<String>();
+
 		listadoPlanes.add(listadoPlanesTmp.get(0));
 		listadoPlanes.add(listadoPlanesTmp.get(1));
 		listadoPlanes.add(listadoPlanesTmp.get(2));
 
 		opciones.add("Si");
 		opciones.add("No");
+
+		tipoServicios.add("Radio");
+		tipoServicios.add("Fibra");
 
 	}
 
@@ -244,15 +271,32 @@ public class ClienteController implements Serializable {
 	}
 
 	public void setAntenaElegida(String antenaElegida) {
+
 		this.antenaElegida = antenaElegida;
 	}
 
 	public List<Equipo> getListadoAntenas() {
-		return eqOn.getListadoAntenas();
+		if (servicioEdit.getTipoServicio() != null) {
+			if (servicioEdit.getTipoServicio().equals("radio")) {
+				return eqOn.getListadoAntenas();
+			} else {
+				System.out.println("Servicio: " + servicioEdit.getTipoServicio());
+				return eqOn.getListadoEquiposFibra();
+			}
+		} else {
+			return null;
+		}
 	}
 
 	public void setListadoAntenas(List<Equipo> listadoAntenas) {
-		this.listadoAntenas = listadoAntenas;
+		if (servicioElegido.equals("Radio")) {
+
+			this.listadoAntenas = eqOn.getListadoAntenas();
+
+		} else {
+			this.listadoAntenas = eqOn.getListadoEquiposFibra();
+			System.out.println("Size=" + listadoAntenas.size());
+		}
 	}
 
 	public String getEmail() {
@@ -999,7 +1043,24 @@ public class ClienteController implements Serializable {
 	}
 
 	public List<Plan> getListadoPlanes() {
-		return listadoPlanes;
+		if (servicioEdit.getTipoServicio() != null) {
+			if (servicioEdit.getTipoServicio().equals("radio")) {
+				List<Plan> planRadio = new ArrayList<Plan>();
+				planRadio.add(listadoPlanesTmp.get(0));
+				planRadio.add(listadoPlanesTmp.get(1));
+				planRadio.add(listadoPlanesTmp.get(2));
+
+				return planRadio;
+			} else {
+				List<Plan> planFibra = new ArrayList<Plan>();
+				planFibra.add(listadoPlanesTmp.get(3));
+				planFibra.add(listadoPlanesTmp.get(4));
+				planFibra.add(listadoPlanesTmp.get(5));
+
+				return planFibra;
+			}
+		} else
+			return null;
 	}
 
 	public void setListadoPlanes(List<Plan> listadoPlanes) {
@@ -1034,6 +1095,14 @@ public class ClienteController implements Serializable {
 		return planElegida;
 	}
 
+	public String getServicioElegido() {
+		return servicioElegido;
+	}
+
+	public void setServicioElegido(String servicioElegido) {
+		this.servicioElegido = servicioElegido;
+	}
+
 	public void setPlanElegida(String planElegida) {
 		this.planElegida = planElegida;
 	}
@@ -1050,6 +1119,14 @@ public class ClienteController implements Serializable {
 		return opciones;
 	}
 
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+
 	public void setOpciones(List<String> opciones) {
 		this.opciones = opciones;
 	}
@@ -1064,6 +1141,14 @@ public class ClienteController implements Serializable {
 
 	public String getAntenaTmp() {
 		return antenaTmp;
+	}
+
+	public boolean isRendered() {
+		return rendered;
+	}
+
+	public void setRendered(boolean rendered) {
+		this.rendered = rendered;
 	}
 
 	public void setAntenaTmp(String antenaTmp) {
@@ -1086,8 +1171,24 @@ public class ClienteController implements Serializable {
 		this.servicioTmp = servicioTmp;
 	}
 
+	public String getNumContrato() {
+		return numContrato;
+	}
+
+	public void setNumContrato(String numContrato) {
+		this.numContrato = numContrato;
+	}
+
 	public EquipoServicio getEqServEdit() {
 		return eqServEdit;
+	}
+
+	public List<String> getTipoServicios() {
+		return tipoServicios;
+	}
+
+	public void setTipoServicios(List<String> tipoServicios) {
+		this.tipoServicios = tipoServicios;
 	}
 
 	public void setEqServEdit(EquipoServicio eqServEdit) {
@@ -1189,6 +1290,13 @@ public class ClienteController implements Serializable {
 		this.planTmp = servicioEdit.getPlan().getTipoPlan();
 		this.router = servicioEdit.getRouterVendido();
 
+		if (servicioEdit.getTipoServicio().equals("radio")) {
+			setListadoAntenas(eqOn.getListadoAntenas());
+		} else {
+			System.out.println("Servicio: " + servicioEdit.getTipoServicio());
+			setListadoAntenas(eqOn.getListadoEquiposFibra());
+
+		}
 	}
 
 	/**
@@ -1375,6 +1483,7 @@ public class ClienteController implements Serializable {
 	}
 
 	public String crearCliente() {
+
 		Telefono tele = new Telefono();
 		Telefono teleMovil = new Telefono();
 		Cliente cli = new Cliente();
@@ -1404,34 +1513,58 @@ public class ClienteController implements Serializable {
 
 		telOn.guardar(teleMovil);
 
-		Plan planTmp = new Plan();
-		Equipo antenaTmp = new Equipo();
-		EquipoServicio eqServicio = new EquipoServicio();
+		if (servicioElegido.equals("Radio")) {
+			Plan planTmp = new Plan();
+			Equipo antenaTmp = new Equipo();
+			EquipoServicio eqServicio = new EquipoServicio();
 
-		antenaTmp = eqOn.buscarAntena(Integer.parseInt(antenaElegida));
-		planTmp = planOn.buscarPlan(Integer.parseInt(planElegida));
-		System.out.println("plan" + planTmp.getId());
-		System.out.println("antena" + antenaTmp.getId());
+			antenaTmp = eqOn.buscarAntena(Integer.parseInt(antenaElegida));
+			planTmp = planOn.buscarPlan(Integer.parseInt(planElegida));
 
-		servicioTmp.setTipoServicio("radio");
-		servicioTmp.setNumeroContrato("0000" + cli.getId());
-		java.util.Date fecha = new Date();
-		System.out.println("esta es la fecha actual" + fecha.toString());
-		servicioTmp.setCliente(cli);
-		servicioTmp.setFechaContrato(fecha.toString());
-		servicioTmp.setRouterVendido(this.routerVendido);
-		servicioTmp.setObservaciones(this.observaciones);
-		servicioTmp.setPlan(planTmp);
-		seron.guardar(servicioTmp);
+			servicioTmp.setTipoServicio("radio");
+			servicioTmp.setNumeroContrato(this.numContrato);
+			servicioTmp.setCliente(cli);
+			servicioTmp.setFechaContrato(this.fecha);
+			servicioTmp.setRouterVendido(this.routerVendido);
+			servicioTmp.setObservaciones(this.observaciones);
+			servicioTmp.setPlan(planTmp);
+			seron.guardar(servicioTmp);
 
-		eqServicio.setSerial(this.serial);
-		eqServicio.setPassword(this.password);
-		eqServicio.setIp(this.ip);
+			eqServicio.setSerial(this.serial);
+			eqServicio.setPassword(this.password);
+			eqServicio.setIp(this.ip);
 
-		eqServicio.setEquipo(antenaTmp);
-		eqServicio.setServicio(servicioTmp);
+			eqServicio.setEquipo(antenaTmp);
+			eqServicio.setServicio(servicioTmp);
 
-		eqServOn.crearI(eqServicio);
+			eqServOn.crearI(eqServicio);
+		} else {
+			Plan planTmp = new Plan();
+			Equipo antenaTmp = new Equipo();
+			EquipoServicio eqServicio = new EquipoServicio();
+
+			antenaTmp = eqOn.buscarAntena(Integer.parseInt(antenaElegida));
+			planTmp = planOn.buscarPlan(Integer.parseInt(planElegida));
+
+			servicioTmp.setTipoServicio("fibra");
+			servicioTmp.setNumeroContrato(this.numContrato);
+			servicioTmp.setCliente(cli);
+			servicioTmp.setFechaContrato(this.fecha);
+			servicioTmp.setRouterVendido(this.routerVendido);
+			servicioTmp.setObservaciones(this.observaciones);
+			servicioTmp.setPlan(planTmp);
+			seron.guardar(servicioTmp);
+
+			eqServicio.setSerial(this.serial);
+			eqServicio.setPassword(this.password);
+			eqServicio.setIp(this.ip);
+
+			eqServicio.setEquipo(antenaTmp);
+			eqServicio.setServicio(servicioTmp);
+
+			eqServOn.crearI(eqServicio);
+
+		}
 
 		this.cedula = "";
 		this.nombre = "";
@@ -1473,6 +1606,10 @@ public class ClienteController implements Serializable {
 		}
 	}
 
+	public void toggleRendered(ActionEvent event) {
+		this.rendered = !rendered;
+	}
+
 	/**
 	 * Metodo para editar los clientes
 	 * 
@@ -1480,21 +1617,22 @@ public class ClienteController implements Serializable {
 	 */
 	public String cargarDatos() {
 		try {
+
 			clion.guardar(cliente);
 			telOn.guardar(telefonoConveEdit);
 			telOn.guardar(telefonoMovilEdit);
 			Plan planTmp = new Plan();
 			Equipo equipo = new Equipo();
-			
+
 			if (planElegida != null)
 
 				planTmp = planOn.buscarPlan(Integer.parseInt(planElegida));
 			else
 				planTmp = planOn.getPlanByName(this.planTmp);
-			
+
 			if (antenaElegida != null)
 
-				equipo = eqOn.buscarAntena(Integer.parseInt(this.antenaElegida));	
+				equipo = eqOn.buscarAntena(Integer.parseInt(this.antenaElegida));
 			else
 				equipo = eqOn.getAntenaByName(this.antenaTmp);
 
@@ -1504,12 +1642,14 @@ public class ClienteController implements Serializable {
 			// seron.guardar(servicioEdit);
 
 			seron.update(this.servicioEdit);
-			
+
 			this.eqServEdit.setEquipo(equipo);
-			
+
 			eqServOn.actualizar(this.eqServEdit);
 			
-
+			this.antenaTmp = "";
+			this.planTmp = "";
+			this.router ="";
 			init();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -1518,4 +1658,195 @@ public class ClienteController implements Serializable {
 		return null;
 	}
 
+	public void validarCedula(FacesContext context, UIComponent comp, Object value) {
+		System.out.println("inside validate method");
+
+		String mno = (String) value;
+		try {
+			Integer.parseInt(mno);
+		} catch (Exception e) {
+			((UIInput) comp).setValid(false);
+			FacesMessage message = new FacesMessage("Favor ingrese solo numeros");
+			context.addMessage(comp.getClientId(context), message);
+		}
+		int i;
+		int vect[] = new int[13];
+		if (mno.equals("0000000000")) {
+			FacesMessage message = new FacesMessage("No es una cedula valida");
+			context.addMessage(comp.getClientId(context), message);
+		} else if (mno.length() == 10) {
+			System.out.println("Cedula");
+			for (i = 0; i < mno.length(); i++) {
+				vect[i] = Integer.parseInt(Character.toString(mno.charAt(i)));
+			}
+			if (vect[2] <= 6 && vect[2] >= 0) {
+				int comprobar[] = { 2, 1, 2, 1, 2, 1, 2, 1, 2 };
+				int suma = 0;
+				for (i = 0; i < comprobar.length; i++) {
+					vect[i] *= comprobar[i];
+					if (vect[i] >= 10) {
+						vect[i] -= 9;
+					}
+					suma += vect[i];
+				}
+				suma += vect[i];
+				suma %= 10;
+				if (suma != 0) {
+					((UIInput) comp).setValid(false);
+					FacesMessage message = new FacesMessage("No es una cedula valida");
+					context.addMessage(comp.getClientId(context), message);
+				}
+			}
+		} else {
+			((UIInput) comp).setValid(false);
+			FacesMessage message = new FacesMessage("Favor ingrese los 10 digitos");
+			context.addMessage(comp.getClientId(context), message);
+		}
+	}
+
+	public void validarNombre(FacesContext context, UIComponent componentToValidate, Object value)
+			throws ValidatorException {
+		FacesMessage message = null;
+		// Retrieve the temporary value from the password field
+
+		String mNombre = (String) value;
+
+		/* Verificamos que no sea null */
+		if (mNombre != "") {
+
+			String[] parts = mNombre.split(" ");
+
+			if (parts.length > 2) {
+				message = new FacesMessage("No puede tener mas de dos nombres");
+				throw new ValidatorException(message);
+			}
+
+			for (int i = 0; i < parts.length; i++) {
+				int stringSize = parts[i].length();
+				boolean isValidSize = (stringSize >= 3 && stringSize <= 30);
+
+				if (!isValidSize && i == 0) {
+					message = new FacesMessage("El primer nombre debe tener un minimo de 3 caracteres");
+					throw new ValidatorException(message);
+				}
+
+				if (!isValidSize && i == 1) {
+					message = new FacesMessage("El segundo nombre debe tener un minimo de 3 caracteres");
+					throw new ValidatorException(message);
+				}
+			}
+
+			/* 2ª Condición: que el tamaño sea >= 3 y <= 15 */
+
+		}
+	}
+
+	public void validarApellido(FacesContext context, UIComponent componentToValidate, Object value)
+			throws ValidatorException {
+		FacesMessage message = null;
+		// Retrieve the temporary value from the password field
+
+		String mNombre = (String) value;
+
+		/* Verificamos que no sea null */
+		if (mNombre != "") {
+
+			String[] parts = mNombre.split(" ");
+
+			if (parts.length == 1) {
+				message = new FacesMessage("No puede tener un apellido");
+				throw new ValidatorException(message);
+			}
+
+			if (parts.length > 2) {
+				message = new FacesMessage("No puede tener mas de dos apellidos");
+				throw new ValidatorException(message);
+			}
+
+			for (int i = 0; i < parts.length; i++) {
+				int stringSize = parts[i].length();
+				boolean isValidSize = (stringSize >= 3 && stringSize <= 20);
+
+				if (!isValidSize && i == 0) {
+					message = new FacesMessage("El primer apellido debe tener entre 3 y 20 caracteres");
+					throw new ValidatorException(message);
+				}
+
+				if (!isValidSize && i == 1) {
+					message = new FacesMessage("El segundo apellido debe tener entre 3 y 20 caracteres");
+					throw new ValidatorException(message);
+				}
+			}
+
+			/* 2ª Condición: que el tamaño sea >= 3 y <= 15 */
+
+		}
+	}
+
+	public void validarTelefono(FacesContext context, UIComponent componentToValidate, Object value)
+			throws ValidatorException {
+		FacesMessage message = null;
+		// Retrieve the temporary value from the password field
+
+		String convecional = (String) value;
+
+		if (convecional != "") {
+
+			try {
+				Integer.parseInt(convecional);
+			} catch (NumberFormatException excepcion) {
+
+				message = new FacesMessage("Ingrese solo numeros");
+				throw new ValidatorException(message);
+
+			}
+
+		} /* Verificamos que no sea null */
+
+	}
+
+	public void validarCorreo(FacesContext context, UIComponent componentToValidate, Object value)
+			throws ValidatorException {
+		FacesMessage message = null;
+		// Retrieve the temporary value from the password field
+		String correo = null;
+		correo = (String) value;
+		if (correo != "") {
+			Pattern pattern = Pattern.compile(
+					"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+			Matcher mather = pattern.matcher(correo);
+			if (!mather.find()) {
+				message = new FacesMessage("Correo Invalido");
+				throw new ValidatorException(message);
+			}
+		} /* Verificamos que no sea null */
+
+	}
+
+	public List<Equipo> listarAntenas(String antenaElegido) {
+		if (antenaElegido.equals("Radio")) {
+			return eqOn.getListadoAntenas();
+		} else {
+			return eqOn.getListadoEquiposFibra();
+		}
+
+	}
+
+	public List<Plan> listarPlan(String antenaElegido) {
+		if (antenaElegido.equals("Radio")) {
+			List<Plan> planRadio = new ArrayList<Plan>();
+			planRadio.add(listadoPlanesTmp.get(0));
+			planRadio.add(listadoPlanesTmp.get(1));
+			planRadio.add(listadoPlanesTmp.get(2));
+
+			return planRadio;
+		} else {
+			List<Plan> planFibra = new ArrayList<Plan>();
+			planFibra.add(listadoPlanesTmp.get(3));
+			planFibra.add(listadoPlanesTmp.get(4));
+			planFibra.add(listadoPlanesTmp.get(5));
+
+			return planFibra;
+		}
+	}
 }
