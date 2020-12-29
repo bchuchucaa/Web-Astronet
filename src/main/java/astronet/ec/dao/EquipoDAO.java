@@ -50,11 +50,13 @@ public class EquipoDAO {
 		
 	}
 	public List<Equipo> find(){
+		String tipoEquipo = "Antena";
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 		CriteriaQuery<Equipo> criteriaQuery = criteriaBuilder.createQuery(Equipo.class);
 		// Se establece la clausula FROM
-		criteriaQuery.select(criteriaQuery.from(Equipo.class));
-		System.out.println("Sech");
+		Root<Equipo> root = criteriaQuery.from(Equipo.class);
+
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("tipoEquipo"), tipoEquipo)); // criteriaQuery.multiselect(root.get(atr))
 		return em.createQuery(criteriaQuery).getResultList();
 	}
 	
@@ -71,5 +73,16 @@ public class EquipoDAO {
 		return em.createQuery(criteriaQuery).getSingleResult();
 		
 	}
+	
+	public List<Equipo> findEquiposFibra(){
+		String tipoEquipo = "RouterFibra";
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+		CriteriaQuery<Equipo> criteriaQuery = criteriaBuilder.createQuery(Equipo.class);
+		// Se establece la clausula FROM
+		Root<Equipo> root = criteriaQuery.from(Equipo.class);
 
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("tipoEquipo"), tipoEquipo)); // criteriaQuery.multiselect(root.get(atr))
+		return em.createQuery(criteriaQuery).getResultList();
+	}
+	
 }

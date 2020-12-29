@@ -18,6 +18,8 @@ public class EquipoOn {
 	
 	private List<Equipo> listadoAntenas;
 	
+	private List<Equipo> listadoEquiposFibra;
+	
 	public void guardar(Equipo equipo) {
 
 		equipoDao.save(equipo);
@@ -46,8 +48,14 @@ public class EquipoOn {
 		return equipoDao.find();
 	}
 
-	public void setListadoAntenas(List<Equipo> listadoAntenas) {
-		this.listadoAntenas = equipoDao.find();
+	public List<Equipo> getListadoEquiposFibra() {
+		return equipoDao.findEquiposFibra();
 	}
+
+	public void setListadoEquiposFibra(List<Equipo> listadoEquiposFibra) {
+		this.listadoEquiposFibra = listadoEquiposFibra;
+	}
+
+	
 
 }
