@@ -39,6 +39,9 @@ public class TelefonoON {
 	public void delete(Telefono telefono) {
 		teldao.delete(telefono);
 	}
-	
+	public void guardar(Telefono tel) {
+
+		teldao.save(tel);
+	}
 
 }

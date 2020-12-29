@@ -65,10 +65,7 @@ public class TelefonoDAO {
 
 
 	}
-	public void create(Telefono telefono) {
-		em.merge(telefono);
 
-	}
 
 
 	public void save(Telefono tel) {
