@@ -40,16 +40,16 @@ public class EmpleadoController {
 		registro = new Registro();
 		empleados = empon.getEmpleado();
 	}
-	
+
 	public void loadData() {
 		System.out.println("codigo editar " + id);
 		if (id == 0)
 			return;
-		
-		empleado = empon.getEmpleado(id);
-		
 
-		
+		empleado = empon.getEmpleado(id);
+
+
+
 
 	}
 
@@ -85,9 +85,9 @@ public class EmpleadoController {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	
-	
+
+
+
 	public List<Empleado> getEmpleados() {
 		return empleados;
 	}
@@ -100,17 +100,17 @@ public class EmpleadoController {
 
 		return "registrarEmpleado?faces-redirect=true&id=" + codigo;
 	}
-	
+
 	public String eliminar(int codigo) {
 
 		return "registrarEmpleado?faces-redirect=true&id=" + codigo;
 	}
-	
+
 	/*
 	 * Metodo para guardar o actualizar empleado
-	 * 
+	 *
 	 */
-	
+
 	public String guardarEmpleado() {
 		try {
 			empon.guardar(empleado);
@@ -154,24 +154,26 @@ public class EmpleadoController {
 					session.setAttribute("username", empleado);
 					registro = new Registro();
 					instalacion = new Instalacion();
+
+					//ei.equiselec();
 					System.out.println("login exitoso" + " " + empleado.getId() + " " + empleado.getNombre());
 					id = empleado.getId();
 					System.out.println("Login saliendo datos " + id);
 					registro.setIdEmpleadoTemp(id);
 					instalacion.setCodigoEmpTemp(id);
 					System.out.println("permisos solo de tecnico");
-					
+
 
 					direccion= "callcenter";
 				}
-			} 
+			}
 
 		}catch (Exception e) {
 			// TODO: handle exception
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Incorrectas"));
 		}
-		
-		
+
+
 		return direccion;
 	}
 

@@ -4,15 +4,25 @@
 	Color borde: 0F362D;
 	Color iluminado: 369681;
 */
-.value {
-	font-weight: bold;
-	background-color: white;
-	
-}
 
 /*Body parte de atras de la tabla fondo blanco*/
 .menuColor {
 	background-color: #056691;
+}
+.form-group.required.req:after { 
+    color: #d00;
+    content: "*";
+    position: absolute;
+    margin-left: 8px;
+    top:7px;
+}
+.asterisk_input:after {
+	content: " *";
+	color: #e32;
+	position: absolute;
+	margin: 0px 0px 0px -20px;
+	font-size: xx-large;
+	padding: 0 5px 0 0;
 }
 
 /*Centrado de texto y seperaccion entre la caja de datos y el menu*/
@@ -135,7 +145,7 @@ table {
 
 th, td {
 	padding: 20px;
-	border: 1px solid #C4C6C8;
+	border: hidden;
 	text-align: center;
 }
 
