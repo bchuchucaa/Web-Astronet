@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<f:metadata>
+		<f:viewParam name="id" value="#{empleadoControllerBean.idUser}"></f:viewParam>
+		<f:viewAction action="#{empleadoControllerBean.init()}" />
+	</f:metadata>
+	<title>Prueba</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="resources/assets/css/table.css" />
+	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" />
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" />
+</h:head>
+
+		<body>
+			<p>Pagina de Prueba</p>
+			<p>
+				<h:outputLabel value="#{empleadoControllerBean.empUser.nombre}" />
+			</p>
+		</body>
+
+</html>

@@ -1,17 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:h="http://java.sun.com/jsf/html">
+	
 
 <h:head>
-	<title>Sistema Astronet</title>
+	<title>Menu</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 	<link rel="stylesheet"
 		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="resources/assets/css/table1.css" />
+<!-- 	<link rel="stylesheet" href="resources/assets/css/table1.css" /> -->
 	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
 
 	<script
@@ -28,24 +31,25 @@
 	<nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="#"><img
+			<a class="navbar-brand" href="callcenter.xhtml"><img
 				src="resources/assets/img/logo.png" /></a>
 		</div>
 		<ul class="nav navbar-nav">
-			<li class="active"><a href="#">Home</a></li>
 			<li class="dropdown"><a class="dropdown-toggle"
 				data-toggle="dropdown" href="#">Call Center <span class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="registro.xhtml">Registros</a></li>
 					<li><a href="listadoInstalaciones.xhtml">Instalaciones</a></li>
+					
 
 				</ul></li>
 
 			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#" onclick="acceso()">Clientes<span class="caret"></span></a>
+				data-toggle="dropdown" href="#" onclick="acceso()">Clientes<span
+					class="caret"></span></a>
 				<ul class="dropdown-menu">
-					<li><a href="clientes1.xhtml"  id="boton">Clientes</a></li>
-					<li><a href="crearCliente.xhtml">Nuevo Cliente</a></li>
+					<li><a href="clientesRadio.xhtml" id="boton">Clientes</a></li>
+					<li><a href="listadoEmpleado.xhtml" id="boton1">Empleado</a></li>
 				</ul></li>
 
 		</ul>
@@ -63,5 +67,109 @@
 
 	</div>
 	</nav>
+	
+	<!-- Inicio boton Nueva Solicitud -->
+	<div class="anchoBoton btnSolicitud">
+		<h:form>
+			<div>
+				<p:growl id="growl" showDetail="true">
+					<p:autoUpdate></p:autoUpdate>
+				</p:growl>
+			</div>
+
+
+			<!-- Ventana Modal -->
+			<!-- The Modal -->
+			<div class="modal fade" id="myModal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+
+						<!-- Modal Header -->
+						<div class="modal-header" style="background-color: #048DE5;">
+							<h4 class="modal-title" style="color: aliceblue;">Instalacion</h4>
+							<button type="button" class="close" data-dismiss="modal">Cerrar</button>
+						</div>
+
+						<!-- Modal body -->
+						<div class="modal-body">
+							<div class="form-group col-sm-5">
+								<div class="input-group marginBuscar">
+									<h:inputText class="form-control"
+										value="#{clienteController.instalacion.codigoEmpTemp}"
+										a:placeholder="insid" id="txtEmpleado123" rendered="">
+									</h:inputText>
+									<!-- 	<h:panelGroup id="datosPersona124">
+										<h:message for="txtEmpleado123" />
+							#{clienteController.instalacion.empleado.nombre}
+					</h:panelGroup> -->
+								</div>
+							</div>
+
+							<div class="form-group">
+
+								<h:selectOneRadio
+									value="#{clienteController.instalacion.tipoServicio}">
+									<f:ajax listener="#{clienteController.consultarEmpleado1()}"
+										render="datosPersona124" />
+									<f:selectItems value="#{clienteController.listaServicioRB}"
+										var="sr" itemLabel="#{sr.servicioLabel}"
+										itemValue="#{sr.servicioValue}" />
+								</h:selectOneRadio>
+							</div>
+
+							<div class="form-group">
+								<h:inputText type="text" class="form-control"
+									a:placeholder="Nombres"
+									value="#{clienteController.instalacion.nombre}" />
+							</div>
+							<div class="form-group">
+								<h:inputText type="text" class="form-control" id="Direccion"
+									a:placeholder="Direccion"
+									value="#{clienteController.instalacion.direccion}" />
+							</div>
+							<div class="form-group">
+								<h:inputText type="text" class="form-control" id="Telefonos"
+									a:placeholder="Telefonos"
+									value="#{clienteController.instalacion.telefono}" />
+							</div>
+							<div class="form-group">
+								<h:inputText type="text" class="form-control" id="Coordenada"
+									a:placeholder="Coordenadas"
+									value="#{clienteController.instalacion.coordenadas}" />
+							</div>
+							<div class="form-group">
+								<label for="exampleFormControlTextarea1">Observaciones</label>
+								<h:inputTextarea
+									value="#{clienteController.instalacion.observaciones}"
+									class="form-control" id="exampleFormControlTextarea11" rows="5" />
+							</div>
+							<div class="form-group">
+								  <label for="sel1">Tecnico:</label>  
+								<h:selectOneMenu
+									value="#{clienteController.instalacion.tecnico}"
+									id="txtEmpleado12345">
+									<f:selectItem itemLabel="Seleccionar" itemalue="Seleccionar"/>
+									<f:selectItems value="#{clienteController.empleados}"
+										var="empleado" itemLabel="#{empleado.nombre}"
+										itemValue="#{empleado.nombre}" />
+								</h:selectOneMenu>
+							</div>
+
+
+						</div>
+
+						<!-- Modal footer -->
+						<div class="modal-footer">
+							<h:commandButton class="btn btn-primary" value="Guardar"
+								action="#{clienteController.crearInstalacion()}" />
+							<h:commandButton class="btn btn-danger" data-dismiss="modal"
+								value="Cerrar" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+
+	</div>
 </body>
 </html>

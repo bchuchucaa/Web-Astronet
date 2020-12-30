@@ -41,7 +41,6 @@ public class RolEmpleado implements Serializable {
 	private String descripcion;
 
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	@JoinColumn(name = "emp_rol_fk")
 	@JsonIgnore
 	private List<Empleado> listEmpleados;
 		

@@ -25,29 +25,6 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	<script type="text/javascript">
-		/*CAMBIAR ESTA FUNCIONALIDAD  */
-		function acceso() {
-			var dep = document.getElementById("dep");
-			//var dir='Radio';
-			var boton = document.getElementById("boton");
-			var boton1 = document.getElementById("boton1");
-			var boton12 = document.getElementById("boton12")
-			if (dep.innerText != 'Administrador') {
-				alert("Funcionalidades habilitadas solamente para usuarios Administradores.")
-				boton.disabled = true;
-				boton1.disabled = true;
-				boton12.disabled = true;
-
-			} else {
-				//alert("Bievenido");
-				boton.disabled = false;
-				boton1.disabled = false;
-				boton12.disabled = false;
-
-			}
-		}
-	</script>
 </h:head>
 
 <body>
@@ -64,32 +41,28 @@
 			</h:form>
 		</div>
 		<ul class="nav navbar-nav">
-			<!--  
-			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#">Call Center <span class="caret"></span></a>
-				<ul class="dropdown-menu">
-					<li><a href="registro.xhtml">Registros</a></li>
-					<li><a href="listadoInstalaciones.xhtml">Instalaciones</a></li>
-					<li><a href="instalacion.xhtml">N Instalacion</a></li>
-					
-				</ul>
-			</li>-->
 
 			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#" onclick="acceso()">Clientes/Empleados<span
+				data-toggle="dropdown" href="#">Clientes/Empleados<span
 					class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li><a href="clientesRadio.xhtml" id="boton">Clientes</a></li>
 					<li><a
-						href="listadoEmpleado.xhtml?id=#{usuarioBean.empleadoAdmin.id}"
+						href="listadoEmpleado.xhtml?id=#{usuarioBean.empleadoUser.id}"
 						id="boton1">Empleados</a></li>
+					<li><h:link outcome="prueba" value="pedro"
+							rendered="#{usuarioBean.empleadoUser.rolEmpleado.nombre == 'ADMINISTRADOR' || usuarioBean.empleadoUser.rolEmpleado.nombre == 'prueba1'}">
+							<f:param name="id" value="#{usuarioBean.idUser}" />
+						</h:link></li>
+
 				</ul></li>
 
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">
-			<li><a> #{usuarioBean.empleadoAdmin.nombre}</a></li>
-			<li><a id="dep"> #{usuarioBean.empleadoAdmin.rolEmpleado.nombre}</a></li>
+			<li><a> #{usuarioBean.empleadoUser.nombre}</a></li>
+			<li><a id="dep">
+					#{usuarioBean.empleadoUser.rolEmpleado.nombre}</a></li>
 			<li><h:form>
 					<a> <h:commandButton class="btnExit"
 							action="#{loginBean.logout()}" value="Exit"
@@ -102,7 +75,8 @@
 	</div>
 	</nav>
 	<div class="centerTexto">
-		<h2>Usted accedió como: #{usuarioBean.empleadoAdmin.departamento}</h2>
+		<h2>Usted accedió como:
+			#{usuarioBean.empleadoUser.rolEmpleado.nombre}</h2>
 		<h:form>
 			<h:button class="btn-success btnEmpleado" outcome="editarEmpleado"
 				value="Editar mis datos">
@@ -110,9 +84,11 @@
 				<f:param name="idEmpleado" value="#{usuarioBean.idUser}" />
 			</h:button>
 
-			<h:button class="btn-success btnEmpleado" outcome="registrarRolEmpleado"
+			<h:button class="btn-success btnEmpleado"
+				outcome="registrarRolEmpleado"
+				rendered="#{usuarioBean.empleadoUser.rolEmpleado.nombre == 'ADMINISTRADOR'}"
 				value="Nuevo Rol">
-				<f:param name="id" value="#{usuarioBean.idUser}" />				
+				<f:param name="id" value="#{usuarioBean.idUser}" />
 			</h:button>
 		</h:form>
 	</div>

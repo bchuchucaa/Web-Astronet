@@ -40,22 +40,8 @@ public class UsuarioBean implements Serializable {
 	}
 	public void setIdUser(int idUser) {
 		this.idUser = idUser;
-	}
-	public Empleado getEmpleadoAdmin() {
-		return empleadoUser;
-	}
-	public void setEmpleadoAdmin(Empleado empleadoUser) {
-		this.empleadoUser = empleadoUser;
-	}
-	/*
-	public EmpleadoController getEmpCon() {
-		return empCon;
-	}
-	public void setEmpCon(EmpleadoController empCon) {
-		this.empCon = empCon;
-	}*/
-	
-	
+	}	
+
 	
 	
 //	FIN ZONA GET/SET
