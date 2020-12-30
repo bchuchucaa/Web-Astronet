@@ -49,7 +49,7 @@ public class ClienteController implements Serializable {
 	private Cliente cliente = new Cliente();
 	private List<Cliente> listadoCliente;
 	private List<Servicio> servicios;
-	private List<Registro> registros;
+	//sprivate List<Registro> registros;
 	private List<Empleado> empleados;
 	private List<Instalacion> listaInstalaciones;
 	private Registro registro = new Registro();
@@ -99,8 +99,8 @@ public class ClienteController implements Serializable {
 	
 	
 	
-	@ManagedProperty(value = "#{login}")
-	private EmpleadoController empCon;
+	//@ManagedProperty(value = "#{login}")
+	//private EmpleadoController empCon;
 
 
 
@@ -152,7 +152,7 @@ public class ClienteController implements Serializable {
 		agendamiento = new Agendamiento();
 		empleados = empon.getListadoEmpleado();
 		listadoCliente = clion.getListadoCliente();
-		registros = regon.getListadoRegistro();
+		//registros = regon.getListadoRegistro();
 		listaInstalaciones = inson.getListadoInstalacion();
 		telefonos = new ArrayList<Telefono>();
 		equipo = new Equipo();
@@ -289,13 +289,17 @@ public class ClienteController implements Serializable {
 		this.empleados1 = empleados1;
 	}
 
+	/**
+	 * 
+	
 	public List<Registro> getRegistros() {
 		return registros;
 	}
 
 	public void setRegistros(List<Registro> registros) {
 		this.registros = registros;
-	}
+	} * @return
+	 */
 
 	public List<Empleado> getEmpleados() {
 		return empleados;
@@ -384,7 +388,8 @@ public class ClienteController implements Serializable {
 	public void setIdR(int idR) {
 		this.idR = idR;
 	}
-
+/*
+ * 
 	public EmpleadoController getEmpCon() {
 		return empCon;
 	}
@@ -393,6 +398,7 @@ public class ClienteController implements Serializable {
 		this.empCon = empCon;
 	}
 	
+ */
 	
 	
 	
@@ -488,7 +494,7 @@ public class ClienteController implements Serializable {
 				registro.setIdClienteTemp(cliente.getId());
 				cliente.setTelefonos(telefonos);
 				fechaHora();
-				datoR();
+				//datoR();
 				setNuevoTelefono(null);
 				setNuevoTipoTelefono(null);
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
@@ -557,7 +563,7 @@ try {
 		cliente = clion.getClienteCedula(cliente.getCedula());
 		registro.setIdClienteTemp(cliente.getId());
 		fechaHora();
-		datoR();
+		//datoR();
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
 
 	}
@@ -592,7 +598,7 @@ try {
 		cliente = clion.getClienteNombre(cliente.getNombre());
 		registro.setIdClienteTemp(cliente.getId());
 		fechaHora();
-		datoR();
+		//datoR();
 	}
 
 	/**
@@ -964,6 +970,9 @@ try {
 
 	}
 
+	/*
+	 * 
+	
 	public void datoR() {
 		System.out.println("datos locos " + empCon.getId());
 		registro.setIdEmpleadoTemp(empCon.getId());
@@ -974,7 +983,7 @@ try {
 		instalacion.setCodigoEmpTemp(empCon.getId());
 		return "instalacion";
 	}
-
+ */
 	public boolean validadorDeCedula(String cedula) {
 		boolean cedulaCorrecta = false;
 
@@ -1262,7 +1271,7 @@ try {
 			registro.setIdClienteTemp(cliente.getId());
 			cliente.setTelefonos(telefonos);
 			fechaHora();
-			datoR();
+			//datoR();
 			setNuevoTelefono(null);
 			setNuevoTipoTelefono(null);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));

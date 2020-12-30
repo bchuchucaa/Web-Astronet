@@ -56,6 +56,24 @@
 						</h:link></li>
 
 				</ul></li>
+				
+				<li class="dropdown"><a class="dropdown-toggle"
+				data-toggle="dropdown" href="#">Call Center <span
+					class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="callcenter.xhtml" id="boton">Call Center</a></li>
+					<li><a
+						href="listadoEmpleado.xhtml?id=#{usuarioBean.empleadoUser.id}"
+						id="boton1">Empleados</a></li>
+					<li><h:link outcome="prueba" value="pedro"
+							rendered="#{usuarioBean.empleadoUser.rolEmpleado.nombre == 'ADMINISTRADOR' || usuarioBean.empleadoUser.rolEmpleado.nombre == 'prueba1'}">
+							<f:param name="id" value="#{usuarioBean.idUser}" />
+						</h:link></li>
+
+				</ul></li>
+				
+				
+				
 
 		</ul>
 
