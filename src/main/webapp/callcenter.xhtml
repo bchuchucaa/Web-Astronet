@@ -9,10 +9,8 @@
 
 <h:head>
 	<f:metadata>
-		<!-- 				<f:viewParam name="id" value="#{clienteController.id}"></f:viewParam>  -->
-		<!-- 
-					 <f:viewAction action="acceso()" />   
-		<f:event listener="acceso()" type="preRenderView" />  -->
+		<f:viewParam name="id" value="#{empleadoControllerBean.idUser}"></f:viewParam>
+		<f:viewAction action="#{empleadoControllerBean.init()}" />
 	</f:metadata>
 	<title>Call Center</title>
 	<meta charset="utf-8" />
@@ -86,18 +84,25 @@
 	<nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="callcenter.xhtml"><img
-				src="resources/assets/img/logo.png" /></a>
+			<!--AL HACER CLIC EN EL LOGO DE LA EMPRESA RETORNAMOS AL MENU INICIAL DEL USUARIO-->
+			<h:form class="navbar-brand">
+				<h:link outcome="viewUser">
+					<h:graphicImage value="resources/assets/img/logo.png" />
+					<f:param name="id" value="#{empleadoControllerBean.idUser}" />
+				</h:link>
+			</h:form>
+
 		</div>
 
 
 		<ul class="nav navbar-nav navbar-right">
-			<li><a> #{usuarioBean.empleadoUser.nombre}</a></li>
+			<li><a> #{empleadoControllerBean.empUser.nombre}</a></li>
 			<li><a id="dep">
-					#{usuarioBean.empleadoUser.rolEmpleado.nombre}</a></li>
+					#{empleadoControllerBean.empUser.rolEmpleado.nombre}</a></li>
 			<li><h:form>
-					<a> <h:commandButton class="btnExit" action="#{loginBean.logout()}"
-							value="Exit" image="./resources/assets/img/exit.png" />
+					<a> <h:commandButton class="btnExit"
+							action="#{loginBean.logout()}" value="Exit"
+							image="./resources/assets/img/exit.png" />
 					</a>
 				</h:form></li>
 
@@ -105,7 +110,6 @@
 
 	</div>
 	</nav>
-
 
 
 	<div class="centerTexto">

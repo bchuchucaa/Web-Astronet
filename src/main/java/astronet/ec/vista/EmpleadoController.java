@@ -35,7 +35,7 @@ public class EmpleadoController {
 	private int idUser;
 
 	private Empleado empleado;
-	private Empleado empUser;
+	private Empleado empUser;	
 	private Instalacion instalacion;
 	private Registro registro;
 	private List<Empleado> empleados;
