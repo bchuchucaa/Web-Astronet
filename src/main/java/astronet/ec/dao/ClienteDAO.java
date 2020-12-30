@@ -1,5 +1,6 @@
 package astronet.ec.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -11,8 +12,20 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import astronet.ec.modelo.Cliente;
+import astronet.ec.modelo.EquipoServicio;
 import astronet.ec.modelo.Servicio;
 import astronet.ec.modelo.Telefono;
+//Sicha
+import org.primefaces.model.SortOrder;
+import javax.persistence.criteria.Path;
+import java.util.Map;
+import java.util.Collection;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.TypedQuery;
+
+
+
+
 
 @Stateless
 public class ClienteDAO {
@@ -70,13 +83,16 @@ public class ClienteDAO {
 		Cliente cli = read(id);
 		em.remove(cli);
 	}
-	
-	public List<Cliente> getCliente() {
+	 public List<Cliente> getCliente() {
 		String jpql = "SELECT cliente FROM Cliente cliente ";
 		Query q = em.createQuery(jpql, Cliente.class);
 		List<Cliente> clientes = q.getResultList();
 		return clientes;
 	}
+	
+	 
+	
+	
 	
 	public List<Telefono> getTelefonos(String cedula) {
 		System.out.println("CLIENTE BUSCADO -----> "+ cedula);
@@ -118,6 +134,71 @@ public class ClienteDAO {
 		}
 		return clien;
 	}
+	
+	public List<EquipoServicio> getServiciosCliente(Cliente cliente){
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+		CriteriaQuery<Servicio> criteriaQuery = criteriaBuilder.createQuery(Servicio.class);
+		// Se establece la clausula FROM
+		Root<Servicio> root = criteriaQuery.from(Servicio.class);
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("cliente"), cliente)); // criteriaQuery.multiselect(root.get(atr))
+		// // Se configuran los predicados,
+		// combinados por AND
+		System.out.println("************8");
+		List<EquipoServicio> equiposervicioscliente= new ArrayList<EquipoServicio>();
+		
+		for (Servicio servicio : em.createQuery(criteriaQuery).getResultList()) {
+			equiposervicioscliente.add(getDireccionesIpCliente(servicio));
+			
+		}
+		return equiposervicioscliente;
+		
+	}
+	
+	
+	public EquipoServicio getDireccionesIpCliente(Servicio servicio) {
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+		CriteriaQuery<EquipoServicio> criteriaQuery = criteriaBuilder.createQuery(EquipoServicio.class);
+		// Se establece la clausula FROM
+		Root<EquipoServicio> root = criteriaQuery.from(EquipoServicio.class);
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("servicio"), servicio)); // criteriaQuery.multiselect(root.get(atr))
+		// // Se configuran los predicados,
+		// combinados por AND
+		System.out.println("************8");
+		
+		return em.createQuery(criteriaQuery).getSingleResult();
+		
+	}
+	
+	/***
+	 * DAO para paginacion y datatable lazy 
+	 */
+
+
+	
+	
+	//Metodo para el Get de la ip
+	
+	
+	public EquipoServicio getIpsCliente(String cliente){
+		EquipoServicio eq= new EquipoServicio();
+		try {
+			String sql = "select * from equiposervicio\n" + 
+					"join servicio on servicio.ser_id=equiposervicio.equiposervi_id\n" + 
+					"join cliente on cliente.cli_id=servicio.cliservicio_fk\n" + 
+					"where cliente.cli_cedula='"+107301335+"'";
+			System.out.println(sql);
+			Query query = em.createQuery(sql);
+			eq = (EquipoServicio) query.getSingleResult();
+
+		} catch (Exception e) {
+			System.out.println("bodega" + e.getMessage());
+		}
+		return eq;
+		
+	}
+	
+	
+
 
 
 }

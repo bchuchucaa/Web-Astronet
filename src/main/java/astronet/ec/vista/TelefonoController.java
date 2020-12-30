@@ -16,6 +16,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import astronet.ec.dao.TelefonoDAO;
 import astronet.ec.modelo.Agendamiento;
 import astronet.ec.modelo.Cliente;
 import astronet.ec.modelo.Empleado;
@@ -48,14 +49,14 @@ public class TelefonoController implements Serializable {
 	 */
 	private String cedula;
 	private String nombre;
-
+	private Telefono telefonoNuevo;
+	private TelefonoON telOn;
 
 	/**
 	 * Fin de la declaracion
 	 */
 
-	@ManagedProperty(value = "#{telefono}")
-	private EmpleadoController empCon;
+
 
 	/**
 	 * Inyeccion de las clases ON
@@ -65,6 +66,7 @@ public class TelefonoController implements Serializable {
 	
 	@Inject
 	private ClienteON clion;
+
 
 
 
@@ -78,12 +80,19 @@ public class TelefonoController implements Serializable {
 
 	@PostConstruct
 	public void init() {
+<<<<<<< HEAD
 		try {
 			cliente = new Cliente();
 			telefonos = new ArrayList<Telefono>();
 		} catch (Exception e) {
 			System.out.println("CONTROL DE ERRORES EN TELEFONOS CONTROLLER");
 		}		
+=======
+		cliente = new Cliente();
+		telefonoNuevo= new Telefono();
+		telefonos = new ArrayList<Telefono>();
+
+>>>>>>> Kronos
 	}
 
 
@@ -106,6 +115,30 @@ public class TelefonoController implements Serializable {
 	public String editarRegistro(int codigo) {
 		return "agendamiento?faces-redirect=true&id=" + codigo;
 	}
+	
+	
+
+	public Telefono getTelefonoNuevo() {
+		return telefonoNuevo;
+	}
+
+
+
+
+
+
+
+
+	public void setTelefonoNuevo(Telefono telefonoNuevo) {
+		this.telefonoNuevo = telefonoNuevo;
+	}
+
+
+
+
+
+
+
 
 	/**
 	 * Metodo para la creacion de los clientes
@@ -150,6 +183,11 @@ public class TelefonoController implements Serializable {
 		return cliente;
 
 	}
+	
+	//Metodo para agregar nuevos telefonos del cleinte
+	public void agregarTelefono() {
+		System.out.println("PILAS PARA AGREGAR EL TELEFONO");
+	}
 	/**
 	 * public List<Telefono> getTelefonos(){
 	 * System.out.println("Cliente a buscar "+ cedula);
@@ -157,14 +195,31 @@ public class TelefonoController implements Serializable {
 		return telefonos;
 	}
 	 */
+	
+public void deleteTelefono(int id) {
+		/**
+		 * try {
+				System.out.println("THIS IS ID ->"+ id);
+				teldao.delete(id);
+				System.out.println("Se elimino");
+				
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+		 */
+			
+			
+				
+				
+			
+			
+	
+
 		
-
-
-
-
-
-
-
+		
+		
+	}
+		
 
 
 }

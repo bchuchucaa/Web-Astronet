@@ -23,8 +23,28 @@ public class TelefonoON {
 		List<Telefono> aux = teldao.getTelefonos(cliente);
 		return aux;
 	}
+	 
+	public void updateTelefono(Telefono telefono) {
+		teldao.update(telefono);
+		
+	}
+	public void createTelefono(Telefono telefono) {
+		teldao.save(telefono);
+	}
 	
+	public int getMaxId() {
+		return teldao.getMaxId();
+	}
 	
+	public void delete(int telefono) {
+		int telefon=telefono;
+		teldao.delete(telefon);
+	}
+	
+	public Telefono read(int id) {
+		Telefono tel=teldao.read(id);
+		 return tel;
+	}
 	
 
 }
