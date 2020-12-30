@@ -66,6 +66,26 @@ public class Empleado implements Serializable{
 	@JoinColumn(name = "empinstalacion_fk")
 	@JsonIgnore
 	private List<Instalacion> instalacion;
+	
+	
+	
+	/*
+	 * RElacion Empleado con Visita
+	 */
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "empvis_fk")
+	@JsonIgnore
+	private List<Visita> visitas;
+
+	
+	public List<Visita> getVisitas() {
+		return visitas;
+	}
+
+	public void setVisitas(List<Visita> visitas) {
+		this.visitas = visitas;
+	}
 
 	public int getId() {
 		return id;

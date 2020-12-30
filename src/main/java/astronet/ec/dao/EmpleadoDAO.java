@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 import astronet.ec.modelo.Cliente;
 import astronet.ec.modelo.Empleado;
+import astronet.ec.modelo.Registro;
 import astronet.ec.modelo.Servicio;
 
 @Stateless
@@ -81,4 +82,12 @@ public class EmpleadoDAO {
 		return empleado;
 	}
 
+	public List<Empleado> listarEmpleado() {
+		String estado="TECNICO";
+		String jpql = "SELECT em FROM Empleado em WHERE em.departamento = :a";
+		Query q = em.createQuery(jpql, Empleado.class);
+		q.setParameter("a", estado);
+		List<Empleado> tecnicos = q.getResultList();
+		return tecnicos;
+	}
 }
