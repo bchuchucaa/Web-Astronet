@@ -84,7 +84,10 @@ public class ClienteController implements Serializable {
 	public String inputName;
 	
 	public List<String>listaSugerencias;
+	
 	public List<Cliente> filtradoCliente;
+	
+	
 	
 	
 	public EquipoServicio clienteip;
@@ -93,8 +96,13 @@ public class ClienteController implements Serializable {
 	 * Fin de la declaracion
 	 */
 
+	
+	
+	
 	@ManagedProperty(value = "#{login}")
 	private EmpleadoController empCon;
+
+
 
 	/**
 	 * Inyeccion de las clases ON
@@ -1135,10 +1143,12 @@ try {
 	public void newTelefono() {
 		if(nuevoTipoTelefono!=null && nuevoNumero!=null) {
 		try {
+				System.out.println("this is new ID FOR TEL -> "+telOn.getMaxId()+1);
 				nuevoTelefono=new Telefono(telOn.getMaxId()+1,nuevoNumero,nuevoTipoTelefono,clion.getClienteCedula(cliente.getCedula()));
 				telefonos.add(nuevoTelefono);
 				telOn.createTelefono(nuevoTelefono);
-			
+				
+
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Telefono Agregado Correctamente"));
 		
 		}catch (Exception e) {
@@ -1151,6 +1161,9 @@ try {
 		
 		
 	}
+	
+	
+	
 	/**
 	 * 
 	 */
@@ -1265,7 +1278,18 @@ try {
 		}
 	
 	
+
+	public List<Cliente> getFiltradoCliente() {
+		return filtradoCliente;
+	}
+
+
+
+	public void setFiltradoCliente(List<Cliente> filtradoCliente) {
+		this.filtradoCliente = filtradoCliente;
 	
+	
+	}
 	
 	
 	

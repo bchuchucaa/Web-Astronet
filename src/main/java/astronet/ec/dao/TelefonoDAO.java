@@ -44,7 +44,7 @@ public class TelefonoDAO {
 		// combinados por AND
 		System.out.println("************8");
 		int maxId=em.createQuery(criteriaQuery).getResultList().size();
-		return maxId;
+		return maxId+1;
 	
 	}
 	
@@ -59,16 +59,14 @@ public class TelefonoDAO {
 		
 	}
 	public void create(Telefono telefono) {
-		em.merge(telefono);
+		em.persist(telefono);
 		
 	}
 	
 	
 	public void save(Telefono tel) {
-		if (this.read(tel.getId())!=null) {
-			this.update(tel);
-		}else 
-			this.create(tel);
+		
+		this.create(tel);
 	}
 	
 		public Telefono read(int id) {
@@ -76,9 +74,19 @@ public class TelefonoDAO {
 		}
 		
 		
-		public void delete(Telefono telefono) {
-			Telefono telefono2=read(telefono.getId());
-			em.remove(telefono2);
+		public void delete(int id) {
+			
+			Telefono telefon=read(id);
+			System.out.println("TELDAO TEL A ELIMINAR ID " + telefon.getId());
+			try {
+				
+				em.remove(telefon);
+			}catch (Exception e) {
+				System.out.println("Exception -> "+ e);
+			}
+			
+			
+		
 		}
 	
 

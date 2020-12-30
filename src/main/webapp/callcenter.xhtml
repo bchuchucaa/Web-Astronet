@@ -71,33 +71,19 @@
 	
 	
 	</script>
+	<style>
+		.columnacontacto{
+		width:10px;
+	
+		}
+		
+	</style>
 	
 
 </h:head>
 
 <body>
 
-	<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="callcenter.xhtml"><img
-				src="resources/assets/img/logo.png" /></a>
-		</div>
-		
-
-		<ul class="nav navbar-nav navbar-right">
-			<li><a> #{login.empleado.nombre}</a></li>
-			<li><a id="dep"> #{login.empleado.departamento}</a></li>
-			<li><h:form>
-					<a> <h:commandButton class="btnExit" action="#{login.logout()}"
-							value="Exit" image="./resources/assets/img/exit.png" />
-					</a>
-				</h:form></li>
-
-		</ul>
-
-	</div>
-	</nav>
 	
 	
 	
@@ -242,6 +228,10 @@
 
 						<div class="form-group col-sm-5">
 						
+						
+						
+						
+						
 						 <h:form>
         Enter Name:
         <p:autoComplete id="itemselected" value="#{clienteController.inputName}"
@@ -253,6 +243,10 @@
                         
 
     </h:form>
+    
+    
+    
+    
     
     <p:outputPanel id="outputPanel">
         <p:outputLabel id="outlabel" value="#{clienteController.inputName}"/>
@@ -345,13 +339,16 @@
 					<h:outputText value = "REFERENCIA" />
 					<h:inputText class="cabecera" value="#{cliente.direccionReferencia}" />
 												</h:column>
-												<h:column >
+												
+												
+												
+												<h:column styleClass="columnacontacto" >
 					<f:facet name="header"  data-sortable="true">Contacto</f:facet>
 												
 					<!-- ARRAY CON LOS TELEFONOS -->
 									<!-- TABLA TELEFONOS -->
 						<p:dataTable id="koka" value="#{cliente.telefonos}" var="t" 
-							headerClass="cabeceraTabla" rowClasses="filaPar,filaImpar"  style="width:40%">
+							headerClass="cabeceraTabla" rowClasses="filaPar,filaImpar"  style="width:100%">
 							
 							<p:column>
 								
@@ -384,6 +381,11 @@
 						
 							
 							</h:column>
+							
+							
+							
+							
+							
 							
 							 <h:column>
 							 <f:facet name="header" data-field="Nombres" data-sortable="true">Direccion IP</f:facet>
@@ -473,19 +475,23 @@
 							<h:column>
 							<f:facet name="header">ACCION</f:facet>
 								<h:commandButton value="Editar" onclick="#{clienteController.editTelefono(t)}" styleClass="btn btn-primary"/>
-								<h:commandButton value="Eliminar" onclick="#{telefonoController.deleteTelefono(t)}" styleClass="btn btn-danger"/>
+								<h:commandButton value="Eliminar" onclick="#{telefonoController.deleteTelefono(t.id)}" styleClass="btn btn-danger"/>
 								
 							</h:column>
 							
 							
 						</h:dataTable>
+						</h:form>
+						<h:form>
 								<h3>Nuevo telefono</h3>
 								<h:outputText value="numero"  />
 								<h:inputText value="#{clienteController.nuevoNumero}" size="10" />
 								<h:outputText value="Tipo"  />
+								
+								
 								<h:inputText value="#{clienteController.nuevoTipoTelefono}" size="10" />
 							
-								<h:commandButton value="Guardar" action="#{clienteController.newTelefono()}" styleClass="btn btn-primary">
+								<h:commandButton value="Guardar" onclick="#{clienteController.newTelefono()}" styleClass="btn btn-primary">
 								
 								
 								</h:commandButton>
