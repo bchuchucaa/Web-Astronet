@@ -65,7 +65,7 @@ public class ClienteController implements Serializable {
 	private Cliente cliente = new Cliente();
 	private List<Cliente> listadoCliente;
 	private List<Servicio> servicios;
-	private List<Registro> registros;
+	//sprivate List<Registro> registros;
 	private List<Empleado> empleados;
 	private List<Instalacion> listaInstalaciones;
 	private Registro registro = new Registro();
@@ -154,6 +154,7 @@ public class ClienteController implements Serializable {
 	public int idEmpl;
 
 	public String inputName;
+
 	private int codigoReg;
 
 	@PostConstruct
@@ -225,6 +226,7 @@ public class ClienteController implements Serializable {
 		visita= new Visita();
 
 		System.out.println("Si tomoo las antenaas" + listadoAntenas.size());
+		listaSugerencias= new ArrayList<String>();
 	}
 
 
@@ -268,12 +270,28 @@ public class ClienteController implements Serializable {
 
 	}
 
+	
+	public List<String>listaSugerencias;
+	
+	public List<Cliente> filtradoCliente;
+	
+	
+	
+	
+	public EquipoServicio clienteip;
+
+
 	/**
 	 * Fin de la declaracion
 	 */
 
-	@ManagedProperty(value = "#{login}")
-	private EmpleadoController empCon;
+	
+	
+	
+	//@ManagedProperty(value = "#{login}")
+	//private EmpleadoController empCon;
+
+
 
 	/**
 	 * Inyeccion de las clases ON
@@ -322,10 +340,12 @@ public class ClienteController implements Serializable {
 	 * Metodo para la accion de editar los clientes
 	 */
 
+
 	public void loadData() {
 		if (id == 0)
 			return;
 		cliente = clion.getCliente(id);
+
 
 	}
 
@@ -569,6 +589,7 @@ public class ClienteController implements Serializable {
 	public String getJj() {
 		return jj;
 	}
+
 
 	public void setJj(String jj) {
 		this.jj = jj;
@@ -877,13 +898,6 @@ public class ClienteController implements Serializable {
 		this.idR = idR;
 	}
 
-	public EmpleadoController getEmpCon() {
-		return empCon;
-	}
-
-	public void setEmpCon(EmpleadoController empCon) {
-		this.empCon = empCon;
-	}
 
 	/*
 	 * Hasta aqui llega la creacion de los getters and setters
@@ -967,10 +981,12 @@ public class ClienteController implements Serializable {
 				registro.setIdClienteTemp(cliente.getId());
 				cliente.setTelefonos(telefonos);
 				fechaHora();
-				datoR();
 
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
+				//datoR();
+				setNuevoTelefono(null);
+				setNuevoTipoTelefono(null);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
+
 
 			}
 		} catch (Exception e) {
@@ -1038,9 +1054,7 @@ public class ClienteController implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Incorrectas"));
 
-		}
-		System.out.println("veniii" + cliente.getCedula());
-		return cliente.getCedula();
+
 
 	}
 
@@ -1056,7 +1070,7 @@ public class ClienteController implements Serializable {
 		cliente = clion.getClienteNombre(cliente.getNombre());
 		registro.setIdClienteTemp(cliente.getId());
 		fechaHora();
-		datoR();
+		//datoR();
 	}
 
 
@@ -1645,6 +1659,9 @@ public class ClienteController implements Serializable {
 
 	}
 
+	/*
+	 * 
+	
 	public void datoR() {
 		System.out.println("datos locos " + empCon.getId());
 		registro.setIdEmpleadoTemp(empCon.getId());
@@ -1655,7 +1672,7 @@ public class ClienteController implements Serializable {
 		instalacion.setCodigoEmpTemp(empCon.getId());
 		return "instalacion";
 	}
-
+ */
 	public boolean validadorDeCedula(String cedula) {
 		boolean cedulaCorrecta = false;
 
@@ -2080,19 +2097,19 @@ public class ClienteController implements Serializable {
 
 
 	public void newTelefono() {
-		if (nuevoTipoTelefono != null && nuevoNumero != null) {
-			try {
-				nuevoTelefono = new Telefono(telOn.getMaxId() + 1, nuevoNumero, nuevoTipoTelefono,
-						clion.getClienteCedula(cliente.getCedula()));
+
+		if(nuevoTipoTelefono!=null && nuevoNumero!=null) {
+		try {
+				System.out.println("this is new ID FOR TEL -> "+telOn.getMaxId()+1);
+				nuevoTelefono=new Telefono(telOn.getMaxId()+1,nuevoNumero,nuevoTipoTelefono,clion.getClienteCedula(cliente.getCedula()));
 				telefonos.add(nuevoTelefono);
 				telOn.createTelefono(nuevoTelefono);
+				
 
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Telefono Agregado Correctamente"));
-
-			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se pudo agregar el telefono"));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Telefono Agregado Correctamente"));
+		
+		}catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se pudo agregar el telefono"));
 
 			}
 		}
@@ -2127,6 +2144,9 @@ public class ClienteController implements Serializable {
 			return eqOn.getListadoEquiposFibra();
 		}
 	}
+	
+	
+	
 	/**
 	 *
 	 */
@@ -2217,7 +2237,7 @@ public class ClienteController implements Serializable {
 			registro.setIdClienteTemp(cliente.getId());
 			cliente.setTelefonos(telefonos);
 			fechaHora();
-			datoR();
+			//datoR();
 			setNuevoTelefono(null);
 			setNuevoTipoTelefono(null);
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -2276,7 +2296,30 @@ public class ClienteController implements Serializable {
 
 			return planFibra;
 		}
+
 	}
+
+	
+	
+
+	public List<Cliente> getFiltradoCliente() {
+		return filtradoCliente;
+	}
+
+
+
+	public void setFiltradoCliente(List<Cliente> filtradoCliente) {
+		this.filtradoCliente = filtradoCliente;
+	
+	
+	}
+	
+	
+	
+	
+	
+	
+
 
 
 	}

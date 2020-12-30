@@ -2,14 +2,17 @@ package astronet.ec.modelo;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -25,11 +28,11 @@ public class Empleado implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+		//@GeneratedValue(generator = "secuenciaEmpleado")
+	//@SequenceGenerator(name = "secuenciaEmpleado", initialValue = 6)
 	@Id
 	@Column(name = "emp_id")
-	@GeneratedValue(generator = "secuenciaEmpleado")
-	@SequenceGenerator(name = "secuenciaEmpleado", initialValue = 6)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
 	private int id;
 
@@ -69,6 +72,7 @@ public class Empleado implements Serializable{
 	
 	
 	
+
 	/*
 	 * RElacion Empleado con Visita
 	 */
@@ -86,6 +90,16 @@ public class Empleado implements Serializable{
 	public void setVisitas(List<Visita> visitas) {
 		this.visitas = visitas;
 	}
+
+	/**
+	 * Relacion con roles de los empleados
+	 * @return
+	 */
+	
+	@ManyToOne
+	@JsonIgnore
+	private RolEmpleado rolEmpleado;
+
 
 	public int getId() {
 		return id;
@@ -158,13 +172,26 @@ public class Empleado implements Serializable{
 	public void setRegistro(List<Registro> registro) {
 		this.registro = registro;
 	}
+		
+	public RolEmpleado getRolEmpleado() {
+		return rolEmpleado;
+	}
+
+	public void setRolEmpleado(RolEmpleado rolEmpleado) {
+		this.rolEmpleado = rolEmpleado;
+	}
+	
+	
+	public int hashCode() {		
+		return Objects.hash(this.id);
+	}	
 
 	@Override
 	public String toString() {
 		return "Empleado [id=" + id + ", cedula=" + cedula + ", nombre=" + nombre + ", celular=" + celular + ", email="
-				+ email + ", password=" + password + ", departamento=" + departamento + "]";
+				+ email + ", password=" + password + ", departamento=" + departamento + ", registro=" + registro
+				+ ", instalacion=" + instalacion + ", rolEmpleado=" + rolEmpleado + "]";
 	}
-	
-	
+		
 
 }

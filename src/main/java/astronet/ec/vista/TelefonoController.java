@@ -16,6 +16,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import astronet.ec.dao.TelefonoDAO;
 import astronet.ec.modelo.Agendamiento;
 import astronet.ec.modelo.Cliente;
 import astronet.ec.modelo.Empleado;
@@ -65,6 +66,7 @@ public class TelefonoController implements Serializable {
 	
 	@Inject
 	private ClienteON clion;
+
 
 
 
@@ -191,15 +193,24 @@ public class TelefonoController implements Serializable {
 	}
 	 */
 	
-public void deleteTelefono(Telefono telefono) {
-		
-		try {
-			telOn.delete(telefono);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Eliminado correctamente"));
-
-		}catch(Exception e) {
-			System.out.println("Algo salio mal eliminando el telefono "+ e.getMessage());
-		}
+public void deleteTelefono(int id) {
+		/**
+		 * try {
+				System.out.println("THIS IS ID ->"+ id);
+				teldao.delete(id);
+				System.out.println("Se elimino");
+				
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+		 */
+			
+			
+				
+				
+			
+			
+	
 
 		
 		

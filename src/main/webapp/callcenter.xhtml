@@ -72,6 +72,11 @@
 	
 	
 	</script>
+	<style>
+.columnacontacto {
+	width: 10px;
+}
+</style>
 
 
 </h:head>
@@ -87,10 +92,11 @@
 
 
 		<ul class="nav navbar-nav navbar-right">
-			<li><a> #{login.empleado.nombre}</a></li>
-			<li><a id="dep"> #{login.empleado.departamento}</a></li>
+			<li><a> #{usuarioBean.empleadoUser.nombre}</a></li>
+			<li><a id="dep">
+					#{usuarioBean.empleadoUser.rolEmpleado.nombre}</a></li>
 			<li><h:form>
-					<a> <h:commandButton class="btnExit" action="#{login.logout()}"
+					<a> <h:commandButton class="btnExit" action="#{loginBean.logout()}"
 							value="Exit" image="./resources/assets/img/exit.png" />
 					</a>
 				</h:form></li>
@@ -242,78 +248,45 @@
 						</div>
 
 						<div class="form-group col-sm-5">
-						
-						 <h:form>
+
+
+
+
+
+							<h:form>
         Enter Name:
-        <p:autoComplete id="itemselected" value="#{clienteController.inputName}"
-                        maxResults="10"
-                        completeMethod="#{clienteController.getSugerencias}" >
-                        
-                        </p:autoComplete>
-       <h:commandButton value="BUSCAR" onclick = "#{clienteController.findByNames()}" />
-                        
+        <p:autoComplete id="itemselected"
+									value="#{clienteController.inputName}" maxResults="10"
+									completeMethod="#{clienteController.getSugerencias}">
 
-    </h:form>
-    
-    <p:outputPanel id="outputPanel">
-        <p:outputLabel id="outlabel" value="#{clienteController.inputName}"/>
-    </p:outputPanel>
-    
-						
-						
-    
-						</div>
-						<div class="form-group col-sm-5">
-							<div class="input-group marginBuscar">
-								<h:inputText class="form-control"
-									value="#{clienteController.registro.fechaHora}"
-									a:placeholder="Fecha Hora" rendered="" />
+								</p:autoComplete>
+								<h:commandButton value="BUSCAR"
+									onclick="#{clienteController.findByNames()}" />
 
-							</div>
+
+							</h:form>
+
+
+
+
+
+							<p:outputPanel id="outputPanel">
+								<p:outputLabel id="outlabel"
+									value="#{clienteController.inputName}" />
+							</p:outputPanel>
+
+
+
 
 						</div>
-
-						<div class="form-group col-sm-5">
-							<div class="input-group marginBuscar">
-								<h:inputText class="form-control"
-									value="#{clienteController.registro.idClienteTemp}"
-									a:placeholder="clid" id="txtCliente1" rendered="">
-								</h:inputText>
-								<h:panelGroup id="datosPersona123">
-									<h:message for="txtCliente1" rendered="" />
-							#{clienteController.registro.cliente.nombre}
-					</h:panelGroup>
-							</div>
-						</div>
-
-						<!-- <div class="form-group col-sm-4">
-						  <label for="sel1">Tecnico:</label>  
-						<h:selectOneMenu value="#{clienteController.registro.idEmpleadoTemp}" id="txtEmpleado11">
-						<f:ajax listener="#{clienteController.consultarEmpleado()}"
-										render="datosPersona errores" />
-						<f:selectItems value="#{clienteController.empleados}" var="empleado"
-						itemLabel="#{empleado.nombre}" itemValue="#{empleado.id}"/>
-						</h:selectOneMenu>
-					</div> -->
-
-
-						<div class="form-group col-sm-5">
-							<div class="input-group marginBuscar">
-								<h:inputText class="form-control"
-									value="#{clienteController.registro.idEmpleadoTemp}"
-									a:placeholder="clid" id="txtEmpleado1" rendered=""></h:inputText>
-								<h:panelGroup id="datosPersona12">
-									<h:message for="txtEmpleado1" rendered="" />
-							#{clienteController.registro.empleado.nombre}
-					</h:panelGroup>
-							</div>
-						</div>
-
 
 					</div>
 
 
 				</div>
+
+
+
 
 				<div id="main-container" class="cabecera">
 
@@ -331,80 +304,10 @@
 											#{cliente.apellidos}
 												</h:column>
 
-							<h:column>
-								<f:facet name="header" data-field="direccion"
-									data-sortable="true">Direccion</f:facet>
-									<h:outputText value = "PRINCIPAL" />
-									
-													<h:inputText class="cabecera" value="#{cliente.direccionPrincipal}" />
-													<br />
-													<h:outputText value = "SECUNDARIA" />
-					<h:inputText class="cabecera" value="#{cliente.direccionSecundaria}" />
-					<br />
-					<h:outputText value = "REFERENCIA" />
-					<h:inputText class="cabecera" value="#{cliente.direccionReferencia}" />
-												</h:column>
-												<h:column >
-					<f:facet name="header"  data-sortable="true">Contacto</f:facet>
-												
-					<!-- ARRAY CON LOS TELEFONOS -->
-									<!-- TABLA TELEFONOS -->
-						<p:dataTable id="koka" value="#{cliente.telefonos}" var="t" 
-							headerClass="cabeceraTabla" rowClasses="filaPar,filaImpar"  style="width:40%">
-							
-							<p:column>
-								
-								<span class="glyphicon glyphicon-earphone"></span>
-								
-								<h:outputText value="#{t.tipoTelefono}" size="10" />
-								
-							</p:column>
-							
-							
-							
-						</p:dataTable>
-						
-						
-						<h:panelGrid columns="1" cellpadding="1" style="width:40%">
-					
-   							 <h:commandButton value="EDITAR"  type="button" onclick="PF('dlg1').show();" class="btn btn-primary btnIn" >
-   							           
-   							 	<span class="glyphicon glyphicon-pencil"></span> 
-   							 </h:commandButton>
-
-						</h:panelGrid>
-						
-						<!--  FINARRAY CON LOS TELEFONOS -->
-								<!--  Aqui termina la tabla -->
-								
-				
-						
-						
-						
-							
-							</h:column>
-							
-							 <h:column>
-							 <f:facet name="header" data-field="Nombres" data-sortable="true">Direccion IP</f:facet>
-											
-							 		
-														
-							 
-							 </h:column>
-						</h:dataTable>
-					
-
-					</div>
-				
-					
-					<div class="btnsIngre_Agen">
-					<h:commandButton class="btn btn-primary btnIn" action="#{clienteController.cargarDatosCallCenter()}" value="Actualizar" />
-					</div>
-
 						<h:column>
 							<f:facet name="header" data-field="direccion"
 								data-sortable="true">Direccion</f:facet>
-							<h:outputText value="DIR.PRINCIPAL" />
+							<h:outputText value="PRINCIPAL" />
 
 							<h:inputText class="cabecera"
 								value="#{cliente.direccionPrincipal}" />
@@ -417,51 +320,68 @@
 							<h:inputText class="cabecera"
 								value="#{cliente.direccionReferencia}" />
 						</h:column>
-						<h:column>
+
+
+
+						<h:column styleClass="columnacontacto">
+							<f:facet name="header" data-sortable="true">Contacto</f:facet>
+
 							<!-- ARRAY CON LOS TELEFONOS -->
 							<!-- TABLA TELEFONOS -->
-							<h:dataTable value="#{cliente.telefonos}" var="t"
-								styleClass="table" headerClass="cabeceraTabla"
-								rowClasses="filaPar,filaImpar">
+							<p:dataTable id="koka" value="#{cliente.telefonos}" var="t"
+								headerClass="cabeceraTabla" rowClasses="filaPar,filaImpar"
+								style="width:100%">
 
-								<h:column>
-									<f:facet name="header">NUMERO</f:facet>
-									<h:outputText value="N#" />
-									<h:inputText value="#{t.tipoTelefono}" size="10" />
+								<p:column>
 
-								</h:column>
-								<h:column>
-									<f:facet name="header">TIPO</f:facet>
-									<h:inputText value="#{t.telNumero}" size="10" />
-								</h:column>
+									<span class="glyphicon glyphicon-earphone"></span>
 
-								<!-- BOTONES -->
-								<h:column>
-									<f:facet name="header">Accion</f:facet>
-									<h:commandButton value="Editar"
-										action="#{clienteController.editTelefono(t)}"
-										styleClass="btn btn-primary" />
-									<h:commandLink value="Cancelar"
-										action="#{clienteController.editTelefono()}"
-										styleClass="btn btn-danger" />
+									<h:outputText value="#{t.tipoTelefono}" size="10" />
+
+								</p:column>
 
 
-								</h:column>
+
+							</p:dataTable>
 
 
-							</h:dataTable>
+							<h:panelGrid columns="1" cellpadding="1" style="width:40%">
+
+								<h:commandButton value="EDITAR" type="button"
+									onclick="PF('dlg1').show();" class="btn btn-primary btnIn">
+
+									<span class="glyphicon glyphicon-pencil"></span>
+								</h:commandButton>
+
+							</h:panelGrid>
 
 							<!--  FINARRAY CON LOS TELEFONOS -->
+							<!--  Aqui termina la tabla -->
+
+
+
+
 
 
 						</h:column>
-							 d
-						</h:dataTable>
 
+
+
+
+
+
+						<h:column>
+							<f:facet name="header" data-field="Nombres" data-sortable="true">Direccion IP</f:facet>
+
+
+
+
+						</h:column>
+					</h:dataTable>
 
 
 				</div>
-				<!--  Aqui termina la tabla -->
+
 
 				<div class="btnsIngre_Agen">
 					<h:commandButton class="btn btn-primary btnIn"
@@ -501,125 +421,79 @@
 					</h:inputTextarea>
 				</div>
 
-
-						<h:commandButton
-							action="#{clienteController.cargarDatosRegistro()}"
-							class="btn btn-primary btnIn" value="Ingresar"  />
-				
-					</div>
-
 				<div class="btnsIngre_Agen">
+
+
 					<h:commandButton
 						action="#{clienteController.cargarDatosRegistro()}"
 						class="btn btn-primary btnIn" value="Ingresar" />
 
-					<h:panelGrid columns="1" cellpadding="5">
-						<p:commandButton value="Basic" type="button"
-							onclick="PF('dlg1').show();" />
-
-
-					</h:panelGrid>
 				</div>
+
 			</div>
+
 		</div>
+
+
+
 	</h:form>
 
 
 
-	<p:dialog header="Registrar Nuevo Telefono" widgetVar="dlg1"
-		minHeight="40">
-
-
 	<p:dialog header="Editar telefonos" widgetVar="dlg1" minHeight="40">
 
-					<h:form id="form_pop1">
-	
-						<h:dataTable id="tabla_pop" value="#{clienteController.telefonos}" var="t" styleClass="table"
-							headerClass="cabeceraTabla" rowClasses="filaPar,filaImpar">
-							
-							<h:column>
-								<f:facet name="header">NUMERO</f:facet>
-								
-								<span class="glyphicon glyphicon-earphone"></span>
-								
-								<h:inputText value="#{t.tipoTelefono}" size="10" />
-								
-							</h:column>
-							
+		<h:form id="form_pop1">
 
-
-							<!-- BOTONES -->
-							<h:column>
-							<f:facet name="header">ACCION</f:facet>
-								<h:commandButton value="Editar" onclick="#{clienteController.editTelefono(t)}" styleClass="btn btn-primary"/>
-								<h:commandButton value="Eliminar" onclick="#{telefonoController.deleteTelefono(t)}" styleClass="btn btn-danger"/>
-								
-							</h:column>
-							
-							
-						</h:dataTable>
-								<h3>Nuevo telefono</h3>
-								<h:outputText value="numero"  />
-								<h:inputText value="#{clienteController.nuevoNumero}" size="10" />
-								<h:outputText value="Tipo"  />
-								<h:inputText value="#{clienteController.nuevoTipoTelefono}" size="10" />
-							
-								<h:commandButton value="Guardar" action="#{clienteController.newTelefono()}" styleClass="btn btn-primary">
-								
-								
-								</h:commandButton>
-								
-								
-					</h:form>
-					
-						</p:dialog>
-
-		<h:form>
-
-
-			<h:dataTable value="#{clienteController.nuevoTelefono}" var="tel"
-				styleClass="table" headerClass="cabeceraTabla"
+			<h:dataTable id="tabla_pop" value="#{clienteController.telefonos}"
+				var="t" styleClass="table" headerClass="cabeceraTabla"
 				rowClasses="filaPar,filaImpar">
 
 				<h:column>
-
 					<f:facet name="header">NUMERO</f:facet>
-					<h:outputText value="numero" />
-					<h:inputText value="#{tel.tipoTelefono}" size="10" />
+
+					<span class="glyphicon glyphicon-earphone"></span>
+
+					<h:inputText value="#{t.tipoTelefono}" size="10" />
 
 				</h:column>
 
-				<h:column>
-					<f:facet name="header">TIPO</f:facet>
-					<h:selectOneMenu value="#{tel.telNumero}">
-						<f:selectItem itemValue="Movil" itemLabel="Movil" />
-						<f:selectItem itemValue="Convencional" itemLabel="Convencionell" />
-					</h:selectOneMenu>
-				</h:column>
 
 
 				<!-- BOTONES -->
 				<h:column>
-					<h:form>
-						<f:facet name="header">Accion</f:facet>
-						<h:commandButton value="Guardar"
-							onclick="#{clienteController.newTelefono(tel)}"
-							styleClass="btn btn-success" />
-						<h:commandLink value="Cancelar"
-							action="#{clienteController.editTelefono()}"
-							styleClass="btn btn-danger" />
-					</h:form>
+					<f:facet name="header">ACCION</f:facet>
+					<h:commandButton value="Editar"
+						onclick="#{clienteController.editTelefono(t)}"
+						styleClass="btn btn-primary" />
+					<h:commandButton value="Eliminar"
+						onclick="#{telefonoController.deleteTelefono(t.id)}"
+						styleClass="btn btn-danger" />
+
 				</h:column>
 
 
 			</h:dataTable>
+		</h:form>
+		<h:form>
+			<h3>Nuevo telefono</h3>
+			<h:outputText value="numero" />
+			<h:inputText value="#{clienteController.nuevoNumero}" size="10" />
+			<h:outputText value="Tipo" />
 
 
+			<h:inputText value="#{clienteController.nuevoTipoTelefono}" size="10" />
+
+			<h:commandButton value="Guardar"
+				onclick="#{clienteController.newTelefono()}"
+				styleClass="btn btn-primary">
+
+
+			</h:commandButton>
 
 
 		</h:form>
-	</p:dialog>
 
+	</p:dialog>
 
 </body>
 
