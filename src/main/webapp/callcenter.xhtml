@@ -24,11 +24,6 @@
 	<link rel="stylesheet" href="resources/assets/css/table.css" />
 	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
 
-	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-	<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 
 	<script type="text/javascript">
@@ -96,8 +91,9 @@
 			<li><a id="dep">
 					#{usuarioBean.empleadoUser.rolEmpleado.nombre}</a></li>
 			<li><h:form>
-					<a> <h:commandButton class="btnExit" action="#{loginBean.logout()}"
-							value="Exit" image="./resources/assets/img/exit.png" />
+					<a> <h:commandButton class="btnExit"
+							action="#{loginBean.logout()}" value="Exit"
+							image="./resources/assets/img/exit.png" />
 					</a>
 				</h:form></li>
 
@@ -336,7 +332,7 @@
 
 									<span class="glyphicon glyphicon-earphone"></span>
 
-									<h:outputText value="#{t.tipoTelefono}" size="10" />
+									<h:outputText value="#{t.telNumero}" size="10" />
 
 								</p:column>
 
@@ -453,7 +449,7 @@
 
 					<span class="glyphicon glyphicon-earphone"></span>
 
-					<h:inputText value="#{t.tipoTelefono}" size="10" />
+					<h:inputText value="#{t.telNumero}" size="10" />
 
 				</h:column>
 
@@ -477,11 +473,11 @@
 		<h:form>
 			<h3>Nuevo telefono</h3>
 			<h:outputText value="numero" />
-			<h:inputText value="#{clienteController.nuevoNumero}" size="10" />
+			<h:inputText value="#{clienteController.nuevoTipoTelefono}" size="10" />
 			<h:outputText value="Tipo" />
 
 
-			<h:inputText value="#{clienteController.nuevoTipoTelefono}" size="10" />
+			<h:inputText value="#{clienteController.nuevoNumero}" size="10" />
 
 			<h:commandButton value="Guardar"
 				onclick="#{clienteController.newTelefono()}"
