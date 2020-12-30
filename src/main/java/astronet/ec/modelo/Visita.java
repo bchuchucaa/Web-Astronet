@@ -24,6 +24,13 @@ public class Visita implements Serializable {
 	@NotNull
 	private int id;
 
+	public Visita(Cliente cliente, Registro registro, Empleado empleado) {
+		super();
+		this.cliente = cliente;
+		this.registro = registro;
+		this.empleado = empleado;
+	}
+
 	@OneToOne
 	@JoinColumn(name="clivis_fk")
 	//@JsonIgnore

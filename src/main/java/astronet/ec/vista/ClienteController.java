@@ -116,24 +116,20 @@ public class ClienteController implements Serializable {
 		equipo = new Equipo();
 		listadoAntenas = eqOn.getListadoAntenas();
 		listadoPlanes = planOn.getListadoPlan();
-		registrosvisita=regon.listadoRegistrosVT();
-		tecnicos= empon.getListadoTecnico();
-		agendamientos= agon.getAgenda();	
-		visita= new Visita();
-
+		registrosvisita = regon.listadoRegistrosVT();
+		tecnicos = empon.getListadoTecnico();
+		agendamientos = agon.getAgenda();
+		visita = new Visita();
 		System.out.println("Si tomoo las antenaas" + listadoAntenas.size());
 	}
-
 
 	public List<Agendamiento> getAgendamientos() {
 		return agendamientos;
 	}
 
-
 	public void setAgendamientos(List<Agendamiento> agendamientos) {
 		this.agendamientos = agendamientos;
 	}
-
 
 	public List<Registro> getRegistrosvisita() {
 		return registrosvisita;
@@ -143,26 +139,21 @@ public class ClienteController implements Serializable {
 		return tecnicos;
 	}
 
-
 	public void setTecnicos(List<Empleado> tecnicos) {
 		this.tecnicos = tecnicos;
 	}
-
 
 	public String getTecnicoElegido() {
 		return tecnicoElegido;
 	}
 
-
 	public void setTecnicoElegido(String tecnicoElegido) {
 		this.tecnicoElegido = tecnicoElegido;
 	}
 
-
 	public void setRegistrosvisita(List<Registro> registrosvisita) {
 		this.registrosvisita = registrosvisita;
 	}
-
 
 	/**
 	 * Fin de la declaracion
@@ -203,7 +194,7 @@ public class ClienteController implements Serializable {
 
 	@Inject
 	private PlanON planOn;
-	
+
 	@Inject
 	private VisitaON visitaOn;
 
@@ -501,6 +492,7 @@ public class ClienteController implements Serializable {
 	public void setCedula(String cedula) {
 		this.cedula = cedula;
 	}
+
 	public String getPassword() {
 		return Password;
 	}
@@ -657,7 +649,6 @@ public class ClienteController implements Serializable {
 		this.telefonos = telefonos;
 	}
 
-
 	/**
 	 * Metodo para dirigirnos a la pagina editarClientes
 	 * 
@@ -673,6 +664,7 @@ public class ClienteController implements Serializable {
 	public String editarRegistro(int codigo) {
 		return "agendamiento?faces-redirect=true&id=" + codigo;
 	}
+
 	public String editarRegistro1(int codigo) {
 		return "solucionar?faces-redirect=true&id=" + codigo;
 	}
@@ -811,7 +803,7 @@ public class ClienteController implements Serializable {
 	 * 
 	 * @return
 	 */
-	
+
 	public String guardarAgendamiento() {
 		Registro c = new Registro();
 		Agendamiento g = new Agendamiento();
@@ -927,7 +919,6 @@ public class ClienteController implements Serializable {
 	public problema[] listaProblema;
 	public problema[] listaSoluOficina;
 
-
 	public problema[] getProblemas1() {
 		listaProblema = new problema[6];
 
@@ -942,19 +933,14 @@ public class ClienteController implements Serializable {
 	}
 
 	public problema[] getOficina1() {
-		listaSoluOficina = new problema[3];		
+		listaSoluOficina = new problema[3];
 		listaSoluOficina[0] = new problema("SOLUCIONADO", "1");
 		listaSoluOficina[1] = new problema("NODO CAIDO", "2");
 		listaSoluOficina[2] = new problema("VISITA TECNICA", "3");
 
-		
 		return listaSoluOficina;
 	}
 
-	
-	
-	
-	
 	// Matriz de Objetos para solucion
 	public static class solucion {
 
@@ -1329,27 +1315,18 @@ public class ClienteController implements Serializable {
 		}
 
 	}
+	public void ingresaVisita() {
+		System.out.println(tecnicoElegido);
+		System.out.println("************entro**************");
+		empleado = empon.getEmpleadobyName(tecnicoElegido);
+		System.out.println("************id**************");
+		System.out.println(empleado.getId());
+		System.out.println("************salio**************");
+		System.out.println("Id del cliente" + registro.getCliente().getId());
+		Cliente cli = clion.getCliente(registro.getCliente().getId());
+		Visita g = new Visita(cli, registro, empleado);
+		visitaOn.guardar(g);
+		System.out.println("Se guardo correcto correctamente");
 
-	public String ingresaVisita() {
-		Registro c = new Registro();
-		Visita g = new Visita();
-		Empleado eml = new Empleado();
-		Cliente cl = new Cliente();
-		g.setRegistro(c);
-		g.setCliente(cl);
-		g.setEmpleado(eml);
-
-		try {			
-			this.visita.setRegistro(registro);
-			regon.guardar(registro);
-			//clion.guardar(cliente);
-			//empon.guardar(empleado);			
-			init();
-			// System.out.println("la clave del id es: "+ registro);
-			return "callcenter";
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-}
+	}
 }

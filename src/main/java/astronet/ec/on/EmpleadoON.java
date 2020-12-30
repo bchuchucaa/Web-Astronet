@@ -41,5 +41,11 @@ public class EmpleadoON {
 	return empdao.listarEmpleado();
 	}
 	
+	public Empleado getEmpleadobyName(String name) {
+		Empleado aux = empdao.buscarByName(name);
+		System.out.println("Prueba: " + " " + empdao.buscarByName(name));
+		return aux;
+	}
+	
 	
 }
