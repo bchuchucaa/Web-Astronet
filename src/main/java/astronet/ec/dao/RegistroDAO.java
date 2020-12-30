@@ -73,7 +73,7 @@ public class RegistroDAO {
 	
 	public List<Registro> listarRegistros() {
 		String jpql = "SELECT reg FROM Registro reg ORDER BY\n"
-				+ "        reg_fechahora";
+				+ "        reg_id";
 		Query q = em.createQuery(jpql, Registro.class);
 		List<Registro> registros = q.getResultList();
 		return registros;

@@ -254,7 +254,6 @@ public class ClienteController implements Serializable {
 	public String getApellidos() {
 		return apellidos;
 	}
-
 	public void setRegistrosvisita(List<Registro> registrosvisita) {
 		this.registrosvisita = registrosvisita;
 	}
@@ -2051,6 +2050,19 @@ public class ClienteController implements Serializable {
 			return planFibra;
 		}
 
+	}
+	public void ingresaVisita() {
+		System.out.println(tecnicoElegido);
+		System.out.println("************entro**************");
+		empleado = empon.getEmpleadobyName(tecnicoElegido);
+		System.out.println("************id**************");
+		System.out.println(empleado.getId());
+		System.out.println("************salio**************");
+		System.out.println("Id del cliente" + registro.getCliente().getId());
+		Cliente cli = clion.getCliente(registro.getCliente().getId());
+		Visita g = new Visita(cli, registro, empleado);
+		visitaOn.guardar(g);
+		System.out.println("Se guardo correcto correctamente");
 	}
 
 	public List<Cliente> getFiltradoCliente() {
