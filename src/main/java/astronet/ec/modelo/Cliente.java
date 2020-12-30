@@ -1,7 +1,7 @@
 package astronet.ec.modelo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,11 +12,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
+
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -36,14 +36,14 @@ public class Cliente implements Serializable {
 	private int id;
 	
 	@Column(name = "cli_cedula")
-	private String cedula;
+	private  String cedula;
 	
 	@Column(name = "cli_nombres")
-	public static String nombre;
+	private  String nombre;
 	
 
 	@Column(name = "cli_apellidos")
-	public static String apellidos;
+	private  String apellidos;
 	
 	
 	@Column(name = "cli_email")
@@ -107,20 +107,21 @@ public class Cliente implements Serializable {
 		this.cedula = cedula;
 	}
 
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
+	
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public String getApellidos() {

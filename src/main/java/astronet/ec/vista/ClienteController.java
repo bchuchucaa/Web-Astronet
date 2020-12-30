@@ -1,22 +1,23 @@
 package astronet.ec.vista;
 
-import java.io.IOException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
+
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
@@ -24,7 +25,7 @@ import org.primefaces.model.SortOrder;
 import astronet.ec.modelo.Agendamiento;
 import astronet.ec.modelo.Cliente;
 import astronet.ec.modelo.Empleado;
-import astronet.ec.modelo.Equipo;
+
 import astronet.ec.modelo.Instalacion;
 import astronet.ec.modelo.Registro;
 import astronet.ec.modelo.Servicio;
@@ -32,12 +33,12 @@ import astronet.ec.modelo.Telefono;
 import astronet.ec.on.AgendamientoON;
 import astronet.ec.on.ClienteON;
 import astronet.ec.on.EmpleadoON;
-import astronet.ec.on.EquipoOn;
+
 import astronet.ec.on.InstalacionON;
 import astronet.ec.on.RegistroON;
-import astronet.ec.on.ServicioON;
+
 import astronet.ec.on.TelefonoON;
-import astronet.ec.vista.InstalacionController.ServicioFA;
+
 
 @ManagedBean
 @ViewScoped
@@ -56,9 +57,13 @@ public class ClienteController implements Serializable {
 	private Servicio servicio = new Servicio();
 	private Instalacion instalacion = new Instalacion();
 	private Agendamiento agendamiento = new Agendamiento();
-	private Equipo equipo = new Equipo();
 
 	private List<Telefono> telefonos;
+	
+	public List<Cliente> filtrado;
+	
+
+    
 	/**
 	 * Declaraacion de variables
 	 */
@@ -76,11 +81,22 @@ public class ClienteController implements Serializable {
 	public int idEmpl;
 	private int codigoReg;
 	
+	/**
+	 * getters an seters filtered
+	 *
+	 */
+	
+	
+	
+	
 	/***
-	 * declaracion para tabla con retraso de carga y paginacion
+	 * declaracion para tabla con retraso de carga y paginacion y filtrado
 	 * 
 	 */
 	private LazyDataModel<Cliente> model;
+	
+
+	
 
 	public LazyDataModel<Cliente> getModel() {
         return model;
@@ -112,17 +128,14 @@ public class ClienteController implements Serializable {
 	@Inject
 	private InstalacionON inson;
 
-	@Inject
-	private ServicioON seron;
 
-	@Inject
-	private FacesContext fc;
+
+
 
 	@Inject
 	private AgendamientoON agon;
 	
-	@Inject 
-	private EquipoOn eqOn;
+
 	
 	@Inject 
 	private TelefonoON telOn;
@@ -143,11 +156,10 @@ public class ClienteController implements Serializable {
 		servicio = new Servicio();
 		agendamiento = new Agendamiento();
 		empleados = empon.getListadoEmpleado();
-		listadoCliente = clion.getListadoCliente();
+		setListadoCliente(clion.getListadoCliente());
 		registros = regon.getListadoRegistro();
 		listaInstalaciones = inson.getListadoInstalacion();
 		telefonos = new ArrayList<Telefono>();
-		equipo = new Equipo();
 		
 try {
 	
@@ -196,21 +208,18 @@ try {
 	/*
 	 * Creacion de getters and setters
 	 */
+	
+	
 	public Cliente getCliente() {
 		return cliente;
 	}
+
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
 
-	public List<Cliente> getListadoCliente() {
-		return listadoCliente;
-	}
 
-	public void setListadoCliente(List<Cliente> listadoCliente) {
-		this.listadoCliente = listadoCliente;
-	}
 
 	public int getId() {
 		return id;
@@ -388,13 +397,24 @@ try {
 		this.empCon = empCon;
 	}
 	
+	
+	
 
 	/*
 	 * Hasta aqui llega la creacion de los getters and setters
 	 */
 
+	
 	public List<Telefono> getTelefonos() {
 		return telefonos;
+	}
+
+	public List<Cliente> getFiltrado() {
+		return filtrado;
+	}
+
+	public void setFiltrado(List<Cliente> filtrado) {
+		this.filtrado = filtrado;
 	}
 
 	public void setTelefonos(List<Telefono> telefonos) {
@@ -581,83 +601,12 @@ try {
 		return null;
 	}
 
-	/**
-	 * Metodo para la ejecuccion del sistema de simbolo (cmd)
-	 */
-	/*
-	public void cmd() {
-		try {
-			System.out.println("gol");
-			
-			 *for (int i = 0; i < registro.getCliente().getServicio().size(); i++) {
-				//IP = registro.getCliente().getServicio().get(i).getIp();
-				Runtime.getRuntime().exec("cmd.exe /k start ping " + IP + " -t");
-				fechaHora();
-				System.out.println("IP obtenida: " + IP);
-				System.out.println("hola2");
-			} 
-			 
-			
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	 
-	public void winbox() {
-
-		try {
-			for (int i = 0; i < registro.getCliente().getServicio().size(); i++) {
-				IP = registro.getCliente().getServicio().get(i).getIp();
-				Password = registro.getCliente().getServicio().get(i).getPassword();
-				Runtime.getRuntime().exec("C:\\Winbox.exe " + IP + " admin connect " + Password);
-				System.out.println("IP obtenida: " + IP);
-				System.out.println("hola2");
-			}
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-	
-
-	 */
-
-	/**
-	 * Metodo para mostrar el listado de las antenas en el combox
-	 * 
-	 * @return
-	 */
 
 	public String listAntena() {
 		//antenaC = "" + anton.getListadoAntena();
 		return antenaC;
 	}
 
-	/**
-	 * Metodo de consulta de la antena
-	 * public void consultarAntena() {
-
-		Equipo equipo;
-
-		try {
-			
-			ant = anton.consultarAntena(cliente.getCodigoAntenaTemp());
-			cliente.setAntena(ant);
-		} catch (Exception e) {
-			cliente.setAntena(null);
-			
-
-			e.printStackTrace();
-		}
-	}
-	 */
-	
-	
-	
 	
 	/**
 	 * Metod para guardar los registros
@@ -796,12 +745,6 @@ try {
 			registro.setCliente(cli);
 
 		} catch (Exception e) {
-			//registro.setCliente(null);
-			// TODO Auto-generated catch block
-			/*
-			 * FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-			 * e.getMessage(), "Error"); fc.addMessage("txtCliente1", msg);
-			 */
 
 			e.printStackTrace();
 		}
@@ -844,29 +787,6 @@ try {
 			e.printStackTrace();
 		}
 	}
-
-
-	/**
-	 * Metodo de conltar Registro para el agendamiento
-	 * public void consultarRegistro() {
-		Registro reg;
-		try {
-			reg = regon.consultarRegistro(agendamiento.getCodigoRegistroTemp());
-			agendamiento.setRegistro(reg);
-		} catch (Exception e) {
-			agendamiento.setRegistro(null);
-			
-
-			e.printStackTrace();
-		}
-	}
-	 */
-
-	
-
-	
-
-
 
 	/**
 	 * Metodo para la fecha del sistema
@@ -1031,9 +951,10 @@ try {
 		servicioLista[1] = new ServicioFA("Antena", "RE");
 
 		return servicioLista;
+		
 	}
 	/**
-	 * funcion global para buscar en data table
+	 * funcion global para buscar filtrada en data table
 	 */
 	
 	public boolean globalFilterFunction(Object value, Object filter, Locale locale) {
@@ -1041,34 +962,27 @@ try {
         if (filterText == null || filterText.equals("")) {
             return true;
         }
-        int filterInt = getInteger(filterText);
+        
  
         Cliente cli = (Cliente) value;
         return cli.getCedula().toLowerCase().contains(filterText)
-                || cli.getApellidos().toLowerCase().contains(filterText)
-                || cli.getNombre().toLowerCase().contains(filterText)
                 || cli.getEmail().toLowerCase().contains(filterText)
                 || cli.getLatitud().toLowerCase().contains(filterText)
                 || cli.getLongitud().toLowerCase().contains(filterText)
                 || cli.getDireccionReferencia().toLowerCase().contains(filterText)
         		|| cli.getDireccionSecundaria().toLowerCase().contains(filterText);
-                /*
-                || cli.isSold() ? "sold" : "sale").contains(filterText)
-                || cli.getYear() < filterInt
-                || cli.getPrice() < filterInt;
-                */
-    }
-	
-	private int getInteger(String string) {
-        try {
-            return Integer.valueOf(string);
-        }
-        catch (NumberFormatException ex) {
-            return 0;
-        }
+              
     }
 
+	public List<Cliente> getListadoCliente() {
+		return listadoCliente;
+	}
+
+	public void setListadoCliente(List<Cliente> listadoCliente) {
+		this.listadoCliente = listadoCliente;
+	}
 	
 	
+    
 
 }
