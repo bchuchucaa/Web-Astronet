@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package astronet.ec.modelo;
 
 import java.io.Serializable;
@@ -162,4 +161,4 @@ public class RolEmpleado implements Serializable {
 	
 	
 }
->>>>>>> Kronos
+

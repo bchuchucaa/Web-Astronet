@@ -96,18 +96,13 @@ public class ClienteController implements Serializable {
 	 * Fin de la declaracion
 	 */
 
-<<<<<<< HEAD
-	//@ManagedProperty(value ="#{login}" )//"#{login}" <- 
-	//private EmpleadoController empCon;
-=======
-	
 	
 	
 	//@ManagedProperty(value = "#{login}")
 	//private EmpleadoController empCon;
 
 
->>>>>>> Kronos
+
 
 	/**
 	 * Inyeccion de las clases ON
@@ -149,23 +144,7 @@ public class ClienteController implements Serializable {
 
 	@PostConstruct
 	public void init() {
-<<<<<<< HEAD
-		try {
-			cliente = new Cliente();
-			registro = new Registro();
-			instalacion=new Instalacion();
-			servicio = new Servicio();
-			agendamiento = new Agendamiento();
-			empleados = empon.getListadoEmpleado();
-			listadoCliente = clion.getListadoCliente();
-			registros = regon.getListadoRegistro();
-			listaInstalaciones = inson.getListadoInstalacion();
-			telefonos = new ArrayList<Telefono>();
-			equipo = new Equipo();
-		} catch (Exception e) {
-			System.out.println("CONTROLANDO DATOS FALTANTES CLIENTECONTROLLER");
-		}
-=======
+
 		cliente = new Cliente();
 		telefono= new Telefono();
 		registro = new Registro();
@@ -181,7 +160,7 @@ public class ClienteController implements Serializable {
 		serviciosCliente= new ArrayList<EquipoServicio>();
 		listaSugerencias= new ArrayList<String>();
 		
->>>>>>> Kronos
+
 		
 
 	}
@@ -412,24 +391,7 @@ public class ClienteController implements Serializable {
 	public void setIdR(int idR) {
 		this.idR = idR;
 	}
-<<<<<<< HEAD
 
-	
-	/* comentario para evitar errores 
-=======
-/*
- * 
->>>>>>> Kronos
-	public EmpleadoController getEmpCon() {
-		return empCon;
-	}
-
-	public void setEmpCon(EmpleadoController empCon) {
-		this.empCon = empCon;
-	}*/
-	
- */
-	
 	
 	
 	
@@ -517,12 +479,12 @@ public class ClienteController implements Serializable {
 				cliente.setTelefonos(telefonos);
 				fechaHora();
 				//datoR();
-<<<<<<< HEAD
+
 				
-=======
+
 				setNuevoTelefono(null);
 				setNuevoTipoTelefono(null);
->>>>>>> Kronos
+
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
 
 			}
@@ -589,11 +551,7 @@ try {
 		cliente = clion.getClienteCedula(cliente.getCedula());
 		registro.setIdClienteTemp(cliente.getId());
 		fechaHora();
-<<<<<<< HEAD
-		//datoR()
-=======
-		//datoR();
->>>>>>> Kronos
+
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
 
 	}
@@ -998,29 +956,8 @@ try {
 
 	}
 
-<<<<<<< HEAD
-	/* comentario para evitar errores
-=======
-	/*
-	 * 
-	
->>>>>>> Kronos
-	public void datoR() {
-		System.out.println("datos locos " + empCon.getId());
-		registro.setIdEmpleadoTemp(empCon.getId());
-	}
 
-	public String datoI() {
-		System.out.println("Datos Instalacion " + empCon.getId());
-		instalacion.setCodigoEmpTemp(empCon.getId());
-		return "instalacion";
-<<<<<<< HEAD
-	}*/
 
-=======
-	}
- */
->>>>>>> Kronos
 	public boolean validadorDeCedula(String cedula) {
 		boolean cedulaCorrecta = false;
 

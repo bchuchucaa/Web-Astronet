@@ -1,7 +1,6 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=Kronos
 eclipse.preferences.version=1
-<<<<<<< HEAD
 org.eclipse.jpt.core.platform=generic2_1
-=======
-org.eclipse.jpt.core.platform=hibernate2_1
->>>>>>> Kronos
 org.eclipse.jpt.jpa.core.discoverAnnotatedClasses=true

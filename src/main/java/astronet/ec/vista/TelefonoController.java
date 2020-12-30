@@ -80,19 +80,19 @@ public class TelefonoController implements Serializable {
 
 	@PostConstruct
 	public void init() {
-<<<<<<< HEAD
+
 		try {
 			cliente = new Cliente();
 			telefonos = new ArrayList<Telefono>();
 		} catch (Exception e) {
 			System.out.println("CONTROL DE ERRORES EN TELEFONOS CONTROLLER");
 		}		
-=======
+
 		cliente = new Cliente();
 		telefonoNuevo= new Telefono();
 		telefonos = new ArrayList<Telefono>();
 
->>>>>>> Kronos
+
 	}
 
 
