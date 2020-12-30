@@ -95,7 +95,23 @@ public class Cliente implements Serializable {
 	@JsonIgnore
 	private List<Telefono> telefonos;
 	
+	
+	/*
+	 * RElacion Cliente con Visita
+	 */
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "clivis_fk")
+	@JsonIgnore
+	private List<Visita> visistas;
+	
 
+	public List<Visita> getVisistas() {
+		return visistas;
+	}
+
+	public void setVisistas(List<Visita> visistas) {
+		this.visistas = visistas;
+	}
 
 	public int getId() {
 		return id;

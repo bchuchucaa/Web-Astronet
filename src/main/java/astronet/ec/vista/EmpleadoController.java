@@ -35,6 +35,9 @@ public class EmpleadoController {
 	private Instalacion instalacion;
 	private Registro registro;
 	private List<Empleado> empleados;
+	private List<Empleado> tecnicos;
+	private String tecnicoElegido;
+
 
 	@PostConstruct
 	public void init() {
@@ -42,6 +45,7 @@ public class EmpleadoController {
 		instalacion = new Instalacion();
 		registro = new Registro();
 		empleados = empon.getEmpleado();
+		tecnicos= empon.getListadoTecnico();
 	}
 	
 	public void loadData() {
@@ -56,12 +60,28 @@ public class EmpleadoController {
 
 	}
 
+	public String getTecnicoElegido() {
+		return tecnicoElegido;
+	}
+
+	public void setTecnicoElegido(String tecnicoElegido) {
+		this.tecnicoElegido = tecnicoElegido;
+	}
+
+	public List<Empleado> getTecnicos() {
+		return tecnicos;
+	}
+
 	public Empleado getEmpleado() {
 		return empleado;
 	}
 
 	public void setEmpleado(Empleado empleado) {
 		this.empleado = empleado;
+	}
+
+	public void setTecnicos(List<Empleado> tecnicos) {
+		this.tecnicos = tecnicos;
 	}
 
 	public Registro getRegistro() {

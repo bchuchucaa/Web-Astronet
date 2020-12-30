@@ -26,6 +26,7 @@ import astronet.ec.modelo.Plan;
 import astronet.ec.modelo.Registro;
 import astronet.ec.modelo.Servicio;
 import astronet.ec.modelo.Telefono;
+import astronet.ec.modelo.Visita;
 import astronet.ec.on.AgendamientoON;
 import astronet.ec.on.ClienteON;
 import astronet.ec.on.EmpleadoON;
@@ -35,6 +36,7 @@ import astronet.ec.on.PlanON;
 import astronet.ec.on.RegistroON;
 import astronet.ec.on.ServicioON;
 import astronet.ec.on.TelefonoON;
+import astronet.ec.on.VisitaON;
 import astronet.ec.vista.InstalacionController.ServicioFA;
 
 @ManagedBean
@@ -54,16 +56,23 @@ public class ClienteController implements Serializable {
 	private Servicio servicio = new Servicio();
 	private Instalacion instalacion = new Instalacion();
 	private Agendamiento agendamiento = new Agendamiento();
+	private Visita visita = new Visita();
+
 	private Equipo equipo = new Equipo();
 	private Telefono telefono;
 	private List<Telefono> telefonos;
 	private Telefono nuevoTelefono;
+	private List<Registro> registrosvisita;
+	private List<Agendamiento> agendamientos;
+	private List<Empleado> tecnicos;
+	private String tecnicoElegido;
+
 	/**
 	 * Declaraacion de variables
 	 */
 	private int id;
 	private int idR;
-	private String cedula; 
+	private String cedula;
 	private String nombre;
 	private String apellidos;
 	private String IP;
@@ -87,31 +96,71 @@ public class ClienteController implements Serializable {
 	private String planElegida;
 	private List<Equipo> listadoAntenas;
 	private List<Plan> listadoPlanes;
-	
 	public int idEmpl;
 
 	private int codigoReg;
-	
+
 	@PostConstruct
 	public void init() {
 		cliente = new Cliente();
 		registro = new Registro();
-		instalacion=new Instalacion();
+		instalacion = new Instalacion();
 		servicio = new Servicio();
 		agendamiento = new Agendamiento();
 		empleados = empon.getListadoEmpleado();
 		listadoCliente = clion.getListadoCliente();
 		registros = regon.getListadoRegistro();
 		listaInstalaciones = inson.getListadoInstalacion();
-    
-		nuevoTelefono= new Telefono();
-
+		nuevoTelefono = new Telefono();
 		telefonos = new ArrayList<Telefono>();
 		equipo = new Equipo();
 		listadoAntenas = eqOn.getListadoAntenas();
 		listadoPlanes = planOn.getListadoPlan();
-		System.out.println("Si tomoo las antenaas" + listadoAntenas.size());
+		registrosvisita=regon.listadoRegistrosVT();
+		tecnicos= empon.getListadoTecnico();
+		agendamientos= agon.getAgenda();	
+		visita= new Visita();
 
+		System.out.println("Si tomoo las antenaas" + listadoAntenas.size());
+	}
+
+
+	public List<Agendamiento> getAgendamientos() {
+		return agendamientos;
+	}
+
+
+	public void setAgendamientos(List<Agendamiento> agendamientos) {
+		this.agendamientos = agendamientos;
+	}
+
+
+	public List<Registro> getRegistrosvisita() {
+		return registrosvisita;
+	}
+
+	public List<Empleado> getTecnicos() {
+		return tecnicos;
+	}
+
+
+	public void setTecnicos(List<Empleado> tecnicos) {
+		this.tecnicos = tecnicos;
+	}
+
+
+	public String getTecnicoElegido() {
+		return tecnicoElegido;
+	}
+
+
+	public void setTecnicoElegido(String tecnicoElegido) {
+		this.tecnicoElegido = tecnicoElegido;
+	}
+
+
+	public void setRegistrosvisita(List<Registro> registrosvisita) {
+		this.registrosvisita = registrosvisita;
 	}
 
 
@@ -127,7 +176,7 @@ public class ClienteController implements Serializable {
 	 */
 	@Inject
 	private ClienteON clion;
-	
+
 	@Inject
 	private RegistroON regon;
 
@@ -145,15 +194,18 @@ public class ClienteController implements Serializable {
 
 	@Inject
 	private AgendamientoON agon;
-	
-	@Inject 
+
+	@Inject
 	private EquipoOn eqOn;
-	
-	@Inject 
+
+	@Inject
 	private TelefonoON telOn;
-	
-	@Inject 
+
+	@Inject
 	private PlanON planOn;
+	
+	@Inject
+	private VisitaON visitaOn;
 
 	/**
 	 * Fin de la inyeccion
@@ -167,7 +219,6 @@ public class ClienteController implements Serializable {
 			return;
 		cliente = clion.getCliente(id);
 
-
 	}
 
 	/**
@@ -179,7 +230,7 @@ public class ClienteController implements Serializable {
 			return;
 		registro = regon.getRegistro(idR);
 	}
-	
+
 	public Equipo getEquipo() {
 		return equipo;
 	}
@@ -267,9 +318,6 @@ public class ClienteController implements Serializable {
 	public void setApellidos(String apellidos) {
 		this.apellidos = apellidos;
 	}
-	
-
-	
 
 	public String getLatitud() {
 		return latitud;
@@ -402,6 +450,7 @@ public class ClienteController implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
 	/*
 	 * Creacion de getters and setters
 	 */
@@ -452,7 +501,6 @@ public class ClienteController implements Serializable {
 	public void setCedula(String cedula) {
 		this.cedula = cedula;
 	}
-
 	public String getPassword() {
 		return Password;
 	}
@@ -596,14 +644,10 @@ public class ClienteController implements Serializable {
 	public void setEmpCon(EmpleadoController empCon) {
 		this.empCon = empCon;
 	}
-	
-	
-	
 
 	/*
 	 * Hasta aqui llega la creacion de los getters and setters
 	 */
-
 
 	public List<Telefono> getTelefonos() {
 		return telefonos;
@@ -612,6 +656,7 @@ public class ClienteController implements Serializable {
 	public void setTelefonos(List<Telefono> telefonos) {
 		this.telefonos = telefonos;
 	}
+
 
 	/**
 	 * Metodo para dirigirnos a la pagina editarClientes
@@ -627,6 +672,9 @@ public class ClienteController implements Serializable {
 
 	public String editarRegistro(int codigo) {
 		return "agendamiento?faces-redirect=true&id=" + codigo;
+	}
+	public String editarRegistro1(int codigo) {
+		return "solucionar?faces-redirect=true&id=" + codigo;
 	}
 
 	/**
@@ -655,15 +703,14 @@ public class ClienteController implements Serializable {
 	 * @return
 	 */
 
-	
 	public String buscarCedula() {
-		System.out.println("esta es la cedula hpta "+ this.cedula);
+		System.out.println("esta es la cedula hpta " + this.cedula);
 		try {
-			if (this.cedula!=null) {
-				
+			if (this.cedula != null) {
+
 				cliente = clion.getClienteCedula(this.cedula);
-				System.out.println("cliente cedula --> "+ cliente.getCedula());
-				List<Telefono>telefonos2=telOn.getTelefonos(cliente);
+				System.out.println("cliente cedula --> " + cliente.getCedula());
+				List<Telefono> telefonos2 = telOn.getTelefonos(cliente);
 				for (Telefono telefono : telefonos2) {
 					System.out.println(telefono.getTipoTelefono());
 					System.out.println("-----kiko----");
@@ -674,58 +721,48 @@ public class ClienteController implements Serializable {
 				cliente.setTelefonos(telefonos2);
 				fechaHora();
 				datoR();
-				
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
 
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Incorrectas"));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Incorrectas"));
 
 		}
-				System.out.println("veniii"+ cliente.getCedula());
-				return null;
-
-			}
-	
-	
-	
-
-	
-	public String buscarCedula1() {
-try {
-	if (cliente.getCedula()!=null) {
-		
-		cliente = clion.getClienteCedula(cliente.getCedula());
-		registro.setIdClienteTemp(cliente.getId());
-		fechaHora();
-		datoR();
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
+		System.out.println("veniii" + cliente.getCedula());
+		return null;
 
 	}
-}catch (Exception e) {
-	// TODO: handle exception
-	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Incorrectas"));
 
-}
-		System.out.println("veniii"+ cliente.getCedula());
+	public String buscarCedula1() {
+		try {
+			if (cliente.getCedula() != null) {
+
+				cliente = clion.getClienteCedula(cliente.getCedula());
+				registro.setIdClienteTemp(cliente.getId());
+				fechaHora();
+				datoR();
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
+
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Incorrectas"));
+
+		}
+		System.out.println("veniii" + cliente.getCedula());
 		return cliente.getCedula();
 
 	}
-	
-	
-	public List<Telefono> getTelefonos1(Cliente cliente){
-		
+
+	public List<Telefono> getTelefonos1(Cliente cliente) {
+
 		return telefonos;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 
 	/**
 	 * Metodo para la busqueda del cliente por el nombre
@@ -752,14 +789,14 @@ try {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Metodo para editar los clientes
 	 * 
 	 * @return
 	 */
 	public String cargarDatosCallCenter() {
-		
+
 		try {
 			clion.guardar(cliente);
 		} catch (Exception e) {
@@ -774,62 +811,56 @@ try {
 	 * 
 	 * @return
 	 */
+	
 	public String guardarAgendamiento() {
+		Registro c = new Registro();
+		Agendamiento g = new Agendamiento();
+		g.setRegistro(c);
 		try {
+			this.agendamiento.setRegistro(registro);
 			agon.guardar(agendamiento);
 			regon.guardar(registro);
 			init();
+			System.out.println("holaaaa q fue " + c.getId());
+			// System.out.println("la clave del id es: "+ registro);
 			return "callcenter";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-
-	
 	/**
 	 * Metodo para la ejecuccion del sistema de simbolo (cmd)
 	 */
 	/*
-	public void cmd() {
-		try {
-			System.out.println("gol");
-			
-			 *for (int i = 0; i < registro.getCliente().getServicio().size(); i++) {
-				//IP = registro.getCliente().getServicio().get(i).getIp();
-				Runtime.getRuntime().exec("cmd.exe /k start ping " + IP + " -t");
-				fechaHora();
-				System.out.println("IP obtenida: " + IP);
-				System.out.println("hola2");
-			} 
-			 
-			
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	 
-	public void winbox() {
-
-		try {
-			for (int i = 0; i < registro.getCliente().getServicio().size(); i++) {
-				IP = registro.getCliente().getServicio().get(i).getIp();
-				Password = registro.getCliente().getServicio().get(i).getPassword();
-				Runtime.getRuntime().exec("C:\\Winbox.exe " + IP + " admin connect " + Password);
-				System.out.println("IP obtenida: " + IP);
-				System.out.println("hola2");
-			}
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-	
-
+	 * public void cmd() { try { System.out.println("gol");
+	 * 
+	 * for (int i = 0; i < registro.getCliente().getServicio().size(); i++) { //IP =
+	 * registro.getCliente().getServicio().get(i).getIp();
+	 * Runtime.getRuntime().exec("cmd.exe /k start ping " + IP + " -t");
+	 * fechaHora(); System.out.println("IP obtenida: " + IP);
+	 * System.out.println("hola2"); }
+	 * 
+	 * 
+	 * 
+	 * } catch (IOException e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); } }
+	 * 
+	 * public void winbox() {
+	 * 
+	 * try { for (int i = 0; i < registro.getCliente().getServicio().size(); i++) {
+	 * IP = registro.getCliente().getServicio().get(i).getIp(); Password =
+	 * registro.getCliente().getServicio().get(i).getPassword();
+	 * Runtime.getRuntime().exec("C:\\Winbox.exe " + IP + " admin connect " +
+	 * Password); System.out.println("IP obtenida: " + IP);
+	 * System.out.println("hola2"); }
+	 * 
+	 * } catch (IOException e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); }
+	 * 
+	 * }
+	 * 
+	 * 
 	 */
 
 	/**
@@ -843,10 +874,6 @@ try {
 		return antenaC;
 	}
 
-	 
-	
-	
-	
 	/**
 	 * Metod para guardar los registros
 	 * 
@@ -857,16 +884,17 @@ try {
 			System.out.println("Llegando:::::111");
 			cliente.setId(registro.getCliente().getId());
 			registro.getCliente().setId(cliente.getId());
-			System.out.println("cliente id "+cliente.getId());
+			System.out.println("cliente id " + cliente.getId());
 			empleado.setId(registro.getEmpleado().getId());
 			registro.getEmpleado().setId(empleado.getId());
 			regon.guardar(registro);
-			System.out.println("imprime esto:   "+ registro.getFechaHora());
+			System.out.println("imprime esto:   " + registro.getFechaHora());
 			init();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		return null;
+		// return "registro?faces-redirect=true";
 	}
 
 	// Matriz de objetos
@@ -887,8 +915,6 @@ try {
 			return carValue;
 		}
 	}
-	
-	
 
 	public Telefono getNuevoTelefono() {
 		return nuevoTelefono;
@@ -899,6 +925,8 @@ try {
 	}
 
 	public problema[] listaProblema;
+	public problema[] listaSoluOficina;
+
 
 	public problema[] getProblemas1() {
 		listaProblema = new problema[6];
@@ -913,6 +941,20 @@ try {
 		return listaProblema;
 	}
 
+	public problema[] getOficina1() {
+		listaSoluOficina = new problema[3];		
+		listaSoluOficina[0] = new problema("SOLUCIONADO", "1");
+		listaSoluOficina[1] = new problema("NODO CAIDO", "2");
+		listaSoluOficina[2] = new problema("VISITA TECNICA", "3");
+
+		
+		return listaSoluOficina;
+	}
+
+	
+	
+	
+	
 	// Matriz de Objetos para solucion
 	public static class solucion {
 
@@ -939,14 +981,14 @@ try {
 	public solucion[] getSolucion() {
 		listaSolucion = new solucion[3];
 
-		listaSolucion[0] = new solucion("SOLUCIONADO", "1");
+		listaSolucion[0] = new solucion("SOLUCIONADOF", "1");
 		listaSolucion[1] = new solucion("NODO CAIDO", "2");
 		listaSolucion[2] = new solucion("VISITA TECNICA", "3");
 
 		return listaSolucion;
 	}
-	
-	//matriz para la accion de cada registro del callcenter
+
+	// matriz para la accion de cada registro del callcenter
 	public static class accion {
 
 		public String carLabel;
@@ -970,12 +1012,11 @@ try {
 	public solucion[] listaAccion;
 
 	public solucion[] getAccion() {
-		listaSolucion = new solucion[5];
-		listaSolucion[0] = new solucion("PENDIENTE", "1");
-		listaSolucion[1] = new solucion("SOLUCIONADO", "2");
-		listaSolucion[2] = new solucion("LLAMAR A VERIFICAR", "3");
-		listaSolucion[3] = new solucion("CLIENTE NO DA NINGUNA RESPUESTA", "4");
-		listaSolucion[4] = new solucion("VISITA TECNICA", "5");
+		listaSolucion = new solucion[4];
+		listaSolucion[0] = new solucion("VISITA TECNICA", "1");
+		listaSolucion[1] = new solucion("NODO CAIDO", "2");
+		listaSolucion[2] = new solucion("PROBLEMA ENLACE", "3");
+		listaSolucion[3] = new solucion("SOLUCIONADOF", "4");
 
 		return listaSolucion;
 	}
@@ -994,7 +1035,7 @@ try {
 			registro.setCliente(cli);
 
 		} catch (Exception e) {
-			//registro.setCliente(null);
+			// registro.setCliente(null);
 			// TODO Auto-generated catch block
 			/*
 			 * FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -1013,7 +1054,7 @@ try {
 			cli = regon.consultarCliente(servicio.getIdClienteTemp());
 			servicio.setCliente(cli);
 		} catch (Exception e) {
-			//registro.setCliente(null);
+			// registro.setCliente(null);
 			// TODO Auto-generated catch block
 			/*
 			 * FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -1032,7 +1073,7 @@ try {
 			registro.setEmpleado(emp);
 
 		} catch (Exception e) {
-			//registro.setEmpleado(null);
+			// registro.setEmpleado(null);
 			// TODO Auto-generated catch block
 			/*
 			 * FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -1043,28 +1084,16 @@ try {
 		}
 	}
 
-
 	/**
-	 * Metodo de conltar Registro para el agendamiento
-	 * public void consultarRegistro() {
-		Registro reg;
-		try {
-			reg = regon.consultarRegistro(agendamiento.getCodigoRegistroTemp());
-			agendamiento.setRegistro(reg);
-		} catch (Exception e) {
-			agendamiento.setRegistro(null);
-			
-
-			e.printStackTrace();
-		}
-	}
+	 * Metodo de conltar Registro para el agendamiento public void
+	 * consultarRegistro() { Registro reg; try { reg =
+	 * regon.consultarRegistro(agendamiento.getCodigoRegistroTemp());
+	 * agendamiento.setRegistro(reg); } catch (Exception e) {
+	 * agendamiento.setRegistro(null);
+	 * 
+	 * 
+	 * e.printStackTrace(); } }
 	 */
-
-	
-
-	
-
-
 
 	/**
 	 * Metodo para la fecha del sistema
@@ -1141,15 +1170,12 @@ try {
 		}
 
 		if (!cedulaCorrecta) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Cedula Incorrecta"));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Cedula Incorrecta"));
 
 		}
 		return cedulaCorrecta;
 	}
-	
-
-	
-	
 
 	/**
 	 * Metodo para guardar los datos de la instalacion
@@ -1167,7 +1193,7 @@ try {
 
 		return null;
 	}
-	
+
 	public String crearCliente() {
 		Telefono tele = new Telefono();
 		Telefono teleMovil = new Telefono();
@@ -1183,24 +1209,18 @@ try {
 		cli.setEmail(this.email);
 		cli.setLatitud(this.latitud);
 		cli.setLongitud(this.longitud);
-	
 		clion.guardar(cli);
-		
 		tele.setTipoTelefono("Convencional");
 		tele.setTelNumero(this.convencional);
 		tele.setCliente(cli);
-
 		telOn.guardar(tele);
-		
 		teleMovil.setTipoTelefono("Movil");
 		teleMovil.setTelNumero(this.celular);
 		teleMovil.setCliente(cli);
-		
 		telOn.guardar(teleMovil);
-		
-		
 		return null;
 	}
+
 	/**
 	 * Metodo de consultar Empleado para la instalacion
 	 */
@@ -1211,18 +1231,16 @@ try {
 			emp = regon.consultarEmpleado(instalacion.getCodigoEmpTemp());
 			instalacion.setEmpleado(emp);
 		} catch (Exception e) {
-			//instalacion.setEmpleado(null);
+			// instalacion.setEmpleado(null);
 			// TODO Auto-generated catch block
 			/*
 			 * FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 			 * e.getMessage(), "Error"); fc.addMessage("txtEmpleado1", msg);
 			 */
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
-	
 
-	
 	/*
 	 * Metodo para de radioButton del Modo de Servicio
 	 */
@@ -1263,7 +1281,7 @@ try {
 
 		return servicioLista;
 	}
-  
+
 	public List<Plan> getListadoPlanes() {
 		return listadoPlanes;
 	}
@@ -1279,38 +1297,59 @@ try {
 	public void setPlanElegida(String planElegida) {
 		this.planElegida = planElegida;
 	}
-	
-	//Metodo para actualizar los telefonos;
-	
+
+	// Metodo para actualizar los telefonos;
+
 	public void editTelefono(Telefono telefono) {
-		this.telefono=telefono;
+		this.telefono = telefono;
 		telOn.updateTelefono(telefono);
-		System.out.println("TELEFONO A UPDATE -> "+ telefono.getTipoTelefono());
-	
+		System.out.println("TELEFONO A UPDATE -> " + telefono.getTipoTelefono());
+
 	}
-	
+
 	public void newTelefono(Telefono telefono) {
-		System.out.println("Telefono de parametro "+ telefono.getTelNumero());
-		System.out.println("Telefono de parametro "+ telefono.getTipoTelefono());
-		this.nuevoTelefono= telefono;
+		System.out.println("Telefono de parametro " + telefono.getTelNumero());
+		System.out.println("Telefono de parametro " + telefono.getTipoTelefono());
+		this.nuevoTelefono = telefono;
 		nuevoTelefono.setCliente(cliente);
-		
-		if(nuevoTelefono.getTipoTelefono()!="" && nuevoTelefono.getTelNumero()!="" && nuevoTelefono.getTipoTelefono()!=null) {
-		try {
+		if (nuevoTelefono.getTipoTelefono() != "" && nuevoTelefono.getTelNumero() != ""
+				&& nuevoTelefono.getTipoTelefono() != null) {
+			try {
 				clion.getClienteCedula(cliente.getCedula());
-				nuevoTelefono.setId(telOn.getMaxId()+1);
+				nuevoTelefono.setId(telOn.getMaxId() + 1);
 				telOn.createTelefono(nuevoTelefono);
-				
-			System.out.println("ALL RIGHT BABE");
-		}catch (Exception e) {
-			System.out.println("PILAS PARA AGREGAR EL NUEVO TELEFONO "+ nuevoTelefono.getTelNumero());
+
+				System.out.println("ALL RIGHT BABE");
+			} catch (Exception e) {
+				System.out.println("PILAS PARA AGREGAR EL NUEVO TELEFONO " + nuevoTelefono.getTelNumero());
+
+			}
+			this.nuevoTelefono = new Telefono();
 
 		}
-		this.nuevoTelefono= new Telefono();
-	
-		}
-		
+
 	}
 
-	
+	public String ingresaVisita() {
+		Registro c = new Registro();
+		Visita g = new Visita();
+		Empleado eml = new Empleado();
+		Cliente cl = new Cliente();
+		g.setRegistro(c);
+		g.setCliente(cl);
+		g.setEmpleado(eml);
+
+		try {			
+			this.visita.setRegistro(registro);
+			regon.guardar(registro);
+			//clion.guardar(cliente);
+			//empon.guardar(empleado);			
+			init();
+			// System.out.println("la clave del id es: "+ registro);
+			return "callcenter";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+}
 }

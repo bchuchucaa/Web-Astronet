@@ -5,10 +5,11 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:h="http://java.sun.com/jsf/html">
-	
+
 <h:head>
 	<f:metadata>
-		<!-- 				<f:viewParam name="id" value="#{clienteController.id}"></f:viewParam>  --><!-- 
+		<!-- 				<f:viewParam name="id" value="#{clienteController.id}"></f:viewParam>  -->
+		<!-- 
 					 <f:viewAction action="acceso()" />   
 		<f:event listener="acceso()" type="preRenderView" />  -->
 	</f:metadata>
@@ -22,13 +23,13 @@
 	<link rel="stylesheet" href="resources/assets/css/table.css" />
 	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
 
-<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	
-	
+
+
 	<script type="text/javascript">
 	function acceso(){
 		var dep=document.getElementById("dep");
@@ -57,7 +58,7 @@
 	 }
 	
 	</script>
-	
+
 
 </h:head>
 
@@ -69,7 +70,7 @@
 			<a class="navbar-brand" href="callcenter.xhtml"><img
 				src="resources/assets/img/logo.png" /></a>
 		</div>
-		
+
 
 		<ul class="nav navbar-nav navbar-right">
 			<li><a> #{login.empleado.nombre}</a></li>
@@ -84,9 +85,9 @@
 
 	</div>
 	</nav>
-	
-	
-	
+
+
+
 	<div class="centerTexto">
 		<h2>INGRESO DE RECLAMOS E INSTALACIONES NUEVAS</h2>
 	</div>
@@ -94,12 +95,12 @@
 	<!-- Inicio boton Nueva Solicitud -->
 	<div class="anchoBoton btnSolicitud">
 		<h:form>
-		<div>
-					<p:growl id="growl" showDetail="true"  >
+			<div>
+				<p:growl id="growl" showDetail="true">
 					<p:autoUpdate></p:autoUpdate>
-					</p:growl>
-					</div>
-			
+				</p:growl>
+			</div>
+
 
 			<!-- Ventana Modal -->
 			<!-- The Modal -->
@@ -121,7 +122,7 @@
 										value="#{clienteController.instalacion.codigoEmpTemp}"
 										a:placeholder="insid" id="txtEmpleado123" rendered="">
 									</h:inputText>
-								<!-- 	<h:panelGroup id="datosPersona124">
+									<!-- 	<h:panelGroup id="datosPersona124">
 										<h:message for="txtEmpleado123" />
 							#{clienteController.instalacion.empleado.nombre}
 					</h:panelGroup> -->
@@ -191,7 +192,7 @@
 				</div>
 			</div>
 		</h:form>
-		
+
 	</div>
 
 	<h:form>
@@ -201,13 +202,13 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h>Datos Cliente</h>
-				
+
 
 				</div>
-				
-				
-				
-				
+
+
+
+
 				<div class="panel-body">
 
 					<div class="row">
@@ -221,7 +222,7 @@
 									<h:commandButton render="Nombres"
 										class="btn btn-default botonBuscar"
 										action="#{clienteController.buscarCedula()}"
-										image="/resources/assets/img/buscar.png"/>
+										image="/resources/assets/img/buscar.png" />
 								</div>
 							</div>
 						</div>
@@ -243,25 +244,25 @@
 							<div class="input-group marginBuscar">
 								<h:inputText class="form-control"
 									value="#{clienteController.registro.fechaHora}"
-									a:placeholder="Fecha Hora" rendered=""/>
-								
+									a:placeholder="Fecha Hora" rendered="" />
+
 							</div>
-							
+
 						</div>
-						
+
 						<div class="form-group col-sm-5">
 							<div class="input-group marginBuscar">
 								<h:inputText class="form-control"
 									value="#{clienteController.registro.idClienteTemp}"
 									a:placeholder="clid" id="txtCliente1" rendered="">
-									</h:inputText>
+								</h:inputText>
 								<h:panelGroup id="datosPersona123">
-								<h:message for="txtCliente1" rendered=""/>
+									<h:message for="txtCliente1" rendered="" />
 							#{clienteController.registro.cliente.nombre}
 					</h:panelGroup>
 							</div>
 						</div>
-						
+
 						<!-- <div class="form-group col-sm-4">
 						  <label for="sel1">Tecnico:</label>  
 						<h:selectOneMenu value="#{clienteController.registro.idEmpleadoTemp}" id="txtEmpleado11">
@@ -271,15 +272,15 @@
 						itemLabel="#{empleado.nombre}" itemValue="#{empleado.id}"/>
 						</h:selectOneMenu>
 					</div> -->
-						
-						
+
+
 						<div class="form-group col-sm-5">
-							<div class="input-group marginBuscar">						
+							<div class="input-group marginBuscar">
 								<h:inputText class="form-control"
 									value="#{clienteController.registro.idEmpleadoTemp}"
 									a:placeholder="clid" id="txtEmpleado1" rendered=""></h:inputText>
 								<h:panelGroup id="datosPersona12">
-								<h:message for="txtEmpleado1" rendered="" />
+									<h:message for="txtEmpleado1" rendered="" />
 							#{clienteController.registro.empleado.nombre}
 					</h:panelGroup>
 							</div>
@@ -287,180 +288,190 @@
 
 
 					</div>
-				
 
-					</div>
-
-					
-				
-
-					<div id="main-container" class="cabecera">
-					
-					<h:dataTable id="Nombres" value="#{clienteController.cliente}"
-							var="cliente">
-
-							<h:column>
-								<f:facet name="header" data-field="Nombres" data-sortable="true">Nombres</f:facet>
-											#{cliente.nombre}
-												</h:column>
-						  
-							<h:column>
-								<f:facet name="header" data-field="Apellidos" data-sortable="true">Apellidos</f:facet>
-											#{cliente.apellidos}
-												</h:column>
-
-							<h:column>
-								<f:facet name="header" data-field="direccion"
-									data-sortable="true">Direccion</f:facet>
-									<h:outputText value = "DIR.PRINCIPAL" />
-									
-													<h:inputText class="cabecera" value="#{cliente.direccionPrincipal}" />
-													<br />
-													<h:outputText value = "SECUNDARIA" />
-					<h:inputText class="cabecera" value="#{cliente.direccionSecundaria}" />
-					<br />
-					<h:outputText value = "REFERENCIA" />
-					<h:inputText class="cabecera" value="#{cliente.direccionReferencia}" />
-												</h:column>
-												<h:column>
-					<!-- ARRAY CON LOS TELEFONOS -->
-									<!-- TABLA TELEFONOS -->
-						<h:dataTable value="#{cliente.telefonos}" var="t" styleClass="table"
-							headerClass="cabeceraTabla" rowClasses="filaPar,filaImpar">
-							
-							<h:column>
-								<f:facet name="header">NUMERO</f:facet>
-								<h:outputText value="N#"  />
-								<h:inputText value="#{t.tipoTelefono}" size="10" />
-								
-							</h:column>
-							<h:column>
-							<f:facet name="header">TIPO</f:facet>
-							<h:inputText value="#{t.telNumero}" size="10" />
-							</h:column>
-							
-							<!-- BOTONES -->
-							<h:column>
-								<f:facet name="header">Accion</f:facet>
-								<h:commandButton value="Editar" action="#{clienteController.editTelefono(t)}" styleClass="btn btn-primary"/>
-								<h:commandLink value="Cancelar" action="#{clienteController.editTelefono()}" styleClass="btn btn-danger"/>
-								
-							
-							</h:column>
-							
-							
-						</h:dataTable>
-						
-						<!--  FINARRAY CON LOS TELEFONOS -->
-						
-							
-							</h:column>
-							 d
-						</h:dataTable>
-						
-
-					</div>
-					<!--  Aqui termina la tabla -->
-					
-					<div class="btnsIngre_Agen">
-					<h:commandButton class="btn btn-primary btnIn" action="#{clienteController.cargarDatosCallCenter()}" value="Actualizar" />
-					</div>
-
-					<div class="form-group col-sm-6">
-						  <label for="sel1" class="etiquetas">Problema:</label>     
-						<h:selectOneMenu class="form-control" id="sel1"
-							value="#{clienteController.registro.problema}">
-													<f:ajax execute="txtCliente1" listener="#{clienteController.consultarCliente()}" render="datosPersona123"/> 
-							<f:selectItems value="#{clienteController.problemas1}" var="pro1"
-								itemLabel="#{pro1.carLabel}" itemValue="#{pro1.carLabel}" />
-						</h:selectOneMenu>
-					</div>
-
-
-					<div class="form-group col-sm-6">
-						  <label for="sel1" class="etiquetas">Acción:</label>     
-						<h:selectOneMenu class="form-control" id="selAc"
-							value="#{clienteController.registro.accion}">
-							<f:selectItems value="#{clienteController.accion}" var="pro1"
-								itemLabel="#{pro1.carLabel}" itemValue="#{pro1.carLabel}" />
-						</h:selectOneMenu>
-					</div>
-					
-
-
-					<div class="form-group cabecera">
-						<label for="exampleFormControlTextarea1">Observaciones</label>
-						<h:inputTextarea
-							value="#{clienteController.registro.observaciones}"
-							class="form-control" id="exampleFormControlTextarea1" rows="5">
-						</h:inputTextarea>
-					</div>
-
-					<div class="btnsIngre_Agen">
-
-
-						<h:commandButton
-							action="#{clienteController.cargarDatosRegistro()}"
-							class="btn btn-primary btnIn" value="Ingresar"  />
-							
-							<h:panelGrid columns="1" cellpadding="5">
-    <p:commandButton value="Basic" type="button" onclick="PF('dlg1').show();" />
-
-</h:panelGrid>
-					</div>
 
 				</div>
 
-			</div>
+				<div id="main-container" class="cabecera">
+
+					<h:dataTable id="Nombres" value="#{clienteController.cliente}"
+						var="cliente">
+
+						<h:column>
+							<f:facet name="header" data-field="Nombres" data-sortable="true">Nombres</f:facet>
+											#{cliente.nombre}
+												</h:column>
+
+						<h:column>
+							<f:facet name="header" data-field="Apellidos"
+								data-sortable="true">Apellidos</f:facet>
+											#{cliente.apellidos}
+												</h:column>
+
+						<h:column>
+							<f:facet name="header" data-field="direccion"
+								data-sortable="true">Direccion</f:facet>
+							<h:outputText value="DIR.PRINCIPAL" />
+
+							<h:inputText class="cabecera"
+								value="#{cliente.direccionPrincipal}" />
+							<br />
+							<h:outputText value="SECUNDARIA" />
+							<h:inputText class="cabecera"
+								value="#{cliente.direccionSecundaria}" />
+							<br />
+							<h:outputText value="REFERENCIA" />
+							<h:inputText class="cabecera"
+								value="#{cliente.direccionReferencia}" />
+						</h:column>
+						<h:column>
+							<!-- ARRAY CON LOS TELEFONOS -->
+							<!-- TABLA TELEFONOS -->
+							<h:dataTable value="#{cliente.telefonos}" var="t"
+								styleClass="table" headerClass="cabeceraTabla"
+								rowClasses="filaPar,filaImpar">
+
+								<h:column>
+									<f:facet name="header">NUMERO</f:facet>
+									<h:outputText value="N#" />
+									<h:inputText value="#{t.tipoTelefono}" size="10" />
+
+								</h:column>
+								<h:column>
+									<f:facet name="header">TIPO</f:facet>
+									<h:inputText value="#{t.telNumero}" size="10" />
+								</h:column>
+
+								<!-- BOTONES -->
+								<h:column>
+									<f:facet name="header">Accion</f:facet>
+									<h:commandButton value="Editar"
+										action="#{clienteController.editTelefono(t)}"
+										styleClass="btn btn-primary" />
+									<h:commandLink value="Cancelar"
+										action="#{clienteController.editTelefono()}"
+										styleClass="btn btn-danger" />
 
 
+								</h:column>
 
-	</h:form>
-	
-	
 
-<p:dialog header="Registrar Nuevo Telefono" widgetVar="dlg1" minHeight="40">
+							</h:dataTable>
 
-	<h:form>
-		
-						
-						<h:dataTable value="#{clienteController.nuevoTelefono}" var="tel" styleClass="table"
-							headerClass="cabeceraTabla" rowClasses="filaPar,filaImpar">
-							
-							<h:column>
-							
-								<f:facet name="header">NUMERO</f:facet>
-								<h:outputText value="numero"  />
-								<h:inputText value="#{tel.tipoTelefono}" size="10" />
-								
-							</h:column>
-					
-							<h:column>
-								<f:facet name="header">TIPO</f:facet>
-								<h:selectOneMenu value="#{tel.telNumero}">
-								<f:selectItem itemValue="Movil" itemLabel="Movil" />
-								<f:selectItem itemValue="Convencional" itemLabel="Convencionell" />
-								</h:selectOneMenu>
-							</h:column>
-					
-							
-							<!-- BOTONES -->
-							<h:column>
-							<h:form>
-								<f:facet name="header">Accion</f:facet>
-								<h:commandButton value="Guardar" onclick="#{clienteController.newTelefono(tel)}" styleClass="btn btn-success"/>
-								<h:commandLink value="Cancelar" action="#{clienteController.editTelefono()}" styleClass="btn btn-danger"/>
-							</h:form>
-							</h:column>
-							
-							
+							<!--  FINARRAY CON LOS TELEFONOS -->
+
+
+						</h:column>
+							 d
 						</h:dataTable>
-						
-						
-						
-						
-						</h:form>
-						</p:dialog>
+
+
+				</div>
+				<!--  Aqui termina la tabla -->
+
+				<div class="btnsIngre_Agen">
+					<h:commandButton class="btn btn-primary btnIn"
+						action="#{clienteController.cargarDatosCallCenter()}"
+						value="Actualizar" />
+				</div>
+
+				<div class="form-group col-sm-6">
+					  <label for="sel1" class="etiquetas">Problema:</label>     
+					<h:selectOneMenu class="form-control" id="sel1"
+						value="#{clienteController.registro.problema}">
+						<f:ajax execute="txtCliente1"
+							listener="#{clienteController.consultarCliente()}"
+							render="datosPersona123" />
+						<f:selectItems value="#{clienteController.problemas1}" var="pro1"
+							itemLabel="#{pro1.carLabel}" itemValue="#{pro1.carLabel}" />
+					</h:selectOneMenu>
+				</div>
+
+
+				<div class="form-group col-sm-6">
+					  <label for="sel1" class="etiquetas">Acción:</label>     
+					<h:selectOneMenu class="form-control" id="selAc"
+						value="#{clienteController.registro.accion}">
+						<f:selectItems value="#{clienteController.accion}" var="pro1"
+							itemLabel="#{pro1.carLabel}" itemValue="#{pro1.carLabel}" />
+					</h:selectOneMenu>
+				</div>
+
+
+
+				<div class="form-group cabecera">
+					<label for="exampleFormControlTextarea1">Observaciones</label>
+					<h:inputTextarea
+						value="#{clienteController.registro.observaciones}"
+						class="form-control" id="exampleFormControlTextarea1" rows="5">
+					</h:inputTextarea>
+				</div>
+
+				<div class="btnsIngre_Agen">
+					<h:commandButton
+						action="#{clienteController.cargarDatosRegistro()}"
+						class="btn btn-primary btnIn" value="Ingresar" />
+
+					<h:panelGrid columns="1" cellpadding="5">
+						<p:commandButton value="Basic" type="button"
+							onclick="PF('dlg1').show();" />
+
+					</h:panelGrid>
+				</div>
+			</div>
+		</div>
+	</h:form>
+
+
+
+	<p:dialog header="Registrar Nuevo Telefono" widgetVar="dlg1"
+		minHeight="40">
+
+		<h:form>
+
+
+			<h:dataTable value="#{clienteController.nuevoTelefono}" var="tel"
+				styleClass="table" headerClass="cabeceraTabla"
+				rowClasses="filaPar,filaImpar">
+
+				<h:column>
+
+					<f:facet name="header">NUMERO</f:facet>
+					<h:outputText value="numero" />
+					<h:inputText value="#{tel.tipoTelefono}" size="10" />
+
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">TIPO</f:facet>
+					<h:selectOneMenu value="#{tel.telNumero}">
+						<f:selectItem itemValue="Movil" itemLabel="Movil" />
+						<f:selectItem itemValue="Convencional" itemLabel="Convencionell" />
+					</h:selectOneMenu>
+				</h:column>
+
+
+				<!-- BOTONES -->
+				<h:column>
+					<h:form>
+						<f:facet name="header">Accion</f:facet>
+						<h:commandButton value="Guardar"
+							onclick="#{clienteController.newTelefono(tel)}"
+							styleClass="btn btn-success" />
+						<h:commandLink value="Cancelar"
+							action="#{clienteController.editTelefono()}"
+							styleClass="btn btn-danger" />
+					</h:form>
+				</h:column>
+
+
+			</h:dataTable>
+
+
+
+
+		</h:form>
+	</p:dialog>
 
 </body>
 

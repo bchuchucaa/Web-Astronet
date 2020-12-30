@@ -21,7 +21,7 @@ import astronet.ec.on.RegistroON;
 
 @ManagedBean
 @ViewScoped
-public class RegistroController{
+public class AgendamientoController {
 
 	private Registro registro = new Registro();
 	private Empleado empleado = new Empleado();
@@ -29,68 +29,63 @@ public class RegistroController{
 
 	private Cliente cliente = new Cliente();
 	private List<Registro> registros;
-	private List<Registro> registrosvisita;
-
 	private List<Empleado> empleados;
 	private List<Cliente> clientes;
+	private List<Agendamiento> agendamientos;
+	private List<Registro> registrosSolucionadoF;
 
 	public String problemas;
 	public String soluciones;
 	private String empleados1;
 	private int codigoCliente;
 	private int codigoEmpleado;
-	
-
 
 	@Inject
 	private RegistroON regon;
+	@Inject
+	private AgendamientoON agon;
 
 	@Inject
 	private EmpleadoON empon;
 
 	@Inject
 	private ClienteON clion;
-	
-
-	@Inject
-	private AgendamientoON agon;
-
-	public Agendamiento getAgendamiento() {
-		return agendamiento;
-	}
-
-	public void setAgendamiento(Agendamiento agendamiento) {
-		this.agendamiento = agendamiento;
-	}
-
-
 
 	@Inject
 	private FacesContext fc;
-	
-
 
 	@PostConstruct
 	public void init() {
 		empleados = empon.getListadoEmpleado();
 		clientes = clion.getListadoCliente();
-		registros=regon.getListadoRegistro();
-		registrosvisita=regon.listadoRegistrosVT();
-		
+		registros = regon.getListadoRegistro();
+		agendamientos = agon.getAgenda();
+		registrosSolucionadoF=agon.listadoRegistroSolF(); 
+	}
+
+	public List<Registro> getRegistrosSolucionadoF() {
+		return registrosSolucionadoF;
+	}
+
+	public void setRegistrosSolucionadoF(List<Registro> registrosSolucionadoF) {
+		this.registrosSolucionadoF = registrosSolucionadoF;
 	}
 
 	public Registro getRegistro() {
 		return registro;
 	}
 
-	public List<Registro> getRegistrosvisita() {
-		return registrosvisita;
+	public String editarRegistro(int codigo) {
+		
+		return "solucionar?faces-redirect=true&id=" + codigo;
 	}
 
-	public void setRegistrosvisita(List<Registro> registrosvisita) {
-		this.registrosvisita = registrosvisita;
+	public String visita(int codigore) {
+		
+		return "asignarTecnico?faces-redirect=true&id="+codigore;
 	}
-
+	
+	
 	public void setRegistro(Registro registro) {
 		this.registro = registro;
 	}
@@ -98,9 +93,18 @@ public class RegistroController{
 	public List<Registro> getRegistros() {
 		return registros;
 	}
+	public List<Agendamiento> getAgendamientos() {		
+
+		return agendamientos;
+}
+
+	public void setAgendamientos(List<Agendamiento> agendamientos) {
+		this.agendamientos = agendamientos;
+	}
 
 	public void setRegistros(List<Registro> registros) {
 		this.registros = registros;
+
 	}
 
 	public String getProblemas() {
@@ -291,11 +295,22 @@ public class RegistroController{
 		}
 	}
 
+	public String guardarAgendamiento() {
+		Registro c = new Registro();
+		Agendamiento g = new Agendamiento();
+		g.setRegistro(c);
+		try {
+			this.agendamiento.setRegistro(registro);
+			agon.guardar(agendamiento);
+			regon.guardar(registro);
+			init();
+			System.out.println("holaaaa q fue " + c.getId());
+			// System.out.println("la clave del id es: "+ registro);
+			return "callcenter";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 
-
-	public void dato() {
-	
 	}
-	
-	
 }

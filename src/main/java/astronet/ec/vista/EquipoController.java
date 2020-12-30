@@ -50,7 +50,4 @@ public class EquipoController implements Serializable{
 		return serialVersionUID;
 	}
 
-	
-	
-
 }

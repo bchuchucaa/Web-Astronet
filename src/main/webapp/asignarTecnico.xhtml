@@ -111,8 +111,8 @@
 							<div class="form-group col-xs-6">
 								<h:inputText type="text" class="form-control"
 									id="DireccionReferencia"
-									value="#{clienteController.registro.cliente.direccionReferencia}"
-									a:placeholder="Direccion Referencia" />
+									value="#{clienteController.registro.cliente.direccionSecundaria}"
+									a:placeholder="ID AG" />
 							</div>
 							<div class="form-group col-xs-6">
 								<h:inputText type="text" class="form-control" id="Latitud"
@@ -124,16 +124,7 @@
 									value="#{clienteController.registro.cliente.longitud}"
 									a:placeholder="Longitud" />
 							</div>
-							<div class="form-group col-xs-6">
-<!-- 								  <label for="sel1">Problema:</label>      -->
-				n
-								<h:selectOneMenu class="form-control" id="sel4"
-									value="#{clienteController.registro.problema}">
-									<f:selectItems value="#{clienteController.problemas1}"
-										var="pro1" itemLabel="#{pro1.carLabel}"
-										itemValue="#{pro1.carLabel}" />
-								</h:selectOneMenu>
-							</div>
+							
 												</div>
 							  <div class="form-group">
 								<label>Observaciones</label>
@@ -144,21 +135,22 @@
 
 						</div>
 					</div>					
+				</div>
 					<div class="form-group col-sm-6">
-						  <label for="selA">Acción:</label>     
-						<h:selectOneMenu class="form-control" id="selAc"
-							value="#{clienteController.registro.accion}">
-							<f:ajax  listener="#{clienteController.fechaHora()}" /> 
-							<f:selectItems value="#{clienteController.oficina1}" var="pro1"
-								itemLabel="#{pro1.carLabel}" itemValue="#{pro1.carLabel}" />
-						</h:selectOneMenu>
-					</div>
+					  <label for="sel1" class="etiquetas">Tecnicos:</label>     
+					<h:selectOneMenu class="form-control" id="sel1"
+						value="#{clienteController.registro.empleado}">
+						<f:selectItems value="#{clienteController.tecnicos}" var="pro1"
+							itemLabel="#{pro1.nombre}" itemValue="#{pro1.id}" />
+					</h:selectOneMenu>
+				</div>
 					<div class="btnsIngre_Agen">
 						<h:commandButton
-							action="#{clienteController.guardarAgendamiento()}"
+							action="#{clienteController.ingresaVisita()}"
 							class="btn btn-primary btnIn" value="Ingresar" />
 					</div>
-				</div>
+	
 	</h:form>
 </body>
 </html>
+
