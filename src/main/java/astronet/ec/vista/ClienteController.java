@@ -1,11 +1,18 @@
 package astronet.ec.vista;
 
 import java.io.IOException;
+
 import java.io.Serializable;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -13,14 +20,19 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 
-import astronet.ec.dao.TelefonoDAO;
 import astronet.ec.modelo.Agendamiento;
 import astronet.ec.modelo.Cliente;
 import astronet.ec.modelo.Empleado;
 import astronet.ec.modelo.Equipo;
+import astronet.ec.modelo.EquipoServicio;
 import astronet.ec.modelo.Instalacion;
 import astronet.ec.modelo.Plan;
 import astronet.ec.modelo.Registro;
@@ -31,6 +43,7 @@ import astronet.ec.on.AgendamientoON;
 import astronet.ec.on.ClienteON;
 import astronet.ec.on.EmpleadoON;
 import astronet.ec.on.EquipoOn;
+import astronet.ec.on.EquipoServicioON;
 import astronet.ec.on.InstalacionON;
 import astronet.ec.on.PlanON;
 import astronet.ec.on.RegistroON;
@@ -38,6 +51,10 @@ import astronet.ec.on.ServicioON;
 import astronet.ec.on.TelefonoON;
 import astronet.ec.on.VisitaON;
 import astronet.ec.vista.InstalacionController.ServicioFA;
+
+//SICHA IMPORT
+
+import java.util.Locale;
 
 @ManagedBean
 @ViewScoped
@@ -59,9 +76,15 @@ public class ClienteController implements Serializable {
 	private Visita visita = new Visita();
 
 	private Equipo equipo = new Equipo();
+	private Servicio servicioTmp;
 	private Telefono telefono;
 	private List<Telefono> telefonos;
 	private Telefono nuevoTelefono;
+
+	private String nuevoNumero;
+	private String nuevoTipoTelefono;
+	private List<EquipoServicio> serviciosCliente;
+
 	private List<Registro> registrosvisita;
 	private List<Agendamiento> agendamientos;
 	private List<Empleado> tecnicos;
@@ -75,8 +98,12 @@ public class ClienteController implements Serializable {
 	private String cedula;
 	private String nombre;
 	private String apellidos;
-	private String IP;
-	private String Password;
+
+	private String ip;
+	private String password;
+
+
+	private String serial;
 	private String email;
 	private String convencional;
 	private String celular;
@@ -85,23 +112,63 @@ public class ClienteController implements Serializable {
 	private String direccionReferencia;
 	private String latitud;
 	private String longitud;
+	private String jj;
 	private String antenaC;
 	public String problemas;
 	public String soluciones;
 	private String empleados1;
 	private String servicioRB;
+	public List<String> listaSugerencias;
 
+	private String servicioElegido;
+	private String numContrato;
+	private String fecha;
 	private String item;
 	private String antenaElegida;
 	private String planElegida;
+	private String observaciones;
+	private String routerVendido;
+
+	private Telefono telefonoConveEdit;
+	private Telefono telefonoMovilEdit;
+	private Servicio servicioEdit;
+	private EquipoServicio eqServEdit;
+
+	private String antenaTmp;
+	private String planTmp;
+	private String router;
+	private boolean rendered;
+
+	private List<String> opciones;
+	public List<Cliente> filtradoCliente;
+
+	private List<String> tipoServicios;
 	private List<Equipo> listadoAntenas;
 	private List<Plan> listadoPlanes;
+
+	private List<Plan> listadoPlanesTmp;
+
 	public int idEmpl;
+
+	public String inputName;
 
 	private int codigoReg;
 
 	@PostConstruct
 	public void init() {
+		cliente = new Cliente();
+		telefono = new Telefono();
+		registro = new Registro();
+		instalacion = new Instalacion();
+		servicio = new Servicio();
+		agendamiento = new Agendamiento();
+		empleados = empon.getListadoEmpleado();
+		listadoCliente = clion.getListadoCliente();
+		listaInstalaciones = inson.getListadoInstalacion();
+		telefonos = new ArrayList<Telefono>();
+		equipo = new Equipo();
+		serviciosCliente = new ArrayList<EquipoServicio>();
+
 		cliente = new Cliente();
 		registro = new Registro();
 		instalacion = new Instalacion();
@@ -112,15 +179,48 @@ public class ClienteController implements Serializable {
 		registros = regon.getListadoRegistro();
 		listaInstalaciones = inson.getListadoInstalacion();
 		nuevoTelefono = new Telefono();
+
+		servicioTmp = new Servicio();
+		telefonoConveEdit = new Telefono();
+		telefonoMovilEdit = new Telefono();
+		servicioEdit = new Servicio();
+		eqServEdit = new EquipoServicio();
+
 		telefonos = new ArrayList<Telefono>();
+		listadoPlanesTmp = new ArrayList<Plan>();
+
+		listadoPlanes = new ArrayList<Plan>();
 		equipo = new Equipo();
+		servicioElegido = "Fibra";
+		if (servicioElegido.equals("Radio")) {
+
+			listadoAntenas = eqOn.getListadoAntenas();
+		} else {
+			listadoAntenas = eqOn.getListadoEquiposFibra();
+		}
+		System.out.println("Servicio: " + servicioElegido);
+		listadoPlanesTmp = planOn.getListadoPlan();
+		opciones = new ArrayList<String>();
+		tipoServicios = new ArrayList<String>();
+
+		listadoPlanes.add(listadoPlanesTmp.get(0));
+		listadoPlanes.add(listadoPlanesTmp.get(1));
+		listadoPlanes.add(listadoPlanesTmp.get(2));
+
+		opciones.add("Si");
+		opciones.add("No");
+
+		tipoServicios.add("Radio");
+		tipoServicios.add("Fibra");
 		listadoAntenas = eqOn.getListadoAntenas();
 		listadoPlanes = planOn.getListadoPlan();
 		registrosvisita = regon.listadoRegistrosVT();
 		tecnicos = empon.getListadoTecnico();
 		agendamientos = agon.getAgenda();
 		visita = new Visita();
+
 		System.out.println("Si tomoo las antenaas" + listadoAntenas.size());
+		listaSugerencias = new ArrayList<String>();
 	}
 
 	public List<Agendamiento> getAgendamientos() {
@@ -151,16 +251,29 @@ public class ClienteController implements Serializable {
 		this.tecnicoElegido = tecnicoElegido;
 	}
 
+	public String getApellidos() {
+		return apellidos;
+	}
 	public void setRegistrosvisita(List<Registro> registrosvisita) {
 		this.registrosvisita = registrosvisita;
 	}
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public EquipoServicio clienteip;
 
 	/**
 	 * Fin de la declaracion
 	 */
 
-	@ManagedProperty(value = "#{login}")
-	private EmpleadoController empCon;
+	// @ManagedProperty(value = "#{login}")
+	// private EmpleadoController empCon;
 
 	/**
 	 * Inyeccion de las clases ON
@@ -198,19 +311,8 @@ public class ClienteController implements Serializable {
 	@Inject
 	private VisitaON visitaOn;
 
-	/**
-	 * Fin de la inyeccion
-	 */
-
-	/**
-	 * Metodo para la accion de editar los clientes
-	 */
-	public void loadData() {
-		if (id == 0)
-			return;
-		cliente = clion.getCliente(id);
-
-	}
+	@Inject
+	private EquipoServicioON eqServOn;
 
 	/**
 	 * Metodo para la accion para realizar las revisiones
@@ -262,24 +364,73 @@ public class ClienteController implements Serializable {
 		this.item = item;
 	}
 
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
+
+	public ClienteON getClion() {
+		return clion;
+	}
+
+	public void setClion(ClienteON clion) {
+		this.clion = clion;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
+
 	public String getAntenaElegida() {
 		return antenaElegida;
 	}
 
 	public void setAntenaElegida(String antenaElegida) {
+
 		this.antenaElegida = antenaElegida;
 	}
 
 	public List<Equipo> getListadoAntenas() {
-		return eqOn.getListadoAntenas();
+		if (servicioEdit.getTipoServicio() != null) {
+			if (servicioEdit.getTipoServicio().equals("radio")) {
+				return eqOn.getListadoAntenas();
+			} else {
+				System.out.println("Servicio: " + servicioEdit.getTipoServicio());
+				return eqOn.getListadoEquiposFibra();
+			}
+		} else {
+			return null;
+		}
 	}
 
 	public void setListadoAntenas(List<Equipo> listadoAntenas) {
-		this.listadoAntenas = listadoAntenas;
+		if (servicioElegido.equals("Radio")) {
+
+			this.listadoAntenas = eqOn.getListadoAntenas();
+
+		} else {
+			this.listadoAntenas = eqOn.getListadoEquiposFibra();
+			System.out.println("Size=" + listadoAntenas.size());
+		}
 	}
 
 	public String getEmail() {
 		return email;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public PlanON getPlanOn() {
+		return planOn;
+	}
+
+	public void setPlanOn(PlanON planOn) {
+		this.planOn = planOn;
 	}
 
 	public void setEmail(String email) {
@@ -298,16 +449,12 @@ public class ClienteController implements Serializable {
 		return celular;
 	}
 
-	public void setCelular(String celular) {
-		this.celular = celular;
+	public List<EquipoServicio> getServiciosCliente() {
+		return serviciosCliente;
 	}
 
-	public String getApellidos() {
-		return apellidos;
-	}
-
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
+	public void setServiciosCliente(List<EquipoServicio> serviciosCliente) {
+		this.serviciosCliente = serviciosCliente;
 	}
 
 	public String getLatitud() {
@@ -326,6 +473,14 @@ public class ClienteController implements Serializable {
 		this.longitud = longitud;
 	}
 
+	public String getJj() {
+		return jj;
+	}
+
+	public void setJj(String jj) {
+		this.jj = jj;
+	}
+
 	public String getProblemas() {
 		return problemas;
 	}
@@ -334,12 +489,12 @@ public class ClienteController implements Serializable {
 		this.problemas = problemas;
 	}
 
-	public ClienteON getClion() {
-		return clion;
+	public List<Plan> getListadoPlanesTmp() {
+		return listadoPlanesTmp;
 	}
 
-	public void setClion(ClienteON clion) {
-		this.clion = clion;
+	public void setListadoPlanesTmp(List<Plan> listadoPlanesTmp) {
+		this.listadoPlanesTmp = listadoPlanesTmp;
 	}
 
 	public RegistroON getRegon() {
@@ -477,28 +632,12 @@ public class ClienteController implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public String getIP() {
-		return IP;
-	}
-
-	public void setIP(String iP) {
-		IP = iP;
-	}
-
 	public String getCedula() {
 		return cedula;
 	}
 
 	public void setCedula(String cedula) {
 		this.cedula = cedula;
-	}
-
-	public String getPassword() {
-		return Password;
-	}
-
-	public void setPassword(String password) {
-		Password = password;
 	}
 
 	public String getAntenaC() {
@@ -629,17 +768,17 @@ public class ClienteController implements Serializable {
 		this.idR = idR;
 	}
 
-	public EmpleadoController getEmpCon() {
-		return empCon;
-	}
-
-	public void setEmpCon(EmpleadoController empCon) {
-		this.empCon = empCon;
-	}
-
 	/*
 	 * Hasta aqui llega la creacion de los getters and setters
 	 */
+
+	public String getInputName() {
+		return inputName;
+	}
+
+	public void setInputName(String inputName) {
+		this.inputName = inputName;
+	}
 
 	public List<Telefono> getTelefonos() {
 		return telefonos;
@@ -651,7 +790,7 @@ public class ClienteController implements Serializable {
 
 	/**
 	 * Metodo para dirigirnos a la pagina editarClientes
-	 * 
+	 *
 	 * @param codigo
 	 * @return
 	 */
@@ -671,7 +810,7 @@ public class ClienteController implements Serializable {
 
 	/**
 	 * Metodo para la creacion de los clientes
-	 * 
+	 *
 	 * @return
 	 */
 	public String guardarCliente() {
@@ -691,7 +830,7 @@ public class ClienteController implements Serializable {
 
 	/**
 	 * Metodo para la busqueda de clientes para el registro
-	 * 
+	 *
 	 * @return
 	 */
 
@@ -707,12 +846,13 @@ public class ClienteController implements Serializable {
 					System.out.println(telefono.getTipoTelefono());
 					System.out.println("-----kiko----");
 				}
-				setTelefonos(telefonos2);
-				System.out.println("-----CHAVOOOO----");
 				registro.setIdClienteTemp(cliente.getId());
-				cliente.setTelefonos(telefonos2);
+				cliente.setTelefonos(telefonos);
 				fechaHora();
-				datoR();
+
+				// datoR();
+				setNuevoTelefono(null);
+				setNuevoTipoTelefono(null);
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
 
@@ -728,27 +868,28 @@ public class ClienteController implements Serializable {
 
 	}
 
-	public String buscarCedula1() {
-		try {
-			if (cliente.getCedula() != null) {
+	public String getNuevoNumero() {
+		return nuevoNumero;
+	}
 
-				cliente = clion.getClienteCedula(cliente.getCedula());
-				registro.setIdClienteTemp(cliente.getId());
-				fechaHora();
-				datoR();
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
+	public void setNuevoNumero(String nuevoNumero) {
+		this.nuevoNumero = nuevoNumero;
+	}
 
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Incorrectas"));
+	public String getNuevoTipoTelefono() {
+		return nuevoTipoTelefono;
+	}
 
-		}
-		System.out.println("veniii" + cliente.getCedula());
-		return cliente.getCedula();
+	public void setNuevoTipoTelefono(String nuevoTipoTelefono) {
+		this.nuevoTipoTelefono = nuevoTipoTelefono;
+	}
 
+	public Telefono getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(Telefono telefono) {
+		this.telefono = telefono;
 	}
 
 	public List<Telefono> getTelefonos1(Cliente cliente) {
@@ -763,30 +904,9 @@ public class ClienteController implements Serializable {
 		cliente = clion.getClienteNombre(cliente.getNombre());
 		registro.setIdClienteTemp(cliente.getId());
 		fechaHora();
-		datoR();
+		// datoR();
 	}
 
-	/**
-	 * Metodo para editar los clientes
-	 * 
-	 * @return
-	 */
-	public String cargarDatos() {
-		try {
-			clion.guardar(cliente);
-			init();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	/**
-	 * Metodo para editar los clientes
-	 * 
-	 * @return
-	 */
 	public String cargarDatosCallCenter() {
 
 		try {
@@ -800,7 +920,7 @@ public class ClienteController implements Serializable {
 
 	/**
 	 * Metodo para guadar el agendamiento
-	 * 
+	 *
 	 * @return
 	 */
 
@@ -821,54 +941,15 @@ public class ClienteController implements Serializable {
 		}
 		return null;
 	}
-	/**
-	 * Metodo para la ejecuccion del sistema de simbolo (cmd)
-	 */
-	/*
-	 * public void cmd() { try { System.out.println("gol");
-	 * 
-	 * for (int i = 0; i < registro.getCliente().getServicio().size(); i++) { //IP =
-	 * registro.getCliente().getServicio().get(i).getIp();
-	 * Runtime.getRuntime().exec("cmd.exe /k start ping " + IP + " -t");
-	 * fechaHora(); System.out.println("IP obtenida: " + IP);
-	 * System.out.println("hola2"); }
-	 * 
-	 * 
-	 * 
-	 * } catch (IOException e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); } }
-	 * 
-	 * public void winbox() {
-	 * 
-	 * try { for (int i = 0; i < registro.getCliente().getServicio().size(); i++) {
-	 * IP = registro.getCliente().getServicio().get(i).getIp(); Password =
-	 * registro.getCliente().getServicio().get(i).getPassword();
-	 * Runtime.getRuntime().exec("C:\\Winbox.exe " + IP + " admin connect " +
-	 * Password); System.out.println("IP obtenida: " + IP);
-	 * System.out.println("hola2"); }
-	 * 
-	 * } catch (IOException e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); }
-	 * 
-	 * }
-	 * 
-	 * 
-	 */
-
-	/**
-	 * Metodo para mostrar el listado de las antenas en el combox
-	 * 
-	 * @return
-	 */
 
 	public String listAntena() {
-		antenaC = "" + eqOn.getListadoAntenas();
+		// antenaC = "" + anton.getListadoAntena();
 		return antenaC;
 	}
 
 	/**
 	 * Metod para guardar los registros
-	 * 
+	 *
 	 * @return
 	 */
 	public String cargarDatosRegistro() {
@@ -1007,6 +1088,273 @@ public class ClienteController implements Serializable {
 		return listaSolucion;
 	}
 
+	/*
+	 * Metodo para de radioButton del Modo de Servicio
+	 */
+	public static class ServicioFA {
+		public String servicioLabel;
+		public String servicioValue;
+
+		public ServicioFA(String servicioLabel, String servicioValue) {
+			this.servicioLabel = servicioLabel;
+			this.servicioValue = servicioValue;
+		}
+
+		public String getServicioLabel() {
+			return servicioLabel;
+		}
+
+		public void setServicioLabel(String servicioLabel) {
+			this.servicioLabel = servicioLabel;
+		}
+
+		public String getServicioValue() {
+			return servicioValue;
+		}
+
+		public void setServicioValue(String servicioValue) {
+			this.servicioValue = servicioValue;
+		}
+
+	}
+
+	public ServicioFA[] servicioLista;
+
+	public ServicioFA[] getListaServicioRB() {
+
+		servicioLista = new ServicioFA[2];
+		servicioLista[0] = new ServicioFA("Fibra Optica", "FO");
+		servicioLista[1] = new ServicioFA("Antena", "RE");
+
+		return servicioLista;
+	}
+
+	public List<Plan> getListadoPlanes() {
+		if (servicioEdit.getTipoServicio() != null) {
+			if (servicioEdit.getTipoServicio().equals("radio")) {
+				List<Plan> planRadio = new ArrayList<Plan>();
+				planRadio.add(listadoPlanesTmp.get(0));
+				planRadio.add(listadoPlanesTmp.get(1));
+				planRadio.add(listadoPlanesTmp.get(2));
+
+				return planRadio;
+			} else {
+				List<Plan> planFibra = new ArrayList<Plan>();
+				planFibra.add(listadoPlanesTmp.get(3));
+				planFibra.add(listadoPlanesTmp.get(4));
+				planFibra.add(listadoPlanesTmp.get(5));
+
+				return planFibra;
+			}
+		} else
+			return null;
+	}
+
+	public void setListadoPlanes(List<Plan> listadoPlanes) {
+		this.listadoPlanes = listadoPlanes;
+	}
+
+	public EquipoServicioON getEqServOn() {
+		return eqServOn;
+	}
+
+	public void setEqServOn(EquipoServicioON eqServOn) {
+		this.eqServOn = eqServOn;
+	}
+
+	public Telefono getTelefonoMovilEdit() {
+		return telefonoMovilEdit;
+	}
+
+	public void setTelefonoMovilEdit(Telefono telefonoMovilEdit) {
+		this.telefonoMovilEdit = telefonoMovilEdit;
+	}
+
+	public Servicio getServicioEdit() {
+		return servicioEdit;
+	}
+
+	public void setServicioEdit(Servicio servicioEdit) {
+		this.servicioEdit = servicioEdit;
+	}
+
+	public String getPlanElegida() {
+		return planElegida;
+	}
+
+	public String getServicioElegido() {
+		return servicioElegido;
+	}
+
+	public void setServicioElegido(String servicioElegido) {
+		this.servicioElegido = servicioElegido;
+	}
+
+	public void setPlanElegida(String planElegida) {
+		this.planElegida = planElegida;
+	}
+
+	public String getRouterVendido() {
+		return routerVendido;
+	}
+
+	public void setRouterVendido(String routerVendido) {
+		this.routerVendido = routerVendido;
+	}
+
+	public List<String> getOpciones() {
+		return opciones;
+	}
+
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+
+	public void setOpciones(List<String> opciones) {
+		this.opciones = opciones;
+	}
+
+	public String getSerial() {
+		return serial;
+	}
+
+	public void setSerial(String serial) {
+		this.serial = serial;
+	}
+
+	public String getAntenaTmp() {
+		return antenaTmp;
+	}
+
+	public boolean isRendered() {
+		return rendered;
+	}
+
+	public void setRendered(boolean rendered) {
+		this.rendered = rendered;
+	}
+
+	public void setAntenaTmp(String antenaTmp) {
+		this.antenaTmp = antenaTmp;
+	}
+
+	public Servicio getServicioTmp() {
+		return servicioTmp;
+	}
+
+	public Telefono getTelefonoConveEdit() {
+		return telefonoConveEdit;
+	}
+
+	public void setTelefonoConveEdit(Telefono telefonoConveEdit) {
+		this.telefonoConveEdit = telefonoConveEdit;
+	}
+
+	public void setServicioTmp(Servicio servicioTmp) {
+		this.servicioTmp = servicioTmp;
+	}
+
+	public String getNumContrato() {
+		return numContrato;
+	}
+
+	public void setNumContrato(String numContrato) {
+		this.numContrato = numContrato;
+	}
+
+	public EquipoServicio getEqServEdit() {
+		return eqServEdit;
+	}
+
+	public List<String> getTipoServicios() {
+		return tipoServicios;
+	}
+
+	public void setTipoServicios(List<String> tipoServicios) {
+		this.tipoServicios = tipoServicios;
+	}
+
+	public void setEqServEdit(EquipoServicio eqServEdit) {
+		this.eqServEdit = eqServEdit;
+	}
+
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
+	}
+
+	// Metodo para actualizar los telefonos;
+
+	public String getRouter() {
+		return router;
+	}
+
+	public void setRouter(String router) {
+		this.router = router;
+	}
+
+	public String getPlanTmp() {
+		return planTmp;
+	}
+
+	public void setPlanTmp(String planTmp) {
+		this.planTmp = planTmp;
+	}
+
+	public void loadData() {
+		if (id == 0)
+			return;
+		cliente = clion.getCliente(id);
+
+		List<Telefono> telefonos2 = telOn.getTelefonos(cliente);
+		for (Telefono telefono : telefonos2) {
+			if (telefono.getTipoTelefono().equals("Convencional")) {
+				setTelefonoConveEdit(telefono);
+			}
+			if (telefono.getTipoTelefono().equals("Movil")) {
+				setTelefonoMovilEdit(telefono);
+			}
+
+		}
+
+		List<Servicio> servicios = seron.getServicios(cliente);
+		int i = 0;
+		for (Servicio servicio : servicios) {
+			if (i == 0) {
+				setServicioEdit(servicio);
+			}
+			i++;
+		}
+
+		List<EquipoServicio> equipoServicios = eqServOn.getServicios(servicioEdit);
+		int j = 0;
+		for (EquipoServicio equipoServicio : equipoServicios) {
+			if (j == 0) {
+				setEqServEdit(equipoServicio);
+			}
+			j++;
+		}
+
+		this.antenaTmp = eqServEdit.getEquipo().getModelo();
+		this.planTmp = servicioEdit.getPlan().getTipoPlan();
+		this.router = servicioEdit.getRouterVendido();
+
+		if (servicioEdit.getTipoServicio().equals("radio")) {
+			setListadoAntenas(eqOn.getListadoAntenas());
+		} else {
+			System.out.println("Servicio: " + servicioEdit.getTipoServicio());
+			setListadoAntenas(eqOn.getListadoEquiposFibra());
+
+		}
+	}
+
 	public String tecnicoCampo() {
 		empleados1 = "" + empon.getListadoEmpleado();
 
@@ -1070,20 +1418,6 @@ public class ClienteController implements Serializable {
 		}
 	}
 
-	/**
-	 * Metodo de conltar Registro para el agendamiento public void
-	 * consultarRegistro() { Registro reg; try { reg =
-	 * regon.consultarRegistro(agendamiento.getCodigoRegistroTemp());
-	 * agendamiento.setRegistro(reg); } catch (Exception e) {
-	 * agendamiento.setRegistro(null);
-	 * 
-	 * 
-	 * e.printStackTrace(); } }
-	 */
-
-	/**
-	 * Metodo para la fecha del sistema
-	 */
 	public void fechaHora() {
 		Calendar fecha = new GregorianCalendar();
 
@@ -1104,17 +1438,16 @@ public class ClienteController implements Serializable {
 
 	}
 
-	public void datoR() {
-		System.out.println("datos locos " + empCon.getId());
-		registro.setIdEmpleadoTemp(empCon.getId());
-	}
-
-	public String datoI() {
-		System.out.println("Datos Instalacion " + empCon.getId());
-		instalacion.setCodigoEmpTemp(empCon.getId());
-		return "instalacion";
-	}
-
+	/*
+	 * 
+	 * 
+	 * public void datoR() { System.out.println("datos locos " + empCon.getId());
+	 * registro.setIdEmpleadoTemp(empCon.getId()); }
+	 * 
+	 * public String datoI() { System.out.println("Datos Instalacion " +
+	 * empCon.getId()); instalacion.setCodigoEmpTemp(empCon.getId()); return
+	 * "instalacion"; }
+	 */
 	public boolean validadorDeCedula(String cedula) {
 		boolean cedulaCorrecta = false;
 
@@ -1163,9 +1496,17 @@ public class ClienteController implements Serializable {
 		return cedulaCorrecta;
 	}
 
+	public EquipoServicio getClienteip() {
+		return clienteip;
+	}
+
+	public void setClienteip(EquipoServicio clienteip) {
+		this.clienteip = clienteip;
+	}
+
 	/**
 	 * Metodo para guardar los datos de la instalacion
-	 * 
+	 *
 	 * @return
 	 */
 	public String crearInstalacion() {
@@ -1181,6 +1522,7 @@ public class ClienteController implements Serializable {
 	}
 
 	public String crearCliente() {
+
 		Telefono tele = new Telefono();
 		Telefono teleMovil = new Telefono();
 		Cliente cli = new Cliente();
@@ -1195,15 +1537,96 @@ public class ClienteController implements Serializable {
 		cli.setEmail(this.email);
 		cli.setLatitud(this.latitud);
 		cli.setLongitud(this.longitud);
+
 		clion.guardar(cli);
+
 		tele.setTipoTelefono("Convencional");
 		tele.setTelNumero(this.convencional);
 		tele.setCliente(cli);
 		telOn.guardar(tele);
+
+		teleMovil.setTipoTelefono("Movil");
+		teleMovil.setTelNumero(this.celular);
+		teleMovil.setCliente(cli);
+
+		telOn.guardar(teleMovil);
+
+		if (servicioElegido.equals("Radio")) {
+			Plan planTmp = new Plan();
+			Equipo antenaTmp = new Equipo();
+			EquipoServicio eqServicio = new EquipoServicio();
+
+			antenaTmp = eqOn.buscarAntena(Integer.parseInt(antenaElegida));
+			planTmp = planOn.buscarPlan(Integer.parseInt(planElegida));
+
+			servicioTmp.setTipoServicio("radio");
+			servicioTmp.setNumeroContrato(this.numContrato);
+			servicioTmp.setCliente(cli);
+			servicioTmp.setFechaContrato(this.fecha);
+			servicioTmp.setRouterVendido(this.routerVendido);
+			servicioTmp.setObservaciones(this.observaciones);
+			servicioTmp.setPlan(planTmp);
+			seron.guardar(servicioTmp);
+
+			eqServicio.setSerial(this.serial);
+			eqServicio.setPassword(this.password);
+			eqServicio.setIp(this.ip);
+
+			eqServicio.setEquipo(antenaTmp);
+			eqServicio.setServicio(servicioTmp);
+
+			eqServOn.crearI(eqServicio);
+		} else {
+			Plan planTmp = new Plan();
+			Equipo antenaTmp = new Equipo();
+			EquipoServicio eqServicio = new EquipoServicio();
+
+			antenaTmp = eqOn.buscarAntena(Integer.parseInt(antenaElegida));
+			planTmp = planOn.buscarPlan(Integer.parseInt(planElegida));
+
+			servicioTmp.setTipoServicio("fibra");
+			servicioTmp.setNumeroContrato(this.numContrato);
+			servicioTmp.setCliente(cli);
+			servicioTmp.setFechaContrato(this.fecha);
+			servicioTmp.setRouterVendido(this.routerVendido);
+			servicioTmp.setObservaciones(this.observaciones);
+			servicioTmp.setPlan(planTmp);
+			seron.guardar(servicioTmp);
+
+			eqServicio.setSerial(this.serial);
+			eqServicio.setPassword(this.password);
+			eqServicio.setIp(this.ip);
+
+			eqServicio.setEquipo(antenaTmp);
+			eqServicio.setServicio(servicioTmp);
+
+			eqServOn.crearI(eqServicio);
+
+		}
+
+		this.cedula = "";
+		this.nombre = "";
+		this.apellidos = "";
+		this.convencional = "";
+		this.celular = "";
+		this.direccionPrincipal = "";
+		this.direccionSecundaria = "";
+		this.direccionReferencia = "";
+		this.latitud = "";
+		this.longitud = "";
+		this.email = "";
+		this.antenaElegida = "";
+		this.planElegida = "";
+		this.ip = "";
+		this.password = "";
+		this.serial = "";
+		this.observaciones = "";
+
 		teleMovil.setTipoTelefono("Movil");
 		teleMovil.setTelNumero(this.celular);
 		teleMovil.setCliente(cli);
 		telOn.guardar(teleMovil);
+
 		return null;
 	}
 
@@ -1227,70 +1650,366 @@ public class ClienteController implements Serializable {
 		}
 	}
 
-	/*
-	 * Metodo para de radioButton del Modo de Servicio
-	 */
-	public static class ServicioFA {
-		public String servicioLabel;
-		public String servicioValue;
-
-		public ServicioFA(String servicioLabel, String servicioValue) {
-			this.servicioLabel = servicioLabel;
-			this.servicioValue = servicioValue;
-		}
-
-		public String getServicioLabel() {
-			return servicioLabel;
-		}
-
-		public void setServicioLabel(String servicioLabel) {
-			this.servicioLabel = servicioLabel;
-		}
-
-		public String getServicioValue() {
-			return servicioValue;
-		}
-
-		public void setServicioValue(String servicioValue) {
-			this.servicioValue = servicioValue;
-		}
-
+	public void toggleRendered(ActionEvent event) {
+		this.rendered = !rendered;
 	}
 
-	public ServicioFA[] servicioLista;
+	public String cargarDatos() {
+		try {
 
-	public ServicioFA[] getListaServicioRB() {
+			clion.guardar(cliente);
+			telOn.guardar(telefonoConveEdit);
+			telOn.guardar(telefonoMovilEdit);
+			Plan planTmp = new Plan();
+			Equipo equipo = new Equipo();
 
-		servicioLista = new ServicioFA[2];
-		servicioLista[0] = new ServicioFA("Fibra Optica", "FO");
-		servicioLista[1] = new ServicioFA("Antena", "RE");
+			if (planElegida != null)
 
-		return servicioLista;
+				planTmp = planOn.buscarPlan(Integer.parseInt(planElegida));
+			else
+				planTmp = planOn.getPlanByName(this.planTmp);
+
+			if (antenaElegida != null)
+
+				equipo = eqOn.buscarAntena(Integer.parseInt(this.antenaElegida));
+			else
+				equipo = eqOn.getAntenaByName(this.antenaTmp);
+
+			this.servicioEdit.setRouterVendido(this.router);
+			this.servicioEdit.setPlan(planTmp);
+
+			// seron.guardar(servicioEdit);
+
+			seron.update(this.servicioEdit);
+
+			this.eqServEdit.setEquipo(equipo);
+
+			eqServOn.actualizar(this.eqServEdit);
+
+			this.antenaTmp = "";
+			this.planTmp = "";
+			this.router = "";
+			init();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
 	}
 
-	public List<Plan> getListadoPlanes() {
-		return listadoPlanes;
+	public void validarCedula(FacesContext context, UIComponent comp, Object value) {
+		System.out.println("inside validate method");
+
+		String mno = (String) value;
+		try {
+			Integer.parseInt(mno);
+		} catch (Exception e) {
+			((UIInput) comp).setValid(false);
+			FacesMessage message = new FacesMessage("Favor ingrese solo numeros");
+			context.addMessage(comp.getClientId(context), message);
+		}
+		int i;
+		int vect[] = new int[13];
+		if (mno.equals("0000000000")) {
+			FacesMessage message = new FacesMessage("No es una cedula valida");
+			context.addMessage(comp.getClientId(context), message);
+		} else if (mno.length() == 10) {
+			System.out.println("Cedula");
+			for (i = 0; i < mno.length(); i++) {
+				vect[i] = Integer.parseInt(Character.toString(mno.charAt(i)));
+			}
+			if (vect[2] <= 6 && vect[2] >= 0) {
+				int comprobar[] = { 2, 1, 2, 1, 2, 1, 2, 1, 2 };
+				int suma = 0;
+				for (i = 0; i < comprobar.length; i++) {
+					vect[i] *= comprobar[i];
+					if (vect[i] >= 10) {
+						vect[i] -= 9;
+					}
+					suma += vect[i];
+				}
+				suma += vect[i];
+				suma %= 10;
+				if (suma != 0) {
+					((UIInput) comp).setValid(false);
+					FacesMessage message = new FacesMessage("No es una cedula valida");
+					context.addMessage(comp.getClientId(context), message);
+				}
+			}
+		} else {
+			((UIInput) comp).setValid(false);
+			FacesMessage message = new FacesMessage("Favor ingrese los 10 digitos");
+			context.addMessage(comp.getClientId(context), message);
+		}
 	}
 
-	public void setListadoPlanes(List<Plan> listadoPlanes) {
-		this.listadoPlanes = listadoPlanes;
+	public void validarNombre(FacesContext context, UIComponent componentToValidate, Object value)
+			throws ValidatorException {
+		FacesMessage message = null;
+		// Retrieve the temporary value from the password field
+
+		String mNombre = (String) value;
+
+		/* Verificamos que no sea null */
+		if (mNombre != "") {
+
+			String[] parts = mNombre.split(" ");
+
+			if (parts.length > 2) {
+				message = new FacesMessage("No puede tener mas de dos nombres");
+				throw new ValidatorException(message);
+			}
+
+			for (int i = 0; i < parts.length; i++) {
+				int stringSize = parts[i].length();
+				boolean isValidSize = (stringSize >= 3 && stringSize <= 30);
+
+				if (!isValidSize && i == 0) {
+					message = new FacesMessage("El primer nombre debe tener un minimo de 3 caracteres");
+					throw new ValidatorException(message);
+				}
+
+				if (!isValidSize && i == 1) {
+					message = new FacesMessage("El segundo nombre debe tener un minimo de 3 caracteres");
+					throw new ValidatorException(message);
+				}
+			}
+
+			/* 2ª Condición: que el tamaño sea >= 3 y <= 15 */
+
+		}
 	}
 
-	public String getPlanElegida() {
-		return planElegida;
+	public void validarApellido(FacesContext context, UIComponent componentToValidate, Object value)
+			throws ValidatorException {
+		FacesMessage message = null;
+		// Retrieve the temporary value from the password field
+
+		String mNombre = (String) value;
+
+		/* Verificamos que no sea null */
+		if (mNombre != "") {
+
+			String[] parts = mNombre.split(" ");
+
+			if (parts.length == 1) {
+				message = new FacesMessage("No puede tener un apellido");
+				throw new ValidatorException(message);
+			}
+
+			if (parts.length > 2) {
+				message = new FacesMessage("No puede tener mas de dos apellidos");
+				throw new ValidatorException(message);
+			}
+
+			for (int i = 0; i < parts.length; i++) {
+				int stringSize = parts[i].length();
+				boolean isValidSize = (stringSize >= 3 && stringSize <= 20);
+
+				if (!isValidSize && i == 0) {
+					message = new FacesMessage("El primer apellido debe tener entre 3 y 20 caracteres");
+					throw new ValidatorException(message);
+				}
+
+				if (!isValidSize && i == 1) {
+					message = new FacesMessage("El segundo apellido debe tener entre 3 y 20 caracteres");
+					throw new ValidatorException(message);
+				}
+			}
+
+			/* 2ª Condición: que el tamaño sea >= 3 y <= 15 */
+
+		}
 	}
 
-	public void setPlanElegida(String planElegida) {
-		this.planElegida = planElegida;
+	public void validarTelefono(FacesContext context, UIComponent componentToValidate, Object value)
+			throws ValidatorException {
+		FacesMessage message = null;
+		// Retrieve the temporary value from the password field
+
+		String convecional = (String) value;
+
+		if (convecional != "") {
+
+			try {
+				Integer.parseInt(convecional);
+			} catch (NumberFormatException excepcion) {
+
+				message = new FacesMessage("Ingrese solo numeros");
+				throw new ValidatorException(message);
+
+			}
+
+		} /* Verificamos que no sea null */
 	}
 
 	// Metodo para actualizar los telefonos;
 
 	public void editTelefono(Telefono telefono) {
-		this.telefono = telefono;
-		telOn.updateTelefono(telefono);
-		System.out.println("TELEFONO A UPDATE -> " + telefono.getTipoTelefono());
 
+		try {
+			this.telefono = telefono;
+			telOn.updateTelefono(telefono);
+			System.out.println("TELEFONO A UPDATE -> " + telefono.getTipoTelefono());
+
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se actualizo el telefono correctamente"));
+
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se pudo actualizar el telefono"));
+
+		}
+
+	}
+
+	public void newTelefono() {
+
+		if (nuevoTipoTelefono != null && nuevoNumero != null) {
+			try {
+				System.out.println("this is new ID FOR TEL -> " + telOn.getMaxId() + 1);
+				nuevoTelefono = new Telefono(telOn.getMaxId() + 1, nuevoNumero, nuevoTipoTelefono,
+						clion.getClienteCedula(cliente.getCedula()));
+				telefonos.add(nuevoTelefono);
+				telOn.createTelefono(nuevoTelefono);
+
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Telefono Agregado Correctamente"));
+
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se pudo agregar el telefono"));
+
+			}
+		}
+	}
+
+	public void validarCorreo(FacesContext context, UIComponent componentToValidate, Object value)
+			throws ValidatorException {
+		FacesMessage message = null;
+		// Retrieve the temporary value from the password field
+		String correo = null;
+		correo = (String) value;
+		if (correo != "") {
+			Pattern pattern = Pattern.compile(
+					"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+			Matcher mather = pattern.matcher(correo);
+			if (!mather.find()) {
+				message = new FacesMessage("Correo Invalido");
+				throw new ValidatorException(message);
+			}
+		} /* Verificamos que no sea null */
+
+	}
+
+	public List<Equipo> listarAntenas(String antenaElegido) {
+		if (antenaElegido.equals("Radio")) {
+			return eqOn.getListadoAntenas();
+		} else {
+			return eqOn.getListadoEquiposFibra();
+		}
+	}
+
+	/**
+	 *
+	 */
+
+	// SICHA METODS
+	/**
+	 * funcion global para buscar en data table
+	 */
+
+	public boolean globalFilterFunction(Object value, Object filter, Locale locale) {
+		String filterText = (filter == null) ? null : filter.toString().trim().toLowerCase();
+		if (filterText == null || filterText.equals("")) {
+			return true;
+		}
+		int filterInt = getInteger(filterText);
+
+		Cliente cli = (Cliente) value;
+		return cli.getCedula().toLowerCase().contains(filterText)
+				|| cli.getApellidos().toLowerCase().contains(filterText)
+				|| cli.getNombre().toLowerCase().contains(filterText)
+				|| cli.getEmail().toLowerCase().contains(filterText)
+				|| cli.getLatitud().toLowerCase().contains(filterText)
+				|| cli.getLongitud().toLowerCase().contains(filterText)
+				|| cli.getDireccionReferencia().toLowerCase().contains(filterText)
+				|| cli.getDireccionSecundaria().toLowerCase().contains(filterText);
+		/*
+		 * || cli.isSold() ? "sold" : "sale").contains(filterText) || cli.getYear() <
+		 * filterInt || cli.getPrice() < filterInt;
+		 */
+	}
+
+	private int getInteger(String string) {
+		try {
+			return Integer.valueOf(string);
+		} catch (NumberFormatException ex) {
+			return 0;
+		}
+	}
+
+	// Metod to autocomplete
+
+	public List<String> getSugerencias(String enteredValue) {
+		List<String> coincidencias = new ArrayList<String>();
+
+		System.out.println("NOMBRE BUSCADO");
+		System.out.println(enteredValue);
+		Cliente clie;
+
+		for (int i = 0; i < listadoCliente.size(); i++) {
+
+			clie = (Cliente) listadoCliente.get(i);
+			String nombre = clie.getNombre() + " " + clie.getApellidos() + "/" + clie.getCedula();
+			String apellido = clie.getApellidos();
+			String nombres = clie.getNombre();
+
+			try {
+				if (nombres.toLowerCase().startsWith(enteredValue.toLowerCase())
+						|| apellido.toLowerCase().startsWith(enteredValue.toLowerCase())) {
+					System.out.println("Ingresa");
+
+					coincidencias.add(nombre);
+				}
+
+			} catch (Exception e) {
+				System.out.println("Exception " + e);
+			}
+
+		}
+
+		return coincidencias;
+
+	}
+
+	public String findByNames() {
+		System.out.println("THIS IS THE IDENTIFICACION OF CLIENT " + inputName);
+
+		try {
+			inputName = inputName.substring(inputName.lastIndexOf("/") + 1);
+
+			System.out.println(inputName);
+			cliente = clion.getClienteCedula(inputName);
+			setTelefonos(telOn.getTelefonos(cliente));
+			for (Telefono telefono : telefonos) {
+				System.out.println(telefono.getTipoTelefono());
+				System.out.println("-----kiko----");
+			}
+			registro.setIdClienteTemp(cliente.getId());
+			cliente.setTelefonos(telefonos);
+			fechaHora();
+			// datoR();
+			setNuevoTelefono(null);
+			setNuevoTipoTelefono(null);
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("NO HAY TEXTO ");
+		}
+
+		return null;
 	}
 
 	public void newTelefono(Telefono telefono) {
@@ -1311,7 +2030,24 @@ public class ClienteController implements Serializable {
 
 			}
 			this.nuevoTelefono = new Telefono();
+		}
+	}
 
+	public List<Plan> listarPlan(String antenaElegido) {
+		if (antenaElegido.equals("Radio")) {
+			List<Plan> planRadio = new ArrayList<Plan>();
+			planRadio.add(listadoPlanesTmp.get(0));
+			planRadio.add(listadoPlanesTmp.get(1));
+			planRadio.add(listadoPlanesTmp.get(2));
+
+			return planRadio;
+		} else {
+			List<Plan> planFibra = new ArrayList<Plan>();
+			planFibra.add(listadoPlanesTmp.get(3));
+			planFibra.add(listadoPlanesTmp.get(4));
+			planFibra.add(listadoPlanesTmp.get(5));
+
+			return planFibra;
 		}
 
 	}
@@ -1327,6 +2063,38 @@ public class ClienteController implements Serializable {
 		Visita g = new Visita(cli, registro, empleado);
 		visitaOn.guardar(g);
 		System.out.println("Se guardo correcto correctamente");
+	}
+
+	public List<Cliente> getFiltradoCliente() {
+		return filtradoCliente;
+	}
+
+	public void setFiltradoCliente(List<Cliente> filtradoCliente) {
+		this.filtradoCliente = filtradoCliente;
+
+	}
+
+	public String ingresaVisita() {
+		Registro c = new Registro();
+		Visita g = new Visita();
+		Empleado eml = new Empleado();
+		Cliente cl = new Cliente();
+		g.setRegistro(c);
+		g.setCliente(cl);
+		g.setEmpleado(eml);
+
+		try {
+			this.visita.setRegistro(registro);
+			regon.guardar(registro);
+			// clion.guardar(cliente);
+			// empon.guardar(empleado);
+			init();
+			// System.out.println("la clave del id es: "+ registro);
+			return "callcenter";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 
 	}
 }

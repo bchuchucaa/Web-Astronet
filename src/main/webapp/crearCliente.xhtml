@@ -3,7 +3,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:h="http://java.sun.com/jsf/html"> 
+      xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
 <title>Crear De Datos</title>
@@ -20,7 +20,7 @@
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="resources/assets/js/permisos.js">
 	</script>
-</h:head> 
+</h:head>
 <body>
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
@@ -63,12 +63,20 @@
 <h:form>
 <div class="container">
 			<h2></h2>
-			
 			<div class="panel panel-default">
 				<div class="panel-heading">Crear Cliente</div>
 
 				<div class="panel-body ">
 					<div class="modal-body">
+					<div class="form-group col-sm-4">
+						  <label for="sel1">Antena Designada:</label>  
+						<h:selectOneMenu value="#{clienteController.cliente.codigoAntenaTemp}" id="txtAntena">
+						<f:ajax listener="#{clienteController.consultarAntena()}"
+										render="datosPersona errores" />
+						<f:selectItems value="#{clienteController.listadoAntena}" var="antena"
+						itemLabel="#{antena.modelo}" itemValue="#{antena.id}"/>
+						</h:selectOneMenu>
+					</div>
 							<div class="form-group">
 							<h:inputText type="text" class="form-control" id="Cedula"
 								value="#{clienteController.cliente.cedula}"
@@ -83,10 +91,14 @@
 							<h:inputText type="text" class="form-control" id="Email"
 								value="#{clienteController.cliente.email}" a:placeholder="Email" />
 						</div>
-
+						<div class="form-group">
+							<h:inputText type="text" class="form-control" id="Convencional"
+								value="#{clienteController.cliente.convencional}"
+								a:placeholder="Convencional" />
+						</div>
 						<div class="form-group">
 							<h:inputText type="text" class="form-control" id="Celular"
-								value="#{clienteController.celular}"
+								value="#{clienteController.cliente.celular}"
 								a:placeholder="Celular" />
 						</div>
 						<div class="form-group">
@@ -117,14 +129,13 @@
 								value="#{clienteController.cliente.longitud}"
 								a:placeholder="Longitud" />
 						</div>
-						
+
 						<div class="form-group">
 							<h:inputText type="text" class="form-control" id="idReg"
 								value="#{clienteController.servicio.idClienteTemp}"
 								a:placeholder="IDClienteTemp" />
 						</div>
 
-						
 						<div class="form-group">
 							<h:inputText type="text" class="form-control" id="NumeroContrato"
 								value="#{clienteController.servicio.numeroContrato}"
@@ -137,42 +148,45 @@
 						</div>
 						<div class="form-group">
 							<h:inputText type="text" class="form-control" id="DireccionIP"
-								value="gg"
+								value="#{clienteController.servicio.ip}"
 								a:placeholder="Direccion IP" />
 						</div>
 						<div class="form-group">
-							<h:dataTable>
-								<h:inputText type="text" class="form-control" id="Password"
-									value="hh"
-									a:placeholder="Password" />
-							</h:dataTable>
+						<h:dataTable>
+							<h:inputText type="text" class="form-control" id="Password"
+								value="#{clienteController.servicio.password}"
+								a:placeholder="Password" />
+								</h:dataTable>
 						</div>
 						<div class="form-group">
 							<h:inputText type="text" class="form-control" id="Plan"
 								value="#{clienteController.servicio.plan}"
 								a:placeholder="Plan" />
 						</div>
+
 						<div class="form-group">
-							<h:inputText type="text" class="form-control" id="Observaciones"
+							<h:inputTextarea type="text" class="form-control" id="Observaciones"
 								value="#{clienteController.servicio.observaciones}"
 								a:placeholder="Observaciones" />
 						</div>
-						
-							<div class="form-group">
-							<h:inputText type="text" class="form-control" id="TipoServicio"
-								value="#{clienteController.servicio.observaciones}"
-								a:placeholder="TipoServicio" />
-						</div>
-						
-						
-						
 
-				
+
+						<!-- Modal footer -->
+						<div class="modal-footer">
+
+								<h:commandButton class="btn btn-primary" data-dismiss="modal"
+									action="#{clienteController.crearCliente()}"
+									 value="Guardar" />
+								<h:commandButton action="clientes1" value="Cancelar"
+									class="btn btn-danger" data-dismiss="modal" />
+
+						</div>
+
 					</div>
 				</div>
 			</div>
 		</div>
 </h:form>
 
-</body> 
+</body>
 </html>

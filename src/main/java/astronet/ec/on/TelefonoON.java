@@ -18,10 +18,6 @@ public class TelefonoON {
 	@Inject
 	private TelefonoDAO teldao;
 	
-	public void guardar(Telefono tel) {
-
-		teldao.save(tel);
-	}
 	
 	public List<Telefono> getTelefonos(Cliente cliente){
 		List<Telefono> aux = teldao.getTelefonos(cliente);
@@ -40,6 +36,18 @@ public class TelefonoON {
 		return teldao.getMaxId();
 	}
 	
+	public void delete(int telefono) {
+		int telefon=telefono;
+		teldao.delete(telefon);
+	}
 	
+	public Telefono read(int id) {
+		Telefono tel=teldao.read(id);
+		 return tel;
+	}
+	public void guardar(Telefono tel) {
+
+		teldao.save(tel);
+	}
 
 }

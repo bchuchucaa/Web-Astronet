@@ -16,6 +16,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import astronet.ec.dao.TelefonoDAO;
 import astronet.ec.modelo.Agendamiento;
 import astronet.ec.modelo.Cliente;
 import astronet.ec.modelo.Empleado;
@@ -49,13 +50,13 @@ public class TelefonoController implements Serializable {
 	private String cedula;
 	private String nombre;
 	private Telefono telefonoNuevo;
+	private TelefonoON telOn;
 
 	/**
 	 * Fin de la declaracion
 	 */
 
-	@ManagedProperty(value = "#{telefono}")
-	private EmpleadoController empCon;
+
 
 	/**
 	 * Inyeccion de las clases ON
@@ -65,6 +66,7 @@ public class TelefonoController implements Serializable {
 	
 	@Inject
 	private ClienteON clion;
+
 
 
 
@@ -190,6 +192,30 @@ public class TelefonoController implements Serializable {
 		return telefonos;
 	}
 	 */
+	
+public void deleteTelefono(int id) {
+		/**
+		 * try {
+				System.out.println("THIS IS ID ->"+ id);
+				teldao.delete(id);
+				System.out.println("Se elimino");
+				
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+		 */
+			
+			
+				
+				
+			
+			
+	
+
+		
+		
+		
+	}
 		
 
 

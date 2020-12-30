@@ -22,9 +22,6 @@ public class AgendamientoDAO {
 	@Inject
 	private EntityManager em;
 
-	// .L.
-
-	// 404
 
 	public void save(Agendamiento ag) {
 		if (this.read(ag.getId()) != null) {

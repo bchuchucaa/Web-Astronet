@@ -1,5 +1,6 @@
 package astronet.ec.on;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -7,9 +8,14 @@ import javax.inject.Inject;
 
 import astronet.ec.dao.ClienteDAO;
 import astronet.ec.modelo.Cliente;
+import astronet.ec.modelo.EquipoServicio;
 import astronet.ec.modelo.Registro;
 import astronet.ec.modelo.Servicio;
 import astronet.ec.modelo.Telefono;
+//sicha imports
+
+import java.util.Map;
+import org.primefaces.model.SortOrder;
 
 @Stateless
 public class ClienteON {
@@ -19,6 +25,7 @@ public class ClienteON {
 	@Inject
 	private Registro registro;
 	
+	//Probando
 	
 
 	public void guardar(Cliente cli) {
@@ -61,5 +68,25 @@ public class ClienteON {
 		
 		System.out.println("hola datos");
 	}
+	
+	public List<EquipoServicio> getServiciosCliente(Cliente cliente){
+		 return clidao.getServiciosCliente(cliente);
+	}
+	
+	//SICHA CODE
+	/***
+	 * metodo para la carga retardia y para obtener paginacion
+	 */
+	
+	
+	
+	public EquipoServicio getIpsCliente(String cedula) {
+		return clidao.getIpsCliente(cedula);
+		
+	}
+    
+  
+	
+	
 
 }

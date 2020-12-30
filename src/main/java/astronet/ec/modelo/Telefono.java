@@ -22,14 +22,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @SequenceGenerator(
 	    name="TelefonoSeq",
 	    sequenceName = "Telefono_SEQ",
-	    initialValue = 6000, 
+	    initialValue = 6000,
 	    allocationSize = 1
 )
 
 public class Telefono implements Serializable {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -38,14 +38,14 @@ public class Telefono implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TelefonoSeq")
 	@NotNull
 	private int id;
-	
+
 
 	@Column(name = "tel_tipo")
 	private String tipoTelefono;
-	
+
 	@Column(name = "tel_numero")
 	private String telNumero;
-	
+
 	/*
 	 * Relacion Telefono con Cliente
 	 */
