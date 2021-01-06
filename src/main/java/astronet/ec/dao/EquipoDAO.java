@@ -20,6 +20,7 @@ import astronet.ec.modelo.Telefono;
 @Stateless
 public class EquipoDAO {
 
+	//jj
 	@Inject
 	private EntityManager em;
 
