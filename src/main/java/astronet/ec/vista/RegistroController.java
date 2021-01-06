@@ -10,27 +10,21 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import astronet.ec.modelo.Agendamiento;
 import astronet.ec.modelo.Cliente;
 import astronet.ec.modelo.Empleado;
 import astronet.ec.modelo.Registro;
-import astronet.ec.on.AgendamientoON;
 import astronet.ec.on.ClienteON;
 import astronet.ec.on.EmpleadoON;
 import astronet.ec.on.RegistroON;
 
 @ManagedBean
 @ViewScoped
-public class RegistroController{
+public class RegistroController {
 
 	private Registro registro = new Registro();
 	private Empleado empleado = new Empleado();
-	private Agendamiento agendamiento = new Agendamiento();
-
 	private Cliente cliente = new Cliente();
 	private List<Registro> registros;
-	private List<Registro> registrosvisita;
-
 	private List<Empleado> empleados;
 	private List<Cliente> clientes;
 
@@ -50,20 +44,6 @@ public class RegistroController{
 
 	@Inject
 	private ClienteON clion;
-	
-
-	@Inject
-	private AgendamientoON agon;
-
-	public Agendamiento getAgendamiento() {
-		return agendamiento;
-	}
-
-	public void setAgendamiento(Agendamiento agendamiento) {
-		this.agendamiento = agendamiento;
-	}
-
-
 
 	@Inject
 	private FacesContext fc;
@@ -75,20 +55,11 @@ public class RegistroController{
 		empleados = empon.getListadoEmpleado();
 		clientes = clion.getListadoCliente();
 		registros=regon.getListadoRegistro();
-		registrosvisita=regon.listadoRegistrosVT();
-		
+
 	}
 
 	public Registro getRegistro() {
 		return registro;
-	}
-
-	public List<Registro> getRegistrosvisita() {
-		return registrosvisita;
-	}
-
-	public void setRegistrosvisita(List<Registro> registrosvisita) {
-		this.registrosvisita = registrosvisita;
 	}
 
 	public void setRegistro(Registro registro) {

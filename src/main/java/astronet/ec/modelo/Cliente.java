@@ -9,7 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -23,62 +22,56 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Cliente")
-@SequenceGenerator(
-	    name="ClienteSeq",
-	    sequenceName = "Cliente_SEQ",
-	    initialValue = 6000,
-	    allocationSize = 1
-)
 public class Cliente implements Serializable {
-
+	
 	/**
-	 * HolaMundo
+	 * HolaMundo 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "cli_id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ClienteSeq")
-	@NotNull
+	@GeneratedValue(generator = "secuenciaCliente")
+	@SequenceGenerator(name = "secuenciaCliente", initialValue = 14)
 	private int id;
-
+	
 	@Column(name = "cli_cedula")
 	private String cedula;
-
+	
 	@Column(name = "cli_nombres")
-	private  String nombre;
-
+	public  String nombre;
+	
 
 	@Column(name = "cli_apellidos")
-
-	private  String apellidos;
-
-
+	
+	public  String apellidos;
+	
+	
 	@Column(name = "cli_email")
 	private String email;
-
+	
 	@Column(name = "cli_dirPrincipal")
 	private String direccionPrincipal;
-
+	
 	@Column(name = "cli_dirSecundaria")
 	private String direccionSecundaria;
-
+	
 	@Column(name = "cli_dirReferencia")
 	private String direccionReferencia;
-
+	
 	@Column(name = "cli_latitud")
 	private String latitud;
-
+	
 	@Column(name = "cli_longitud")
 	private String longitud;
-
+	
 	/*
 	 * Relacion Cliente con Servicio
 	 */
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "cliservicio_fk")
 	private List<Servicio> servicios;
-
+	
 	/*
 	 * Relacion Cliente con Registro
 	 */
@@ -86,7 +79,7 @@ public class Cliente implements Serializable {
 	@JoinColumn(name = "cliregsitro_fk")
 	@JsonIgnore
 	private List<Registro> registros;
-
+	
 	/*
 	 * Relacion Cliente con Telefono
 	 */
@@ -94,25 +87,8 @@ public class Cliente implements Serializable {
 	@JoinColumn(name = "clitel_fk")
 	@JsonIgnore
 	private List<Telefono> telefonos;
-
-	
-	
-	/*
-	 * RElacion Cliente con Visita
-	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "clivis_fk")
-	@JsonIgnore
-	private List<Visita> visistas;
 	
 
-	public List<Visita> getVisistas() {
-		return visistas;
-	}
-
-	public void setVisistas(List<Visita> visistas) {
-		this.visistas = visistas;
-	}
 
 	public int getId() {
 		return id;
@@ -193,7 +169,7 @@ public class Cliente implements Serializable {
 	public void setLongitud(String longitud) {
 		this.longitud = longitud;
 	}
-
+	
 	public List<Servicio> getServicios() {
 		return servicios;
 	}
@@ -219,17 +195,17 @@ public class Cliente implements Serializable {
 	public void setTelefonos(List<Telefono> telefonos) {
 		this.telefonos = telefonos;
 	}
-
-
+	
+	
 	public void addTelefonos(Telefono telefono) {
 		this.telefonos.add(telefono);
 	}
 
 
 
-
-
-
+	
+	
+	
 
 	@Override
 	public int hashCode() {
@@ -253,8 +229,8 @@ public class Cliente implements Serializable {
 		return true;
 	}
 
-
-
-
+	
+	
+	
 
 }

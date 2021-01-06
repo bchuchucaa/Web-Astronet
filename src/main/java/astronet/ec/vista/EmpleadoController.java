@@ -39,10 +39,6 @@ public class EmpleadoController {
 	private Instalacion instalacion;
 	private Registro registro;
 	private List<Empleado> empleados;
-
-	private List<Empleado> tecnicos;
-	private String tecnicoElegido;
-
 	private List<String> departamentosList = new ArrayList<String>();
 	@Inject
 	private RolEmpleadoON rolEmpOn;
@@ -51,14 +47,10 @@ public class EmpleadoController {
 	private List<RolEmpleado> listaRolesEmpleados;
 	private String rolSelected;
 
-
-	@PostConstruct
+	// @PostConstruct //importante que esto este comentado caso contrario genera
+	// errores
 	public void init() {
-		empleado = new Empleado();
-		instalacion = new Instalacion();
-		registro = new Registro();
-		empleados = empon.getEmpleado();
-		tecnicos= empon.getListadoTecnico();
+
 		try {
 			departamentosList.add("Administrador");
 			departamentosList.add("Contabilidad");
@@ -80,10 +72,6 @@ public class EmpleadoController {
 		}
 	}
 
-
-
-
-
 	public void cargarMapaRoles(List<RolEmpleado> listaRoles) {
 		this.mapaRoles = new HashMap<>();
 		for (RolEmpleado roles : listaRoles) {
@@ -96,25 +84,8 @@ public class EmpleadoController {
 		if (id == 0)
 			return;
 
-
 		empleado = empon.getEmpleado(id);
-
-
-
-
 	}
-
-	public String getTecnicoElegido() {
-		return tecnicoElegido;
-	}
-
-	public void setTecnicoElegido(String tecnicoElegido) {
-		this.tecnicoElegido = tecnicoElegido;
-	}
-
-	public List<Empleado> getTecnicos() {
-		return tecnicos;
-
 
 	// ZONA GET/SET
 	public Empleado getEmpleado() {
@@ -123,10 +94,6 @@ public class EmpleadoController {
 
 	public void setEmpleado(Empleado empleado) {
 		this.empleado = empleado;
-	}
-
-	public void setTecnicos(List<Empleado> tecnicos) {
-		this.tecnicos = tecnicos;
 	}
 
 	public Registro getRegistro() {
@@ -190,10 +157,6 @@ public class EmpleadoController {
 		return rolEmpleado;
 	}
 
-
-	public String eliminar(int codigo) {
-
-
 	public void setRolEmpleado(RolEmpleado rolEmpleado) {
 		this.rolEmpleado = rolEmpleado;
 	}
@@ -208,7 +171,6 @@ public class EmpleadoController {
 	public String getRolSelected() {
 		return rolSelected;
 	}
-
 	public void setRolSelected(String rolSelected) {
 		this.rolSelected = rolSelected;
 	}
@@ -289,10 +251,9 @@ public class EmpleadoController {
 		return null;
 	}
 
-
 	/*
 	 * Metodo para guardar o actualizar empleado
-	 *
+	 * 
 	 */
 
 	public String guardarEmpleado() {
@@ -353,7 +314,6 @@ public class EmpleadoController {
 					break;
 				case "Administrador":
 					session.setAttribute("username", empleado);
-
 					System.out.println("login exitoso" + " " + empleado.getId() + " " + empleado.getNombre());
 					direccion = "viewAdmin?faces-redirect=true&id=" + empleado.getId();
 					// direccion="viewAdmin";
@@ -374,7 +334,6 @@ public class EmpleadoController {
 					break;
 				}
 
-
 			}
 
 		} catch (Exception e) {
@@ -382,7 +341,6 @@ public class EmpleadoController {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Incorrectas"));
 		}
-
 
 		return direccion;
 	}

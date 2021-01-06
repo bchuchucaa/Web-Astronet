@@ -5,7 +5,6 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -46,6 +45,7 @@ public class ServicioDAO {
 		Servicio ser = read(id);
 		em.remove(ser);
 	}
+	
 
 	public List<Servicio> getServicios(Cliente cliente) {
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();

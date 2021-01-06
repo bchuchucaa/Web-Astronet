@@ -72,25 +72,6 @@ public class Empleado implements Serializable{
 	
 	
 	
-
-	/*
-	 * RElacion Empleado con Visita
-	 */
-	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "empvis_fk")
-	@JsonIgnore
-	private List<Visita> visitas;
-
-	
-	public List<Visita> getVisitas() {
-		return visitas;
-	}
-
-	public void setVisitas(List<Visita> visitas) {
-		this.visitas = visitas;
-	}
-
 	/**
 	 * Relacion con roles de los empleados
 	 * @return
@@ -99,7 +80,6 @@ public class Empleado implements Serializable{
 	@ManyToOne
 	@JsonIgnore
 	private RolEmpleado rolEmpleado;
-
 
 	public int getId() {
 		return id;

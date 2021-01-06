@@ -73,21 +73,6 @@ public class Registro implements Serializable {
 	@JsonIgnore
 	private List<Agendamiento> agendamiento;
 	
-	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "agregristro_fk")
-	@JsonIgnore
-	private List<Visita> visita;
-
-	
-	public List<Visita> getVisita() {
-		return visita;
-	}
-
-	public void setVisita(List<Visita> visita) {
-		this.visita = visita;
-	}
-
 	@Transient
 	private int idClienteTemp;
 	
@@ -179,34 +164,6 @@ public class Registro implements Serializable {
 	}
 
 	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		result = prime * result + ((problema == null) ? 0 : problema.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Registro other = (Registro) obj;
-		if (id != other.id)
-			return false;
-		if (problema == null) {
-			if (other.problema != null)
-				return false;
-		} else if (!problema.equals(other.problema))
-			return false;
-		return true;
-	}
-
 	@Override
 	public String toString() {
 		return "Registro [id=" + id + ", fechaHora=" + fechaHora + ", observaciones=" + observaciones + ", problema="

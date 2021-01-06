@@ -45,9 +45,7 @@ public class TelefonoON {
 		Telefono tel=teldao.read(id);
 		 return tel;
 	}
-	public void guardar(Telefono tel) {
-
-		teldao.save(tel);
-	}
+	
+	
 
 }

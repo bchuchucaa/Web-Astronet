@@ -44,9 +44,4 @@ public class EmpleadoON {
 		return empdao.tecnicoDepartamento();
 	}
 
-	public List<Empleado>getListadoTecnico(){
-	return empdao.listarEmpleado();
-	}
-	
-	
 }

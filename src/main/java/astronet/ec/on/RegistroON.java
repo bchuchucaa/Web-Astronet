@@ -86,5 +86,4 @@ public void actualizar(Registro reg) {
 	regdao.update(reg);
 }
 
-
 }
