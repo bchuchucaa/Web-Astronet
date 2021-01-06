@@ -23,48 +23,17 @@
 	<link rel="stylesheet" href="resources/assets/css/table1.css" />
 	<link rel="stylesheet" href="resources/assets/css/table.css" />
 	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 
 
 
 	<script type="text/javascript">
-	
-	function acceso(){
-		var dep=document.getElementById("dep");
-		var dir='Radio';
-		var boton=document.getElementById("boton");
-		var boton1=document.getElementById("boton1");
-		var boton12=document.getElementById("boton12")
-		if(dep.innerText != 'Radio'){
-			alert("Bloqueado no tienes los permisos establecidos contacte con tu administrador")
-				boton.disabled=true;
-			boton1.disabled=true;
-			boton12.disabled=true;
-				
-			}
-		else{
-			alert("Bievenido");
-			boton.disabled =false;
-			boton1.disabled=false;
-			boton12.disabled=false;
-			
-			}
-		}
-	function showGrpMemberSearchPageCalenderLeave() { 
+		function showGrpMemberSearchPageCalenderLeave() { 
 	     window.open('./index.xhtml','mywindow', 'resizable=no,toolbar=no,scrollbars=yes,height=450,width=530,top=145,left=235');
 	     return true;
-	 }
-	
-	
-	
-	function CopyToLabel() {
-		alert("funcion peligrosa");
-        //Reference the TextBox.
-        var txtName = document.getElementById("itemselected");
-        
-        alert(txtName.value);
- 
-    }
-	
+	 }	
 	
 	</script>
 	<style>
@@ -84,6 +53,22 @@
 			<a class="navbar-brand" href="callcenter.xhtml"><img
 				src="resources/assets/img/logo.png" /></a>
 		</div>
+		<ul class="nav navbar-nav">
+			<li class="dropdown"><a class="dropdown-toggle"
+				data-toggle="dropdown" href="callcenter.xhtml">Call Center <span
+					class="caret"></span></a></li>
+
+			<li class="dropdown"><a class="dropdown-toggle"
+				data-toggle="dropdown" href="#" onclick="acceso()">Clientes<span
+					class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="listCliente.xhtml" id="boton">Listar Clientes</a></li>
+					<li><a href="clienteCrood.xhtml" id="boton">Registrar Cliente</a></li>
+					
+					<li><a href="registrarEmpleado.xhtml" id="boton12">Empleado</a></li>
+				</ul></li>
+
+		</ul>
 
 
 		<ul class="nav navbar-nav navbar-right">

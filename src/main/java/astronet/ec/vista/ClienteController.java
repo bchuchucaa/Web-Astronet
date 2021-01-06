@@ -102,7 +102,6 @@ public class ClienteController implements Serializable {
 	private String ip;
 	private String password;
 
-
 	private String serial;
 	private String email;
 	private String convencional;
@@ -118,6 +117,16 @@ public class ClienteController implements Serializable {
 	public String soluciones;
 	private String empleados1;
 	private String servicioRB;
+	private String tipoServicio;
+	
+	public String getTipoServicio() {
+		return tipoServicio;
+	}
+
+	public void setTipoServicio(String tipoServicio) {
+		this.tipoServicio = tipoServicio;
+	}
+
 	public List<String> listaSugerencias;
 
 	private String servicioElegido;
@@ -254,10 +263,11 @@ public class ClienteController implements Serializable {
 	public String getApellidos() {
 		return apellidos;
 	}
+
 	public void setRegistrosvisita(List<Registro> registrosvisita) {
 		this.registrosvisita = registrosvisita;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
@@ -418,9 +428,9 @@ public class ClienteController implements Serializable {
 	}
 
 	public String getIp() {
+		
 		return ip;
 	}
-
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
@@ -1341,7 +1351,6 @@ public class ClienteController implements Serializable {
 			}
 			j++;
 		}
-
 		this.antenaTmp = eqServEdit.getEquipo().getModelo();
 		this.planTmp = servicioEdit.getPlan().getTipoPlan();
 		this.router = servicioEdit.getRouterVendido();
@@ -2051,12 +2060,14 @@ public class ClienteController implements Serializable {
 		}
 
 	}
+
 	public void ingresaVisita() {
 		System.out.println(tecnicoElegido);
 		System.out.println("************entro**************");
 		empleado = empon.getEmpleadobyName(tecnicoElegido);
 		System.out.println("************id**************");
 		System.out.println(empleado.getId());
+		
 		System.out.println("************salio**************");
 		System.out.println("Id del cliente" + registro.getCliente().getId());
 		Cliente cli = clion.getCliente(registro.getCliente().getId());
@@ -2073,28 +2084,51 @@ public class ClienteController implements Serializable {
 		this.filtradoCliente = filtradoCliente;
 
 	}
+	
+	public String returnIp(int id){
+		/**
+		 * metodo retun ip
+		 */
+		Cliente cli = new Cliente();
+		cli = clion.getCliente(id);
 
-	public String ingresaVisita() {
-		Registro c = new Registro();
-		Visita g = new Visita();
-		Empleado eml = new Empleado();
-		Cliente cl = new Cliente();
-		g.setRegistro(c);
-		g.setCliente(cl);
-		g.setEmpleado(eml);
+		List<Telefono> telefonos2 = telOn.getTelefonos(cli);
+		for (Telefono telefono : telefonos2) {
+			if (telefono.getTipoTelefono().equals("Convencional")) {
+				setTelefonoConveEdit(telefono);
+			}
+			if (telefono.getTipoTelefono().equals("Movil")) {
+				setTelefonoMovilEdit(telefono);
+			}
 
-		try {
-			this.visita.setRegistro(registro);
-			regon.guardar(registro);
-			// clion.guardar(cliente);
-			// empon.guardar(empleado);
-			init();
-			// System.out.println("la clave del id es: "+ registro);
-			return "callcenter";
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-		return null;
 
+		List<Servicio> servicios = seron.getServicios(cli);
+		int i = 0;
+		for (Servicio servicio : servicios) {
+			if (i == 0) {
+				setServicioEdit(servicio);
+			}
+			i++;
+		}
+		this.tipoServicio = servicioEdit.getTipoServicio();
+		
+if (eqServEdit != null) {
+	List<EquipoServicio> equipoServicios = eqServOn.getServicios(servicioEdit);
+	int j = 0;
+	for (EquipoServicio equipoServicio : equipoServicios) {
+		if (j == 0) {
+			setEqServEdit(equipoServicio);
+		}
+		j++;
 	}
+	
+}
+return eqServEdit.getIp();
+		
+	
+		
+	
+	}
+
 }
