@@ -168,9 +168,7 @@ public class Empleado implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Empleado [id=" + id + ", cedula=" + cedula + ", nombre=" + nombre + ", celular=" + celular + ", email="
-				+ email + ", password=" + password + ", departamento=" + departamento + ", registro=" + registro
-				+ ", instalacion=" + instalacion + ", rolEmpleado=" + rolEmpleado + "]";
+		return nombre;
 	}
 		
 
