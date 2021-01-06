@@ -42,33 +42,26 @@
 		</div>
 		<ul class="nav navbar-nav">
 			<li class="dropdown"><a class="dropdown-toggle"
-				data-toggle="dropdown" href="#">Call Center/Instalaciones <span class="caret"></span></a>
+				data-toggle="dropdown" href="#">Call Center/Instalaciones <span
+					class="caret"></span></a>
 				<ul class="dropdown-menu">
 					<li><h:link outcome="callcenter" value="Call Center"
-							rendered="#{usuarioBean.empleadoUser.rolEmpleado.nombre == 'CALL CENTER'}">
+							rendered="#{usuarioBean.empleadoUser.rolEmpleado.nombre == 'CALL CENTER' || usuarioBean.empleadoUser.rolEmpleado.nombre == 'TECNICO OFICINA' || usuarioBean.empleadoUser.rolEmpleado.nombre == 'ADMINISTRADOR'}">
 							<f:param name="id" value="#{usuarioBean.idUser}" />
-						</h:link></li>
-					<!-- <li><h:link outcome="listadoEmpleado" value="Empleados"
-							rendered="#{usuarioBean.empleadoUser.rolEmpleado.nombre == 'ADMINISTRADOR' || usuarioBean.empleadoUser.rolEmpleado.nombre == 'TECNICO OFICINA'}">
-							<f:param name="id" value="#{usuarioBean.idUser}" />
-						</h:link></li>	 -->			
-
+						</h:link></li>				
 				</ul></li>
 
 			<li class="dropdown"><a class="dropdown-toggle"
 				data-toggle="dropdown" href="#">Clientes/Empleados<span
 					class="caret"></span></a>
 				<ul class="dropdown-menu">
-					<!-- <li><a href="clientesRadio.xhtml" id="boton">Clientes</a></li> -->
-					<li><a
-						href="listadoEmpleado.xhtml?id=#{usuarioBean.empleadoUser.id}"
-						id="boton1">Empleados</a></li>					
+					
+					<li><h:link outcome="listadoEmpleado" value="Empleados"
+							rendered="#{usuarioBean.empleadoUser.rolEmpleado.nombre == 'TECNICO OFICINA' || usuarioBean.empleadoUser.rolEmpleado.nombre == 'ADMINISTRADOR'}">
+							<f:param name="id" value="#{usuarioBean.empleadoUser.id}" />
+						</h:link></li>
+
 				</ul></li>
-
-
-
-
-
 
 		</ul>
 
