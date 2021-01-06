@@ -29,6 +29,7 @@ import astronet.ec.on.AgendamientoON;
 import astronet.ec.on.ClienteON;
 import astronet.ec.on.EmpleadoON;
 import astronet.ec.on.EquipoOn;
+import astronet.ec.on.EquipoServicioON;
 import astronet.ec.on.InstalacionON;
 import astronet.ec.on.RegistroON;
 import astronet.ec.on.ServicioON;
@@ -63,7 +64,11 @@ public class ClienteController implements Serializable {
 	private Telefono nuevoTelefono;
 	private String nuevoNumero;
 	private String nuevoTipoTelefono;
-	private List<EquipoServicio> serviciosCliente;
+	public List<EquipoServicio> equipoServicioClientes;
+	private Servicio servicioEdit;
+	private EquipoServicio eqServEdit;
+
+	
 	/**
 	 * Declaraacion de variables
 	 */
@@ -133,6 +138,10 @@ public class ClienteController implements Serializable {
 	
 	@Inject 
 	private TelefonoON telOn;
+	
+	@Inject
+	private EquipoServicioON eqServOn;
+	
 
 	/**
 	 * Fin de la inyeccion
@@ -156,23 +165,30 @@ public class ClienteController implements Serializable {
 		listaInstalaciones = inson.getListadoInstalacion();
 		telefonos = new ArrayList<Telefono>();
 		equipo = new Equipo();
-		serviciosCliente= new ArrayList<EquipoServicio>();
+		equipoServicioClientes= new ArrayList<EquipoServicio>();
 		listaSugerencias= new ArrayList<String>();
 		
-		
+		servicioEdit = new Servicio();
+		eqServEdit = new EquipoServicio();
+
 
 	}
 	
 	
 
+	public EquipoServicio getEqServEdit() {
+		return eqServEdit;
+	}
+
+	
 	public List<EquipoServicio> getServiciosCliente() {
-		return serviciosCliente;
+		return equipoServicioClientes;
 	}
 
 
 
 	public void setServiciosCliente(List<EquipoServicio> serviciosCliente) {
-		this.serviciosCliente = serviciosCliente;
+		this.equipoServicioClientes = serviciosCliente;
 	}
 
 
@@ -388,7 +404,11 @@ public class ClienteController implements Serializable {
 	public void setIdR(int idR) {
 		this.idR = idR;
 	}
+	public void setServicioEdit(Servicio servicioEdit) {
+		this.servicioEdit = servicioEdit;
+	}
 /*
+ * 
  * 
 	public EmpleadoController getEmpCon() {
 		return empCon;
@@ -400,6 +420,10 @@ public class ClienteController implements Serializable {
 	
  */
 	
+
+	public void setEqServEdit(EquipoServicio eqServEdit) {
+		this.eqServEdit = eqServEdit;
+	}
 	
 	
 	
@@ -422,6 +446,7 @@ public class ClienteController implements Serializable {
 
 
 	public List<Telefono> getTelefonos() {
+	
 		return telefonos;
 	}
 
@@ -478,15 +503,14 @@ public class ClienteController implements Serializable {
 	
 	
 	
-	
+
 	public String buscarCedula() {
 		System.out.println("esta es la cedula hpta "+ this.cedula);
 		try {
 			if (this.cedula!=null) {
 				
 				cliente = clion.getClienteCedula(this.cedula);
-				System.out.println("cliente cedula --> "+ cliente.getCedula());
-				setTelefonos(telOn.getTelefonos(cliente));
+							setTelefonos(telOn.getTelefonos(cliente));
 				for (Telefono telefono : telefonos) {
 					System.out.println(telefono.getTipoTelefono());
 					System.out.println("-----kiko----");
@@ -1128,48 +1152,7 @@ try {
 	}
 	
 	//Metodo para actualizar los telefonos;
-	
-	public void editTelefono(Telefono telefono) {
 
-		try {
-			this.telefono=telefono;
-			telOn.updateTelefono(telefono);
-			System.out.println("TELEFONO A UPDATE -> "+ telefono.getTipoTelefono());
-			
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Se actualizo el telefono correctamente"));
-			
-		}catch(Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se pudo actualizar el telefono"));
-
-		}
-	
-	
-	
-	}
-	
-	
-	
-	public void newTelefono() {
-		if(nuevoTipoTelefono!=null && nuevoNumero!=null) {
-		try {
-				System.out.println("this is new ID FOR TEL -> "+telOn.getMaxId()+1);
-				nuevoTelefono=new Telefono(telOn.getMaxId()+1,nuevoNumero,nuevoTipoTelefono,clion.getClienteCedula(cliente.getCedula()));
-				telefonos.add(nuevoTelefono);
-				telOn.createTelefono(nuevoTelefono);
-				
-
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Telefono Agregado Correctamente"));
-		
-		}catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se pudo agregar el telefono"));
-
-		}
-		setNuevoNumero(null);
-		setNuevoTipoTelefono(null);
-		}
-		
-		
-	}
 	
 	
 	
@@ -1220,7 +1203,6 @@ try {
 	
 	public List<String> getSugerencias(String enteredValue) {
 		List<String> coincidencias= new ArrayList<String>();
-				
 			System.out.println("NOMBRE BUSCADO");
 			System.out.println(enteredValue);
 			Cliente clie;
@@ -1228,7 +1210,7 @@ try {
 			for (int i = 0; i < listadoCliente.size(); i++) {
 				
 				clie = (Cliente)listadoCliente.get(i);
-				String nombre= clie.getNombre()+" "+clie.getApellidos()+"/"+clie.getCedula();
+				String nombre= clie.getApellidos()+"/"+clie.getNombre();
 				String apellido= clie.getApellidos();
 				String nombres= clie.getNombre();
 			
@@ -1259,10 +1241,17 @@ try {
 		System.out.println("THIS IS THE IDENTIFICACION OF CLIENT "+ inputName);
 
 		try {
-			inputName=inputName.substring(inputName.lastIndexOf("/") + 1);
-		
+			//String nombre=inputName.substring(inputName.lastIndexOf("/") + 1);
+			//String apellido=inputName.split('/');
+			String[] credenciales= inputName.split("/");
+			String nombres= credenciales[1];
+			String apellidos= credenciales[0];
+			System.out.println(nombres);
+			System.out.println(apellidos);
 			System.out.println(inputName);
-			cliente = clion.getClienteCedula(inputName);
+			//cliente = clion.getClienteCedula(inputName);
+			cliente= clion.buscarNombreApellido(nombres, apellidos);
+			System.out.println(cliente.getCedula());
 			setTelefonos(telOn.getTelefonos(cliente));
 			for (Telefono telefono : telefonos) {
 				System.out.println(telefono.getTipoTelefono());
@@ -1299,6 +1288,13 @@ try {
 	
 	
 	}
+	
+	
+	public void addTelefono(Telefono telefono) {
+		System.out.println("ADDDING TELEFONO");
+		this.telefonos.add(telefono);	}
+	
+
 	
 	
 	

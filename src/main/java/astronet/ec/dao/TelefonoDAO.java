@@ -77,7 +77,6 @@ public class TelefonoDAO {
 		public void delete(int id) {
 			
 			Telefono telefon=read(id);
-			System.out.println("TELDAO TEL A ELIMINAR ID " + telefon.getId());
 			try {
 				
 				em.remove(telefon);
@@ -90,6 +89,20 @@ public class TelefonoDAO {
 		}
 	
 
+		
+	public Telefono buscarTelefonoId(int id) {
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+		CriteriaQuery<Telefono> criteriaQuery = criteriaBuilder.createQuery(Telefono.class);
+		// Se establece la clausula FROM
+		Root<Telefono> root = criteriaQuery.from(Telefono.class);
+		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("id"), id)); // criteriaQuery.multiselect(root.get(atr))
+		// // Se configuran los predicados,
+		// combinados por AND
+		System.out.println("************8");
+		
+		return em.createQuery(criteriaQuery).getSingleResult();
+		
+	}
 	//THIS THE NEW SHIT
 
 

@@ -61,14 +61,7 @@
 	
 	
 	
-	function CopyToLabel() {
-		alert("funcion peligrosa");
-        //Reference the TextBox.
-        var txtName = document.getElementById("itemselected");
-        
-        alert(txtName.value);
- 
-    }
+
 	
 	
 	</script>
@@ -96,8 +89,9 @@
 			<li><a id="dep">
 					#{usuarioBean.empleadoUser.rolEmpleado.nombre}</a></li>
 			<li><h:form>
-					<a> <h:commandButton class="btnExit" action="#{loginBean.logout()}"
-							value="Exit" image="./resources/assets/img/exit.png" />
+					<a> <h:commandButton class="btnExit"
+							action="#{loginBean.logout()}" value="Exit"
+							image="./resources/assets/img/exit.png" />
 					</a>
 				</h:form></li>
 
@@ -271,8 +265,8 @@
 
 
 							<p:outputPanel id="outputPanel">
-								<p:outputLabel id="outlabel"
-									value="#{clienteController.inputName}" />
+								<!-- <p:outputLabel  type="hidden" id="outlabel"
+									value="#{clienteController.inputName}" /> -->
 							</p:outputPanel>
 
 
@@ -328,22 +322,23 @@
 
 							<!-- ARRAY CON LOS TELEFONOS -->
 							<!-- TABLA TELEFONOS -->
-							<p:dataTable id="koka" value="#{cliente.telefonos}" var="t"
-								headerClass="cabeceraTabla" rowClasses="filaPar,filaImpar"
-								style="width:100%">
+							<h:form id="list">
+								<h:dataTable id="kuka" value="#{cliente.telefonos}" var="t"
+									headerClass="cabeceraTabla" rowClasses="filaPar,filaImpar"
+									style="width:100%">
 
-								<p:column>
+									<h:column>
 
-									<span class="glyphicon glyphicon-earphone"></span>
+										<span class="glyphicon glyphicon-earphone"></span>
 
-									<h:outputText value="#{t.tipoTelefono}" size="10" />
+										<h:outputText value="#{t.tipoTelefono}" size="10" />
 
-								</p:column>
+									</h:column>
 
 
 
-							</p:dataTable>
-
+								</h:dataTable>
+							</h:form>
 
 							<h:panelGrid columns="1" cellpadding="1" style="width:40%">
 
@@ -444,56 +439,76 @@
 
 		<h:form id="form_pop1">
 
-			<h:dataTable id="tabla_pop" value="#{clienteController.telefonos}"
+			<p:dataTable id="tabla_pop" value="#{clienteController.telefonos}"
 				var="t" styleClass="table" headerClass="cabeceraTabla"
 				rowClasses="filaPar,filaImpar">
 
-				<h:column>
+				<p:column>
 					<f:facet name="header">NUMERO</f:facet>
 
 					<span class="glyphicon glyphicon-earphone"></span>
 
 					<h:inputText value="#{t.tipoTelefono}" size="10" />
 
-				</h:column>
+				</p:column>
 
 
 
-				<!-- BOTONES -->
-				<h:column>
-					<f:facet name="header">ACCION</f:facet>
-					<h:commandButton value="Editar"
-						onclick="#{clienteController.editTelefono(t)}"
+				<p:column>
+					<p:commandButton value="Editar" update=":text:goku"
+						action="#{telefonoController.editTelefono(t.id,t.tipoTelefono)}"
 						styleClass="btn btn-primary" />
-					<h:commandButton value="Eliminar"
-						onclick="#{telefonoController.deleteTelefono(t.id)}"
-						styleClass="btn btn-danger" />
+				</p:column>
+				<p:column>
+					<p:commandButton value="Eliminar" update=":text:goku"
+						action="#{telefonoController.deleteTelefono(t.id)}"
+						styleClass="btn btn-primary" />
+				</p:column>
 
-				</h:column>
 
+			</p:dataTable>
+				<h:commandButton value="Salir" render="text"
+				
+				styleClass="btn btn-primary">
 
-			</h:dataTable>
+			</h:commandButton>
 		</h:form>
 		<h:form>
 			<h3>Nuevo telefono</h3>
 			<h:outputText value="numero" />
-			<h:inputText value="#{clienteController.nuevoNumero}" size="10" />
+			<h:inputText value="#{telefonoController.nuevoNumero}" size="10" />
 			<h:outputText value="Tipo" />
 
 
-			<h:inputText value="#{clienteController.nuevoTipoTelefono}" size="10" />
 
-			<h:commandButton value="Guardar"
-				onclick="#{clienteController.newTelefono()}"
+			<h:selectOneMenu value="#{telefonoController.nuevoTipoTelefono}">
+				<f:selectItem itemValue="MOVIL" itemLabel="MOVIL" />
+				<f:selectItem itemValue="CONVENCIONAL" itemLabel="CONVENCIONAL" />
+			</h:selectOneMenu>
+
+
+			<h:commandButton value="Guardar" render="text"
+				action="#{telefonoController.newTelefono()}"
 				styleClass="btn btn-primary">
-
+				<f:param name="action" value="#{clienteController.cliente.cedula}" />
 
 			</h:commandButton>
 
 
+
 		</h:form>
+	
 
 	</p:dialog>
+	<h:form id="text">
+
+		<p:dataTable id="goku" value="#{clienteController.telefonos}" var="t">
+
+
+
+
+		</p:dataTable>
+	</h:form>
 
 </body>
 
