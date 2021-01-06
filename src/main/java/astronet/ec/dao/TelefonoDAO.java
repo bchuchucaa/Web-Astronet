@@ -18,12 +18,8 @@ public class TelefonoDAO {
 	
 	@Inject
 	private EntityManager em;
-
-
-	public void create(Telefono tel) {
-		em.persist(tel);
-	}
-
+	
+	
 	public List<Telefono> getTelefonos(Cliente cliente) {
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 		CriteriaQuery<Telefono> criteriaQuery = criteriaBuilder.createQuery(Telefono.class);
@@ -47,21 +43,18 @@ public class TelefonoDAO {
 		// // Se configuran los predicados,
 		// combinados por AND
 		System.out.println("************8");
-
-		int maxId = em.createQuery(criteriaQuery).getResultList().size();
-
-		return maxId + 1;
-
+		int maxId=em.createQuery(criteriaQuery).getResultList().size();
+		return maxId+1;
+	
 	}
 	
 	public void update(Telefono telefono) {
 		try {
-			// System.out.println("registro "+cli.getRegistro().get(0).toString());
+			//System.out.println("registro "+cli.getRegistro().get(0).toString());
 			em.merge(telefono);
-		} catch (Exception e) {
-			System.out.println("DANGEROUS OPERATION : = " + e);
+		}catch (Exception e) {
+			System.out.println("DANGEROUS OPERATION : = "+ e);
 		}
-
 	
 		
 	}
@@ -93,33 +86,8 @@ public class TelefonoDAO {
 			
 			
 		
-
-	}
-
-	public void save(Telefono tel) {
-
-		if (this.read(tel.getId())!=null) {
-			this.update(tel);
-		}else
-			this.create(tel);
-	}
-
-	public Telefono read(int id) {
-		return em.find(Telefono.class, id);
-	}
-
-	public void delete(int id) {
-
-		Telefono telefon = read(id);
-		System.out.println("TELDAO TEL A ELIMINAR ID " + telefon.getId());
-		try {
-
-			em.remove(telefon);
-		} catch (Exception e) {
-			System.out.println("Exception -> " + e);
 		}
-	}
-
+	
 
 		
 	public Telefono buscarTelefonoId(int id) {
@@ -138,5 +106,5 @@ public class TelefonoDAO {
 	//THIS THE NEW SHIT
 
 
-	
+
 }

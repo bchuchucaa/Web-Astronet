@@ -6,7 +6,6 @@ import java.util.List;
 
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -14,6 +13,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+
+import com.sun.xml.internal.ws.developer.StreamingAttachment;
 
 import astronet.ec.modelo.Empleado;
 import astronet.ec.modelo.Instalacion;
@@ -46,14 +47,10 @@ public class EmpleadoController {
 	private List<RolEmpleado> listaRolesEmpleados;
 	private String rolSelected;
 
-
-	@PostConstruct
+	// @PostConstruct //importante que esto este comentado caso contrario genera
+	// errores
 	public void init() {
-		empleado = new Empleado();
-		instalacion = new Instalacion();
-		registro = new Registro();
-		empleados = empon.getEmpleado();
-		tecnicos = empon.getListadoTecnico();
+
 		try {
 			departamentosList.add("Administrador");
 			departamentosList.add("Contabilidad");
@@ -88,23 +85,6 @@ public class EmpleadoController {
 			return;
 
 		empleado = empon.getEmpleado(id);
-
-	}
-
-
-	}
-
-	public String getTecnicoElegido() {
-		return tecnicoElegido;
-	}
-
-	public void setTecnicoElegido(String tecnicoElegido) {
-		this.tecnicoElegido = tecnicoElegido;
-	}
-
-	public List<Empleado> getTecnicos() {
-		return tecnicos;
-
 	}
 
 	// ZONA GET/SET
@@ -188,7 +168,6 @@ public class EmpleadoController {
 	public void setListaRolesEmpleados(List<RolEmpleado> listaRolesEmpleados) {
 		this.listaRolesEmpleados = listaRolesEmpleados;
 	}
-
 	public String getRolSelected() {
 		return rolSelected;
 	}
@@ -197,6 +176,8 @@ public class EmpleadoController {
 	}
 
 	// FIN ZONA GET/SET
+
+	
 
 //	ZONA METODOS BEAN
 
@@ -263,7 +244,6 @@ public class EmpleadoController {
 		// return "registrarEmpleado?faces-redirect=true&id=" + codigo;
 		return null;
 	}
-
 	public String eliminarRol(int codigo) {
 		rolEmpOn.eliminar(codigo);
 		init();
@@ -278,10 +258,10 @@ public class EmpleadoController {
 
 	public String guardarEmpleado() {
 		try {
-			if (validadorDeCedula(empleado.getCedula())) {
-				empleado.setRolEmpleado(rolEmpOn.read(mapaRoles.get(rolSelected)));
-				empleado.setNombre(empleado.getNombre().toUpperCase());// Mayusculas
-				empon.guardar(empleado);
+			if (validadorDeCedula(empleado.getCedula())) {														
+				empleado.setRolEmpleado(rolEmpOn.read(mapaRoles.get(rolSelected)));	
+				empleado.setNombre(empleado.getNombre().toUpperCase());//Mayusculas
+				empon.guardar(empleado);				
 				return "listadoEmpleado?faces-redirect=true&id=" + this.idUser;
 			} else {
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -295,7 +275,7 @@ public class EmpleadoController {
 	}
 
 	public String guardarRol() {
-		this.rolEmpleado.setNombre(this.rolEmpleado.getNombre().toUpperCase());// poner en mayusculas
+		this.rolEmpleado.setNombre(this.rolEmpleado.getNombre().toUpperCase());//poner en mayusculas
 		this.rolEmpOn.guardar(this.rolEmpleado);
 		this.rolEmpleado = new RolEmpleado();// necesario para eliminar los campos
 		this.listaRolesEmpleados = null;

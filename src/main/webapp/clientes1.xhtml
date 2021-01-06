@@ -61,7 +61,13 @@
 			<li class="dropdown"><a class="dropdown-toggle"
 				data-toggle="dropdown" href="callcenter.xhtml">Call Center <span
 					class="caret"></span></a>
-				</li>
+				<ul class="dropdown-menu">
+					<li><a href="registro.xhtml">Registros</a></li>
+					<li><a href="listadoInstalaciones.xhtml">Instalaciones</a></li>
+					<li><h:form><p:commandButton class="nuevaInstalacion" onclick="$('#myModal').modal('show')" 
+				onblur="#{clienteController.datoI()}" value="N Instalacion"></p:commandButton></h:form></li>
+
+				</ul></li>
 
 			<li class="dropdown"><a class="dropdown-toggle"
 				data-toggle="dropdown" href="#" onclick="acceso()">Clientes<span

@@ -50,7 +50,7 @@ public class ClienteController implements Serializable {
 	private Cliente cliente = new Cliente();
 	private List<Cliente> listadoCliente;
 	private List<Servicio> servicios;
-	private List<Registro> registros;
+	//sprivate List<Registro> registros;
 	private List<Empleado> empleados;
 	private List<Instalacion> listaInstalaciones;
 	private Registro registro = new Registro();
@@ -64,19 +64,11 @@ public class ClienteController implements Serializable {
 	private Telefono nuevoTelefono;
 	private String nuevoNumero;
 	private String nuevoTipoTelefono;
-
 	public List<EquipoServicio> equipoServicioClientes;
 	private Servicio servicioEdit;
 	private EquipoServicio eqServEdit;
 
-
-	private List<EquipoServicio> serviciosCliente;
-
-	private List<Registro> registrosvisita;
-	private List<Agendamiento> agendamientos;
-	private List<Empleado> tecnicos;
-	private String tecnicoElegido;
-
+	
 	/**
 	 * Declaraacion de variables
 	 */
@@ -84,72 +76,16 @@ public class ClienteController implements Serializable {
 	private int idR;
 	private String cedula; 
 	private String nombre;
-
-	private String apellidos;
-
-	private String ip;
-	private String password;
-
-	private String serial;
-	private String email;
-	private String convencional;
-	private String celular;
-	private String direccionPrincipal;
-	private String direccionSecundaria;
-	private String direccionReferencia;
-	private String latitud;
-	private String longitud;
-	private String jj;
+	private String IP;
+	private String Password;
 	private String antenaC;
 	public String problemas;
 	public String soluciones;
 	private String empleados1;
 	private String servicioRB;
-
-	private String tipoServicio;
-	
-	public String getTipoServicio() {
-		return tipoServicio;
-	}
-
-	public void setTipoServicio(String tipoServicio) {
-		this.tipoServicio = tipoServicio;
-	}
-
-	public List<String> listaSugerencias;
-
-	private String servicioElegido;
-	private String numContrato;
-	private String fecha;
-	private String item;
-	private String antenaElegida;
-	private String planElegida;
-	private String observaciones;
-	private String routerVendido;
-
-	private Telefono telefonoConveEdit;
-	private Telefono telefonoMovilEdit;
-	private Servicio servicioEdit;
-	private EquipoServicio eqServEdit;
-
-	private String antenaTmp;
-	private String planTmp;
-	private String router;
-	private boolean rendered;
-
-	private List<String> opciones;
-	public List<Cliente> filtradoCliente;
-
-	private List<String> tipoServicios;
-	private List<Equipo> listadoAntenas;
-	private List<Plan> listadoPlanes;
-
-	private List<Plan> listadoPlanesTmp;
-
 	public int idEmpl;
 
 	private int codigoReg;
-
 	public String inputName;
 	
 	public List<String>listaSugerencias;
@@ -161,128 +97,17 @@ public class ClienteController implements Serializable {
 	
 	public EquipoServicio clienteip;
 
-
-	@PostConstruct
-	public void init() {
-		cliente = new Cliente();
-		telefono = new Telefono();
-		registro = new Registro();
-		instalacion = new Instalacion();
-		servicio = new Servicio();
-		agendamiento = new Agendamiento();
-		empleados = empon.getListadoEmpleado();
-		listadoCliente = clion.getListadoCliente();
-		listaInstalaciones = inson.getListadoInstalacion();
-		telefonos = new ArrayList<Telefono>();
-		equipo = new Equipo();
-		serviciosCliente = new ArrayList<EquipoServicio>();
-
-		cliente = new Cliente();
-		registro = new Registro();
-		instalacion = new Instalacion();
-		servicio = new Servicio();
-		agendamiento = new Agendamiento();
-		empleados = empon.getListadoEmpleado();
-		listadoCliente = clion.getListadoCliente();
-		registros = regon.getListadoRegistro();
-		listaInstalaciones = inson.getListadoInstalacion();
-		nuevoTelefono = new Telefono();
-
-		servicioTmp = new Servicio();
-		telefonoConveEdit = new Telefono();
-		telefonoMovilEdit = new Telefono();
-		servicioEdit = new Servicio();
-		eqServEdit = new EquipoServicio();
-
-		telefonos = new ArrayList<Telefono>();
-		listadoPlanesTmp = new ArrayList<Plan>();
-
-		listadoPlanes = new ArrayList<Plan>();
-		equipo = new Equipo();
-		servicioElegido = "Fibra";
-		if (servicioElegido.equals("Radio")) {
-
-			listadoAntenas = eqOn.getListadoAntenas();
-		} else {
-			listadoAntenas = eqOn.getListadoEquiposFibra();
-		}
-		System.out.println("Servicio: " + servicioElegido);
-		listadoPlanesTmp = planOn.getListadoPlan();
-		opciones = new ArrayList<String>();
-		tipoServicios = new ArrayList<String>();
-
-		listadoPlanes.add(listadoPlanesTmp.get(0));
-		listadoPlanes.add(listadoPlanesTmp.get(1));
-		listadoPlanes.add(listadoPlanesTmp.get(2));
-
-		opciones.add("Si");
-		opciones.add("No");
-
-		tipoServicios.add("Radio");
-		tipoServicios.add("Fibra");
-		listadoAntenas = eqOn.getListadoAntenas();
-		listadoPlanes = planOn.getListadoPlan();
-		registrosvisita = regon.listadoRegistrosVT();
-		tecnicos = empon.getListadoTecnico();
-		agendamientos = agon.getAgenda();
-		visita = new Visita();
-
-		System.out.println("Si tomoo las antenaas" + listadoAntenas.size());
-		listaSugerencias = new ArrayList<String>();
-	}
-
-	public List<Agendamiento> getAgendamientos() {
-		return agendamientos;
-	}
-
-	public void setAgendamientos(List<Agendamiento> agendamientos) {
-		this.agendamientos = agendamientos;
-	}
-
-	public List<Registro> getRegistrosvisita() {
-		return registrosvisita;
-	}
-
-	public List<Empleado> getTecnicos() {
-		return tecnicos;
-	}
-
-	public void setTecnicos(List<Empleado> tecnicos) {
-		this.tecnicos = tecnicos;
-	}
-
-	public String getTecnicoElegido() {
-		return tecnicoElegido;
-	}
-
-	public void setTecnicoElegido(String tecnicoElegido) {
-		this.tecnicoElegido = tecnicoElegido;
-	}
-
-	public String getApellidos() {
-		return apellidos;
-	}
-
-	public void setRegistrosvisita(List<Registro> registrosvisita) {
-		this.registrosvisita = registrosvisita;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public EquipoServicio clienteip;
-
 	/**
 	 * Fin de la declaracion
 	 */
 
-	// @ManagedProperty(value = "#{login}")
-	// private EmpleadoController empCon;
+	
+	
+	
+	//@ManagedProperty(value = "#{login}")
+	//private EmpleadoController empCon;
+
+
 
 	/**
 	 * Inyeccion de las clases ON
@@ -313,116 +138,41 @@ public class ClienteController implements Serializable {
 	
 	@Inject 
 	private TelefonoON telOn;
-
-
-	@Inject
-	private PlanON planOn;
-
+	
 	@Inject
 	private EquipoServicioON eqServOn;
 	
 
-
-	 * Metodo para la accion para realizar las revisiones
+	/**
+	 * Fin de la inyeccion
 	 */
-	public void datosRegistro() {
 
-		if (idR == 0)
-			return;
-		registro = regon.getRegistro(idR);
+	/**
+	 * Creacion del Constructor
+	 */
+
+	@PostConstruct
+	public void init() {
+		cliente = new Cliente();
+		telefono= new Telefono();
+		registro = new Registro();
+		instalacion=new Instalacion();
+		servicio = new Servicio();
+		agendamiento = new Agendamiento();
+		empleados = empon.getListadoEmpleado();
+		listadoCliente = clion.getListadoCliente();
+		//registros = regon.getListadoRegistro();
+		listaInstalaciones = inson.getListadoInstalacion();
+		telefonos = new ArrayList<Telefono>();
+		equipo = new Equipo();
+		equipoServicioClientes= new ArrayList<EquipoServicio>();
+		listaSugerencias= new ArrayList<String>();
+		
+		servicioEdit = new Servicio();
+		eqServEdit = new EquipoServicio();
+
+
 	}
-
-	public Equipo getEquipo() {
-		return equipo;
-	}
-
-	public void setEquipo(Equipo equipo) {
-		this.equipo = equipo;
-	}
-
-	public String getDireccionPrincipal() {
-		return direccionPrincipal;
-	}
-
-	public void setDireccionPrincipal(String direccionPrincipal) {
-		this.direccionPrincipal = direccionPrincipal;
-	}
-
-	public String getDireccionSecundaria() {
-		return direccionSecundaria;
-	}
-
-	public void setDireccionSecundaria(String direccionSecundaria) {
-		this.direccionSecundaria = direccionSecundaria;
-	}
-
-	public String getDireccionReferencia() {
-		return direccionReferencia;
-	}
-
-	public void setDireccionReferencia(String direccionReferencia) {
-		this.direccionReferencia = direccionReferencia;
-	}
-
-	public String getItem() {
-		return item;
-	}
-
-	public void setItem(String item) {
-		this.item = item;
-	}
-
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
-	}
-
-	public ClienteON getClion() {
-		return clion;
-	}
-
-	public void setClion(ClienteON clion) {
-		this.clion = clion;
-	}
-
-	public void setCelular(String celular) {
-		this.celular = celular;
-	}
-
-	public String getAntenaElegida() {
-		return antenaElegida;
-	}
-
-	public void setAntenaElegida(String antenaElegida) {
-
-		this.antenaElegida = antenaElegida;
-	}
-
-	public List<Equipo> getListadoAntenas() {
-		if (servicioEdit.getTipoServicio() != null) {
-			if (servicioEdit.getTipoServicio().equals("radio")) {
-				return eqOn.getListadoAntenas();
-			} else {
-				System.out.println("Servicio: " + servicioEdit.getTipoServicio());
-				return eqOn.getListadoEquiposFibra();
-			}
-		} else {
-			return null;
-		}
-	}
-
-	public void setListadoAntenas(List<Equipo> listadoAntenas) {
-		if (servicioElegido.equals("Radio")) {
-
-			this.listadoAntenas = eqOn.getListadoAntenas();
-
-		} else {
-			this.listadoAntenas = eqOn.getListadoEquiposFibra();
-			System.out.println("Size=" + listadoAntenas.size());
-		}
-	}
-
-
-
 	
 	
 
@@ -436,17 +186,6 @@ public class ClienteController implements Serializable {
 	}
 
 
-	public String getIp() {
-		
-		return ip;
-	}
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
-
-	public PlanON getPlanOn() {
-		return planOn;
-	}
 
 	public void setServiciosCliente(List<EquipoServicio> serviciosCliente) {
 		this.equipoServicioClientes = serviciosCliente;
@@ -469,7 +208,6 @@ public class ClienteController implements Serializable {
 	 * Metodo para la accion para realizar las revisiones
 	 */
 	public void datosRegistro() {
-
 
 		if (idR == 0)
 			return;
@@ -557,13 +295,6 @@ public class ClienteController implements Serializable {
 
 	public void setSoluciones(String soluciones) {
 		this.soluciones = soluciones;
-
-	public String getLatitud() {
-		return latitud;
-	}
-
-	public void setLatitud(String latitud) {
-		this.latitud = latitud;
 	}
 
 	public String getEmpleados1() {
@@ -574,420 +305,239 @@ public class ClienteController implements Serializable {
 		this.empleados1 = empleados1;
 	}
 
+	/**
+	 * 
+	
+	public List<Registro> getRegistros() {
+		return registros;
+	}
 
+	public void setRegistros(List<Registro> registros) {
+		this.registros = registros;
+	} * @return
+	 */
 
 	public List<Empleado> getEmpleados() {
-			return empleados;
-			public void setJj (String jj){
-				this.jj = jj;
-			}
-
-			public void setEmpleados (List < Empleado > empleados) {
-				this.empleados = empleados;
-			}
-
-			public Registro getRegistro () {
-				return registro;
-			}
-
-			public void setRegistro (Registro registro){
-				this.registro = registro;
-			}
-
-			public Instalacion getInstalacion () {
-				return instalacion;
-			}
-
-			public void setInstalacion (Instalacion instalacion){
-				this.instalacion = instalacion;
-			}
-
-
-			public void setRegon (RegistroON regon){
-				this.regon = regon;
-			}
-
-			public EmpleadoON getEmpon () {
-				return empon;
-			}
-
-			public void setEmpon (EmpleadoON empon){
-				this.empon = empon;
-			}
-
-			public InstalacionON getInson () {
-				return inson;
-			}
-
-			public void setInson (InstalacionON inson){
-				this.inson = inson;
-			}
-
-			public ServicioON getSeron () {
-				return seron;
-			}
-
-			public void setSeron (ServicioON seron){
-				this.seron = seron;
-			}
-
-			public FacesContext getFc () {
-				return fc;
-			}
-
-			public void setFc (FacesContext fc){
-				this.fc = fc;
-			}
-
-			public AgendamientoON getAgon () {
-				return agon;
-			}
-
-			public void setAgon (AgendamientoON agon){
-				this.agon = agon;
-			}
-
-			public EquipoOn getEqOn () {
-				return eqOn;
-			}
-
-			public void setEqOn (EquipoOn eqOn){
-				this.eqOn = eqOn;
-			}
-
-			public TelefonoON getTelOn () {
-				return telOn;
-			}
-
-			public void setTelOn (TelefonoON telOn){
-				this.telOn = telOn;
-			}
-
-			public problema[] getListaProblema () {
-				return listaProblema;
-			}
-
-			public void setListaProblema (problema[]listaProblema){
-				this.listaProblema = listaProblema;
-			}
-
-			public solucion[] getListaSolucion () {
-				return listaSolucion;
-			}
-
-			public void setListaSolucion (solucion[]listaSolucion){
-				this.listaSolucion = listaSolucion;
-			}
-
-			public solucion[] getListaAccion () {
-				return listaAccion;
-			}
-
-			public void setListaAccion (solucion[]listaAccion){
-				this.listaAccion = listaAccion;
-			}
-
-			public ServicioFA[] getServicioLista () {
-				return servicioLista;
-			}
-
-			public void setServicioLista (ServicioFA[]servicioLista){
-				this.servicioLista = servicioLista;
-			}
-
-			public static long getSerialversionuid () {
-				return serialVersionUID;
-			}
-
-			/*
-			 * Creacion de getters and setters
-			 */
-			public Cliente getCliente () {
-				return cliente;
-			}
-
-			public void setCliente (Cliente cliente){
-				this.cliente = cliente;
-			}
-
-			public List<Cliente> getListadoCliente () {
-				return listadoCliente;
-			}
-
-			public void setListadoCliente (List < Cliente > listadoCliente) {
-				this.listadoCliente = listadoCliente;
-			}
-
-			public int getId () {
-				return id;
-			}
-
-			public void setId ( int id){
-				this.id = id;
-			}
-
-			public String getNombre () {
-				return nombre;
-			}
-
-			public void setNombre (String nombre){
-				this.nombre = nombre;
-			}
-
-			public String getCedula () {
-				return cedula;
-			}
-
-			public void setCedula (String cedula){
-				this.cedula = cedula;
-			}
-
-			public String getAntenaC () {
-				return antenaC;
-			}
-
-			public void setAntenaC (String antenaC){
-				this.antenaC = antenaC;
-			}
-
-			public List<Servicio> getServicios () {
-				return servicios;
-			}
-
-			public void setServicios (List < Servicio > servicios) {
-				this.servicios = servicios;
-			}
-
-			public String getSoluciones () {
-				return soluciones;
-			}
-
-			public void setSoluciones (String soluciones){
-				this.soluciones = soluciones;
-			}
-
-			public String getEmpleados1 () {
-				return empleados1;
-			}
-
-			public void setEmpleados1 (String empleados1){
-				this.empleados1 = empleados1;
-			}
-
-			public List<Registro> getRegistros () {
-				return registros;
-			}
-
-			public void setRegistros (List < Registro > registros) {
-				this.registros = registros;
-			}
-
-			public List<Empleado> getEmpleados () {
-				return empleados;
-			}
-
-			public void setEmpleados (List < Empleado > empleados) {
-				this.empleados = empleados;
-			}
-
-			public Registro getRegistro () {
-				return registro;
-			}
-
-			public void setRegistro (Registro registro){
-				this.registro = registro;
-			}
-
-			public Instalacion getInstalacion () {
-				return instalacion;
-			}
-
-			public void setInstalacion (Instalacion instalacion){
-				this.instalacion = instalacion;
-			}
-
-
-			public int getCodigoReg () {
-				return codigoReg;
-			}
-
-			public void setCodigoReg ( int codigoReg){
-				this.codigoReg = codigoReg;
-			}
-
-			public String getServicioRB () {
-				return servicioRB;
-			}
-
-			public void setServicioRB (String servicioRB){
-				this.servicioRB = servicioRB;
-			}
-
-			public Empleado getEmpleado () {
-				return empleado;
-			}
-
-			public void setEmpleado (Empleado empleado){
-				this.empleado = empleado;
-			}
-
-			public List<Instalacion> getListaInstalaciones () {
-				return listaInstalaciones;
-			}
-
-			public void setListaInstalaciones (List < Instalacion > listaInstalaciones) {
-				this.listaInstalaciones = listaInstalaciones;
-			}
-
-			public int getIdEmpl () {
-				return idEmpl;
-			}
-
-			public void setIdEmpl ( int idEmpl){
-				this.idEmpl = idEmpl;
-			}
-
-			public Servicio getServicio () {
-				return servicio;
-			}
-
-			public void setServicio (Servicio servicio){
-				this.servicio = servicio;
-			}
-
-			public Agendamiento getAgendamiento () {
-				return agendamiento;
-			}
-
-			public void setAgendamiento (Agendamiento agendamiento){
-				this.agendamiento = agendamiento;
-			}
-
-			public int getIdR () {
-				return idR;
-			}
-
-			public void setIdR ( int idR){
-				this.idR = idR;
-			}
-			public void setServicioEdit (Servicio servicioEdit){
-				this.servicioEdit = servicioEdit;
-			}
-
-
-			public void setEqServEdit (EquipoServicio eqServEdit){
-				this.eqServEdit = eqServEdit;
-			}
-
-
-
-
-
-			/*
-			 * Hasta aqui llega la creacion de los getters and setters
-			 */
-
-			public String getInputName () {
-				return inputName;
-			}
-
-
-			public void setInputName (String inputName){
-				this.inputName = inputName;
-			}
-
-
-			public List<Telefono> getTelefonos () {
-
-				return telefonos;
-			}
-
-			public void setTelefonos (List < Telefono > telefonos) {
-				this.telefonos = telefonos;
-			}
-
-			/**
-			 * Metodo para dirigirnos a la pagina editarClientes
-			 *
-			 * @param codigo
-			 * @return
-			 */
-
-			public String editar ( int codigo){
-
-				return "editarClientes?faces-redirect=true&id=" + codigo;
-			}
-
-			public String editarRegistro ( int codigo){
-				return "agendamiento?faces-redirect=true&id=" + codigo;
-			}
-
-
-			public String editarRegistro1 ( int codigo){
-				return "solucionar?faces-redirect=true&id=" + codigo;
-			}
-
-			/**
-			 * Metodo para la creacion de los clientes
-			 *
-			 * @return
-			 */
-			public String guardarCliente () {
-
-				try {
-					clion.guardarCliente(cliente);
-					// servicio.setIdClienteTemp(cliente.getId());
-					// seron.guardar(servicio);
-					init();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+		return empleados;
+	}
+
+	public void setEmpleados(List<Empleado> empleados) {
+		this.empleados = empleados;
+	}
+
+	public Registro getRegistro() {
+		return registro;
+	}
+
+	public void setRegistro(Registro registro) {
+		this.registro = registro;
+	}
+
+	public Instalacion getInstalacion() {
+		return instalacion;
+	}
+
+	public void setInstalacion(Instalacion instalacion) {
+		this.instalacion = instalacion;
+	}
+
+	public int getCodigoReg() {
+		return codigoReg;
+	}
+
+	public void setCodigoReg(int codigoReg) {
+		this.codigoReg = codigoReg;
+	}
+
+	public String getServicioRB() {
+		return servicioRB;
+	}
+
+	public void setServicioRB(String servicioRB) {
+		this.servicioRB = servicioRB;
+	}
+
+	public Empleado getEmpleado() {
+		return empleado;
+	}
+
+	public void setEmpleado(Empleado empleado) {
+		this.empleado = empleado;
+	}
+
+	public List<Instalacion> getListaInstalaciones() {
+		return listaInstalaciones;
+	}
+
+	public void setListaInstalaciones(List<Instalacion> listaInstalaciones) {
+		this.listaInstalaciones = listaInstalaciones;
+	}
+
+	public int getIdEmpl() {
+		return idEmpl;
+	}
+
+	public void setIdEmpl(int idEmpl) {
+		this.idEmpl = idEmpl;
+	}
+
+	public Servicio getServicio() {
+		return servicio;
+	}
+
+	public void setServicio(Servicio servicio) {
+		this.servicio = servicio;
+	}
+
+	public Agendamiento getAgendamiento() {
+		return agendamiento;
+	}
+
+	public void setAgendamiento(Agendamiento agendamiento) {
+		this.agendamiento = agendamiento;
+	}
+
+	public int getIdR() {
+		return idR;
+	}
+
+	public void setIdR(int idR) {
+		this.idR = idR;
+	}
+	public void setServicioEdit(Servicio servicioEdit) {
+		this.servicioEdit = servicioEdit;
+	}
+/*
+ * 
+ * 
+	public EmpleadoController getEmpCon() {
+		return empCon;
+	}
+
+	public void setEmpCon(EmpleadoController empCon) {
+		this.empCon = empCon;
+	}
+	
+ */
+	
+
+	public void setEqServEdit(EquipoServicio eqServEdit) {
+		this.eqServEdit = eqServEdit;
+	}
+	
+	
+	
+
+	/*
+	 * Hasta aqui llega la creacion de los getters and setters
+	 */
+
+
+	public String getInputName() {
+		return inputName;
+	}
+
+
+
+	public void setInputName(String inputName) {
+		this.inputName = inputName;
+	}
+
+
+
+	public List<Telefono> getTelefonos() {
+	
+		return telefonos;
+	}
+
+	public void setTelefonos(List<Telefono> telefonos) {
+		this.telefonos = telefonos;
+	}
+
+	/**
+	 * Metodo para dirigirnos a la pagina editarClientes
+	 * 
+	 * @param codigo
+	 * @return
+	 */
+
+	public String editar(int codigo) {
+
+		return "editarClientes?faces-redirect=true&id=" + codigo;
+	}
+
+	public String editarRegistro(int codigo) {
+		return "agendamiento?faces-redirect=true&id=" + codigo;
+	}
+
+	/**
+	 * Metodo para la creacion de los clientes
+	 * 
+	 * @return
+	 */
+	public String guardarCliente() {
+
+		try {
+			clion.guardarCliente(cliente);
+			// servicio.setIdClienteTemp(cliente.getId());
+			// seron.guardar(servicio);
+			init();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	/**
+	 * Metodo para la busqueda de clientes para el registro
+	 * 
+	 * @return
+	 */
+
+
+	
+	
+
+	
+	
+	
+
+	public String buscarCedula() {
+		System.out.println("esta es la cedula hpta "+ this.cedula);
+		try {
+			if (this.cedula!=null) {
+				
+				cliente = clion.getClienteCedula(this.cedula);
+							setTelefonos(telOn.getTelefonos(cliente));
+				for (Telefono telefono : telefonos) {
+					System.out.println(telefono.getTipoTelefono());
+					System.out.println("-----kiko----");
 				}
-
-				return null;
-			}
-
-			/**
-			 * Metodo para la busqueda de clientes para el registro
-			 *
-			 * @return
-			 */
-
-
-			public String buscarCedula () {
-				System.out.println("esta es la cedula hpta " + this.cedula);
-				try {
-					if (this.cedula != null) {
-
-						cliente = clion.getClienteCedula(this.cedula);
-						setTelefonos(telOn.getTelefonos(cliente));
-						for (Telefono telefono : telefonos) {
-							System.out.println(telefono.getTipoTelefono());
-							System.out.println("-----kiko----");
-						}
-						registro.setIdClienteTemp(cliente.getId());
-						cliente.setTelefonos(telefonos);
-						fechaHora();
-
-
-						// datoR();
-						setNuevoTelefono(null);
-						setNuevoTipoTelefono(null);
-						FacesContext.getCurrentInstance().addMessage(null,
-								new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
-
-					}
-				} catch (Exception e) {
-					// TODO: handle exception
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Incorrectas"));
-
-				}
-				System.out.println("veniii" + cliente.getCedula());
-				return null;
+				registro.setIdClienteTemp(cliente.getId());
+				cliente.setTelefonos(telefonos);
+				fechaHora();
+				//datoR();
+				setNuevoTelefono(null);
+				setNuevoTipoTelefono(null);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
 
 			}
+		}catch (Exception e) {
+			// TODO: handle exception
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Incorrectas"));
 
 		}
+				System.out.println("veniii"+ cliente.getCedula());
+				return null;
+
+			}
+	
+	
+	
+
+	
 	public String getNuevoNumero() {
 		return nuevoNumero;
 	}
@@ -1018,7 +568,6 @@ public class ClienteController implements Serializable {
 	
 	
 
-
 	public List<String> getListaSugerencias() {
 		return listaSugerencias;
 	}
@@ -1032,26 +581,23 @@ public class ClienteController implements Serializable {
 
 
 	public String buscarCedula1() {
-			try {
-				if (cliente.getCedula() != null) {
+try {
+	if (cliente.getCedula()!=null) {
+		
+		cliente = clion.getClienteCedula(cliente.getCedula());
+		registro.setIdClienteTemp(cliente.getId());
+		fechaHora();
+		//datoR();
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
 
-					cliente = clion.getClienteCedula(cliente.getCedula());
-					registro.setIdClienteTemp(cliente.getId());
-					fechaHora();
-					//datoR();
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
+	}
+}catch (Exception e) {
+	// TODO: handle exception
+	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Incorrectas"));
 
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Incorrectas"));
-
-			}
-		}
+}
 		System.out.println("veniii"+ cliente.getCedula());
 		return cliente.getCedula();
-
-	public List<Telefono> getTelefonos1(Cliente cliente) {
 
 	}
 	
@@ -1076,10 +622,30 @@ public class ClienteController implements Serializable {
 		cliente = clion.getClienteNombre(cliente.getNombre());
 		registro.setIdClienteTemp(cliente.getId());
 		fechaHora();
-		// datoR();
+		//datoR();
 	}
 
-
+	/**
+	 * Metodo para editar los clientes
+	 * 
+	 * @return
+	 */
+	public String cargarDatos() {
+		try {
+			clion.guardar(cliente);
+			init();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * Metodo para editar los clientes
+	 * 
+	 * @return
+	 */
 	public String cargarDatosCallCenter() {
 		
 		try {
@@ -1096,7 +662,6 @@ public class ClienteController implements Serializable {
 	 * 
 	 * @return
 	 */
-
 	public String guardarAgendamiento() {
 		try {
 			agon.guardar(agendamiento);
@@ -1109,6 +674,57 @@ public class ClienteController implements Serializable {
 		return null;
 	}
 
+	
+	/**
+	 * Metodo para la ejecuccion del sistema de simbolo (cmd)
+	 */
+	/*
+	public void cmd() {
+		try {
+			System.out.println("gol");
+			
+			 *for (int i = 0; i < registro.getCliente().getServicio().size(); i++) {
+				//IP = registro.getCliente().getServicio().get(i).getIp();
+				Runtime.getRuntime().exec("cmd.exe /k start ping " + IP + " -t");
+				fechaHora();
+				System.out.println("IP obtenida: " + IP);
+				System.out.println("hola2");
+			} 
+			 
+			
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	 
+	public void winbox() {
+
+		try {
+			for (int i = 0; i < registro.getCliente().getServicio().size(); i++) {
+				IP = registro.getCliente().getServicio().get(i).getIp();
+				Password = registro.getCliente().getServicio().get(i).getPassword();
+				Runtime.getRuntime().exec("C:\\Winbox.exe " + IP + " admin connect " + Password);
+				System.out.println("IP obtenida: " + IP);
+				System.out.println("hola2");
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+
+	 */
+
+	/**
+	 * Metodo para mostrar el listado de las antenas en el combox
+	 * 
+	 * @return
+	 */
 
 	public String listAntena() {
 		//antenaC = "" + anton.getListadoAntena();
@@ -1189,10 +805,7 @@ public class ClienteController implements Serializable {
 
 	public problema[] listaProblema;
 
-	public problema[] listaSoluOficina;
-
 	public problema[] getProblemas1() {
-
 		listaProblema = new problema[6];
 
 		listaProblema[0] = new problema("SERVICIO INTERMITENTE", "1");
@@ -1203,16 +816,6 @@ public class ClienteController implements Serializable {
 		listaProblema[5] = new problema("CORTE DE SERVICIO", "6");
 
 		return listaProblema;
-	}
-
-
-	public problema[] getOficina1() {
-		listaSoluOficina = new problema[3];
-		listaSoluOficina[0] = new problema("SOLUCIONADO", "1");
-		listaSoluOficina[1] = new problema("NODO CAIDO", "2");
-		listaSoluOficina[2] = new problema("VISITA TECNICA", "3");
-
-		return listaSoluOficina;
 	}
 
 	// Matriz de Objetos para solucion
@@ -1271,281 +874,15 @@ public class ClienteController implements Serializable {
 
 	public solucion[] listaAccion;
 
-
 	public solucion[] getAccion() {
-		listaSolucion = new solucion[4];
-		listaSolucion[0] = new solucion("VISITA TECNICA", "1");
-		listaSolucion[1] = new solucion("NODO CAIDO", "2");
-		listaSolucion[2] = new solucion("PROBLEMA ENLACE", "3");
-		listaSolucion[3] = new solucion("SOLUCIONADOF", "4");
+		listaSolucion = new solucion[5];
+		listaSolucion[0] = new solucion("PENDIENTE", "1");
+		listaSolucion[1] = new solucion("SOLUCIONADO", "2");
+		listaSolucion[2] = new solucion("LLAMAR A VERIFICAR", "3");
+		listaSolucion[3] = new solucion("CLIENTE NO DA NINGUNA RESPUESTA", "4");
+		listaSolucion[4] = new solucion("VISITA TECNICA", "5");
 
 		return listaSolucion;
-	}
-
-	/*
-	 * Metodo para de radioButton del Modo de Servicio
-	 */
-	public static class ServicioFA {
-		public String servicioLabel;
-		public String servicioValue;
-
-		public ServicioFA(String servicioLabel, String servicioValue) {
-			this.servicioLabel = servicioLabel;
-			this.servicioValue = servicioValue;
-		}
-
-		public String getServicioLabel() {
-			return servicioLabel;
-		}
-
-		public void setServicioLabel(String servicioLabel) {
-			this.servicioLabel = servicioLabel;
-		}
-
-		public String getServicioValue() {
-			return servicioValue;
-		}
-
-		public void setServicioValue(String servicioValue) {
-			this.servicioValue = servicioValue;
-		}
-
-	}
-
-	public ServicioFA[] servicioLista;
-
-	public ServicioFA[] getListaServicioRB() {
-
-		servicioLista = new ServicioFA[2];
-		servicioLista[0] = new ServicioFA("Fibra Optica", "FO");
-		servicioLista[1] = new ServicioFA("Antena", "RE");
-
-		return servicioLista;
-	}
-
-	public List<Plan> getListadoPlanes() {
-		if (servicioEdit.getTipoServicio() != null) {
-			if (servicioEdit.getTipoServicio().equals("radio")) {
-				List<Plan> planRadio = new ArrayList<Plan>();
-				planRadio.add(listadoPlanesTmp.get(0));
-				planRadio.add(listadoPlanesTmp.get(1));
-				planRadio.add(listadoPlanesTmp.get(2));
-
-				return planRadio;
-			} else {
-				List<Plan> planFibra = new ArrayList<Plan>();
-				planFibra.add(listadoPlanesTmp.get(3));
-				planFibra.add(listadoPlanesTmp.get(4));
-				planFibra.add(listadoPlanesTmp.get(5));
-
-				return planFibra;
-			}
-		} else
-			return null;
-	}
-
-	public void setListadoPlanes(List<Plan> listadoPlanes) {
-		this.listadoPlanes = listadoPlanes;
-	}
-
-	public EquipoServicioON getEqServOn() {
-		return eqServOn;
-	}
-
-	public void setEqServOn(EquipoServicioON eqServOn) {
-		this.eqServOn = eqServOn;
-	}
-
-	public Telefono getTelefonoMovilEdit() {
-		return telefonoMovilEdit;
-	}
-
-	public void setTelefonoMovilEdit(Telefono telefonoMovilEdit) {
-		this.telefonoMovilEdit = telefonoMovilEdit;
-	}
-
-	public Servicio getServicioEdit() {
-		return servicioEdit;
-	}
-
-	public void setServicioEdit(Servicio servicioEdit) {
-		this.servicioEdit = servicioEdit;
-	}
-
-	public String getPlanElegida() {
-		return planElegida;
-	}
-
-	public String getServicioElegido() {
-		return servicioElegido;
-	}
-
-	public void setServicioElegido(String servicioElegido) {
-		this.servicioElegido = servicioElegido;
-	}
-
-	public void setPlanElegida(String planElegida) {
-		this.planElegida = planElegida;
-	}
-
-	public String getRouterVendido() {
-		return routerVendido;
-	}
-
-	public void setRouterVendido(String routerVendido) {
-		this.routerVendido = routerVendido;
-	}
-
-	public List<String> getOpciones() {
-		return opciones;
-	}
-
-	public String getFecha() {
-		return fecha;
-	}
-
-	public void setFecha(String fecha) {
-		this.fecha = fecha;
-	}
-
-	public void setOpciones(List<String> opciones) {
-		this.opciones = opciones;
-	}
-
-	public String getSerial() {
-		return serial;
-	}
-
-	public void setSerial(String serial) {
-		this.serial = serial;
-	}
-
-	public String getAntenaTmp() {
-		return antenaTmp;
-	}
-
-	public boolean isRendered() {
-		return rendered;
-	}
-
-	public void setRendered(boolean rendered) {
-		this.rendered = rendered;
-	}
-
-	public void setAntenaTmp(String antenaTmp) {
-		this.antenaTmp = antenaTmp;
-	}
-
-	public Servicio getServicioTmp() {
-		return servicioTmp;
-	}
-
-	public Telefono getTelefonoConveEdit() {
-		return telefonoConveEdit;
-	}
-
-	public void setTelefonoConveEdit(Telefono telefonoConveEdit) {
-		this.telefonoConveEdit = telefonoConveEdit;
-	}
-
-	public void setServicioTmp(Servicio servicioTmp) {
-		this.servicioTmp = servicioTmp;
-	}
-
-	public String getNumContrato() {
-		return numContrato;
-	}
-
-	public void setNumContrato(String numContrato) {
-		this.numContrato = numContrato;
-	}
-
-	public EquipoServicio getEqServEdit() {
-		return eqServEdit;
-	}
-
-	public List<String> getTipoServicios() {
-		return tipoServicios;
-	}
-
-	public void setTipoServicios(List<String> tipoServicios) {
-		this.tipoServicios = tipoServicios;
-	}
-
-	public void setEqServEdit(EquipoServicio eqServEdit) {
-		this.eqServEdit = eqServEdit;
-	}
-
-	public String getObservaciones() {
-		return observaciones;
-	}
-
-	public void setObservaciones(String observaciones) {
-		this.observaciones = observaciones;
-	}
-
-	// Metodo para actualizar los telefonos;
-
-	public String getRouter() {
-		return router;
-	}
-
-	public void setRouter(String router) {
-		this.router = router;
-	}
-
-	public String getPlanTmp() {
-		return planTmp;
-	}
-
-	public void setPlanTmp(String planTmp) {
-		this.planTmp = planTmp;
-	}
-
-	public void loadData() {
-		if (id == 0)
-			return;
-		cliente = clion.getCliente(id);
-
-		List<Telefono> telefonos2 = telOn.getTelefonos(cliente);
-		for (Telefono telefono : telefonos2) {
-			if (telefono.getTipoTelefono().equals("Convencional")) {
-				setTelefonoConveEdit(telefono);
-			}
-			if (telefono.getTipoTelefono().equals("Movil")) {
-				setTelefonoMovilEdit(telefono);
-			}
-
-		}
-
-		List<Servicio> servicios = seron.getServicios(cliente);
-		int i = 0;
-		for (Servicio servicio : servicios) {
-			if (i == 0) {
-				setServicioEdit(servicio);
-			}
-			i++;
-		}
-
-		List<EquipoServicio> equipoServicios = eqServOn.getServicios(servicioEdit);
-		int j = 0;
-		for (EquipoServicio equipoServicio : equipoServicios) {
-			if (j == 0) {
-				setEqServEdit(equipoServicio);
-			}
-			j++;
-		}
-		this.antenaTmp = eqServEdit.getEquipo().getModelo();
-		this.planTmp = servicioEdit.getPlan().getTipoPlan();
-		this.router = servicioEdit.getRouterVendido();
-
-		if (servicioEdit.getTipoServicio().equals("radio")) {
-			setListadoAntenas(eqOn.getListadoAntenas());
-		} else {
-			System.out.println("Servicio: " + servicioEdit.getTipoServicio());
-			setListadoAntenas(eqOn.getListadoEquiposFibra());
-
-		}
 	}
 
 	public String tecnicoCampo() {
@@ -1612,6 +949,31 @@ public class ClienteController implements Serializable {
 	}
 
 
+	/**
+	 * Metodo de conltar Registro para el agendamiento
+	 * public void consultarRegistro() {
+		Registro reg;
+		try {
+			reg = regon.consultarRegistro(agendamiento.getCodigoRegistroTemp());
+			agendamiento.setRegistro(reg);
+		} catch (Exception e) {
+			agendamiento.setRegistro(null);
+			
+
+			e.printStackTrace();
+		}
+	}
+	 */
+
+	
+
+	
+
+
+
+	/**
+	 * Metodo para la fecha del sistema
+	 */
 	public void fechaHora() {
 		Calendar fecha = new GregorianCalendar();
 
@@ -1634,14 +996,18 @@ public class ClienteController implements Serializable {
 
 	/*
 	 * 
-	 * 
-	 * public void datoR() { System.out.println("datos locos " + empCon.getId());
-	 * registro.setIdEmpleadoTemp(empCon.getId()); }
-	 * 
-	 * public String datoI() { System.out.println("Datos Instalacion " +
-	 * empCon.getId()); instalacion.setCodigoEmpTemp(empCon.getId()); return
-	 * "instalacion"; }
-	 */
+	
+	public void datoR() {
+		System.out.println("datos locos " + empCon.getId());
+		registro.setIdEmpleadoTemp(empCon.getId());
+	}
+
+	public String datoI() {
+		System.out.println("Datos Instalacion " + empCon.getId());
+		instalacion.setCodigoEmpTemp(empCon.getId());
+		return "instalacion";
+	}
+ */
 	public boolean validadorDeCedula(String cedula) {
 		boolean cedulaCorrecta = false;
 
@@ -1703,6 +1069,8 @@ public class ClienteController implements Serializable {
 		this.clienteip = clienteip;
 	}
 
+
+
 	/**
 	 * Metodo para guardar los datos de la instalacion
 	 * 
@@ -1719,117 +1087,7 @@ public class ClienteController implements Serializable {
 
 		return null;
 	}
-
-
-	public String crearCliente() {
-
-		Telefono tele = new Telefono();
-		Telefono teleMovil = new Telefono();
-		Cliente cli = new Cliente();
-		String hola = "ww";
-		System.out.println(hola);
-		cli.setCedula(this.cedula);
-		cli.setApellidos(this.apellidos);
-		cli.setNombre(this.nombre);
-		cli.setDireccionPrincipal(this.direccionPrincipal);
-		cli.setDireccionSecundaria(this.direccionSecundaria);
-		cli.setDireccionReferencia(this.direccionReferencia);
-		cli.setEmail(this.email);
-		cli.setLatitud(this.latitud);
-		cli.setLongitud(this.longitud);
-
-		clion.guardar(cli);
-
-		tele.setTipoTelefono("Convencional");
-		tele.setTelNumero(this.convencional);
-		tele.setCliente(cli);
-		telOn.guardar(tele);
-
-		teleMovil.setTipoTelefono("Movil");
-		teleMovil.setTelNumero(this.celular);
-		teleMovil.setCliente(cli);
-
-		telOn.guardar(teleMovil);
-
-		if (servicioElegido.equals("Radio")) {
-			Plan planTmp = new Plan();
-			Equipo antenaTmp = new Equipo();
-			EquipoServicio eqServicio = new EquipoServicio();
-
-			antenaTmp = eqOn.buscarAntena(Integer.parseInt(antenaElegida));
-			planTmp = planOn.buscarPlan(Integer.parseInt(planElegida));
-
-			servicioTmp.setTipoServicio("radio");
-			servicioTmp.setNumeroContrato(this.numContrato);
-			servicioTmp.setCliente(cli);
-			servicioTmp.setFechaContrato(this.fecha);
-			servicioTmp.setRouterVendido(this.routerVendido);
-			servicioTmp.setObservaciones(this.observaciones);
-			servicioTmp.setPlan(planTmp);
-			seron.guardar(servicioTmp);
-
-			eqServicio.setSerial(this.serial);
-			eqServicio.setPassword(this.password);
-			eqServicio.setIp(this.ip);
-
-			eqServicio.setEquipo(antenaTmp);
-			eqServicio.setServicio(servicioTmp);
-
-			eqServOn.crearI(eqServicio);
-		} else {
-			Plan planTmp = new Plan();
-			Equipo antenaTmp = new Equipo();
-			EquipoServicio eqServicio = new EquipoServicio();
-
-			antenaTmp = eqOn.buscarAntena(Integer.parseInt(antenaElegida));
-			planTmp = planOn.buscarPlan(Integer.parseInt(planElegida));
-
-			servicioTmp.setTipoServicio("fibra");
-			servicioTmp.setNumeroContrato(this.numContrato);
-			servicioTmp.setCliente(cli);
-			servicioTmp.setFechaContrato(this.fecha);
-			servicioTmp.setRouterVendido(this.routerVendido);
-			servicioTmp.setObservaciones(this.observaciones);
-			servicioTmp.setPlan(planTmp);
-			seron.guardar(servicioTmp);
-
-			eqServicio.setSerial(this.serial);
-			eqServicio.setPassword(this.password);
-			eqServicio.setIp(this.ip);
-
-			eqServicio.setEquipo(antenaTmp);
-			eqServicio.setServicio(servicioTmp);
-
-			eqServOn.crearI(eqServicio);
-
-		}
-
-		this.cedula = "";
-		this.nombre = "";
-		this.apellidos = "";
-		this.convencional = "";
-		this.celular = "";
-		this.direccionPrincipal = "";
-		this.direccionSecundaria = "";
-		this.direccionReferencia = "";
-		this.latitud = "";
-		this.longitud = "";
-		this.email = "";
-		this.antenaElegida = "";
-		this.planElegida = "";
-		this.ip = "";
-		this.password = "";
-		this.serial = "";
-		this.observaciones = "";
-
-		teleMovil.setTipoTelefono("Movil");
-		teleMovil.setTelNumero(this.celular);
-		teleMovil.setCliente(cli);
-		telOn.guardar(teleMovil);
-
-		return null;
-	}
-
+	
 	/**
 	 * Metodo de consultar Empleado para la instalacion
 	 */
@@ -1851,49 +1109,17 @@ public class ClienteController implements Serializable {
 	}
 	
 
-	public void toggleRendered(ActionEvent event) {
-		this.rendered = !rendered;
-	}
+	
+	/*
+	 * Metodo para de radioButton del Modo de Servicio
+	 */
+	public static class ServicioFA {
+		public String servicioLabel;
+		public String servicioValue;
 
-	public String cargarDatos() {
-		try {
-
-			clion.guardar(cliente);
-			telOn.guardar(telefonoConveEdit);
-			telOn.guardar(telefonoMovilEdit);
-			Plan planTmp = new Plan();
-			Equipo equipo = new Equipo();
-
-			if (planElegida != null)
-
-				planTmp = planOn.buscarPlan(Integer.parseInt(planElegida));
-			else
-				planTmp = planOn.getPlanByName(this.planTmp);
-
-			if (antenaElegida != null)
-
-				equipo = eqOn.buscarAntena(Integer.parseInt(this.antenaElegida));
-			else
-				equipo = eqOn.getAntenaByName(this.antenaTmp);
-
-			this.servicioEdit.setRouterVendido(this.router);
-			this.servicioEdit.setPlan(planTmp);
-
-			// seron.guardar(servicioEdit);
-
-			seron.update(this.servicioEdit);
-
-			this.eqServEdit.setEquipo(equipo);
-
-			eqServOn.actualizar(this.eqServEdit);
-
-			this.antenaTmp = "";
-			this.planTmp = "";
-			this.router = "";
-			init();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
+		public ServicioFA(String servicioLabel, String servicioValue) {
+			this.servicioLabel = servicioLabel;
+			this.servicioValue = servicioValue;
 		}
 
 		public String getServicioLabel() {
@@ -1914,31 +1140,9 @@ public class ClienteController implements Serializable {
 
 	}
 
-D
 	public ServicioFA[] servicioLista;
 
 	public ServicioFA[] getListaServicioRB() {
-
-	public void newTelefono() {
-
-		if (nuevoTipoTelefono != null && nuevoNumero != null) {
-			try {
-				System.out.println("this is new ID FOR TEL -> " + telOn.getMaxId() + 1);
-				nuevoTelefono = new Telefono(telOn.getMaxId() + 1, nuevoNumero, nuevoTipoTelefono,
-						clion.getClienteCedula(cliente.getCedula()));
-				telefonos.add(nuevoTelefono);
-				telOn.createTelefono(nuevoTelefono);
-
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO, "Aviso", "Telefono Agregado Correctamente"));
-
-			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "No se pudo agregar el telefono"));
-
-			}
-		}
-	}
 
 		servicioLista = new ServicioFA[2];
 		servicioLista[0] = new ServicioFA("Fibra Optica", "FO");
@@ -1949,15 +1153,9 @@ D
 	
 	//Metodo para actualizar los telefonos;
 
-
-	public List<Equipo> listarAntenas(String antenaElegido) {
-		if (antenaElegido.equals("Radio")) {
-			return eqOn.getListadoAntenas();
-		} else {
-			return eqOn.getListadoEquiposFibra();
-		}
-	}
-
+	
+	
+	
 	/**
 	 * 
 	 */
@@ -1993,16 +1191,16 @@ D
     }
 	
 	private int getInteger(String string) {
+        try {
+            return Integer.valueOf(string);
+        }
+        catch (NumberFormatException ex) {
+            return 0;
+        }
+    }
 
-		try {
-			return Integer.valueOf(string);
-		} catch (NumberFormatException ex) {
-			return 0;
-		}
-	}
-
-	// Metod to autocomplete
-
+	//Metod to autocomplete
+	
 	public List<String> getSugerencias(String enteredValue) {
 		List<String> coincidencias= new ArrayList<String>();
 			System.out.println("NOMBRE BUSCADO");
@@ -2062,32 +1260,10 @@ D
 			registro.setIdClienteTemp(cliente.getId());
 			cliente.setTelefonos(telefonos);
 			fechaHora();
-			// datoR();
+			//datoR();
 			setNuevoTelefono(null);
 			setNuevoTipoTelefono(null);
-
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "Credenciales Correctas"));
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("NO HAY TEXTO ");
-		}
-
-		return null;
-	}
-
-	public void newTelefono(Telefono telefono) {
-		System.out.println("Telefono de parametro " + telefono.getTelNumero());
-		System.out.println("Telefono de parametro " + telefono.getTipoTelefono());
-		this.nuevoTelefono = telefono;
-		nuevoTelefono.setCliente(cliente);
-		if (nuevoTelefono.getTipoTelefono() != "" && nuevoTelefono.getTelNumero() != ""
-				&& nuevoTelefono.getTipoTelefono() != null) {
-			try {
-				clion.getClienteCedula(cliente.getCedula());
-				nuevoTelefono.setId(telOn.getMaxId() + 1);
-				telOn.createTelefono(nuevoTelefono);
-
 
 
 			
@@ -2098,100 +1274,35 @@ D
 		return null;
 		
 		}
-
-			}
-			this.nuevoTelefono = new Telefono();
-		}
-	}
-
-	public List<Plan> listarPlan(String antenaElegido) {
-		if (antenaElegido.equals("Radio")) {
-			List<Plan> planRadio = new ArrayList<Plan>();
-			planRadio.add(listadoPlanesTmp.get(0));
-			planRadio.add(listadoPlanesTmp.get(1));
-			planRadio.add(listadoPlanesTmp.get(2));
-
-			return planRadio;
-		} else {
-			List<Plan> planFibra = new ArrayList<Plan>();
-			planFibra.add(listadoPlanesTmp.get(3));
-			planFibra.add(listadoPlanesTmp.get(4));
-			planFibra.add(listadoPlanesTmp.get(5));
-
-			return planFibra;
-		}
-
-	}
-
-	public void ingresaVisita() {
-		System.out.println(tecnicoElegido);
-		System.out.println("************entro**************");
-		empleado = empon.getEmpleadobyName(tecnicoElegido);
-		System.out.println("************id**************");
-		System.out.println(empleado.getId());
-		
-		System.out.println("************salio**************");
-		System.out.println("Id del cliente" + registro.getCliente().getId());
-		Cliente cli = clion.getCliente(registro.getCliente().getId());
-		Visita g = new Visita(cli, registro, empleado);
-		visitaOn.guardar(g);
-		System.out.println("Se guardo correcto correctamente");
-	}
+	
+	
 
 	public List<Cliente> getFiltradoCliente() {
 		return filtradoCliente;
 	}
 
+
+
 	public void setFiltradoCliente(List<Cliente> filtradoCliente) {
 		this.filtradoCliente = filtradoCliente;
-
-	}
 	
-
-	public String returnIp(int id){
-		/**
-		 * metodo retun ip
-		 */
-		Cliente cli = new Cliente();
-		cli = clion.getCliente(id);
-
-		List<Telefono> telefonos2 = telOn.getTelefonos(cli);
-		for (Telefono telefono : telefonos2) {
-			if (telefono.getTipoTelefono().equals("Convencional")) {
-				setTelefonoConveEdit(telefono);
-			}
-			if (telefono.getTipoTelefono().equals("Movil")) {
-				setTelefonoMovilEdit(telefono);
-			}
-
-		}
-
-		List<Servicio> servicios = seron.getServicios(cli);
-		int i = 0;
-		for (Servicio servicio : servicios) {
-			if (i == 0) {
-				setServicioEdit(servicio);
-			}
-			i++;
-		}
-		this.tipoServicio = servicioEdit.getTipoServicio();
-		
-if (eqServEdit != null) {
-	List<EquipoServicio> equipoServicios = eqServOn.getServicios(servicioEdit);
-	int j = 0;
-	for (EquipoServicio equipoServicio : equipoServicios) {
-		if (j == 0) {
-			setEqServEdit(equipoServicio);
-		}
-		j++;
-	}
-	
-}
-return eqServEdit.getIp();
-		
-	
-		
 	
 	}
+	
+	
+	public void addTelefono(Telefono telefono) {
+		System.out.println("ADDDING TELEFONO");
+		this.telefonos.add(telefono);	}
+	
+
+	
+	
+	
+	
+	
+	
+
+	
+	
 
 }

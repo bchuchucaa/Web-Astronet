@@ -93,23 +93,4 @@ public class EmpleadoDAO {
 		return empleado;
 	}
 
-	public List<Empleado> listarEmpleado() {
-		String estado="TECNICO";
-		String jpql = "SELECT em FROM Empleado em WHERE em.departamento = :a";
-		Query q = em.createQuery(jpql, Empleado.class);
-		q.setParameter("a", estado);
-		List<Empleado> tecnicos = q.getResultList();
-		return tecnicos;
-	}
-	
-	public Empleado buscarByName(String name) {
-		String jpql = "SELECT emp FROM Empleado emp   WHERE emp.nombre = :a";
-		Query q = em.createQuery(jpql, Empleado.class);
-		q.setParameter("a", name);
-		Empleado emp = (Empleado) q.getSingleResult();
-		System.out.println("Se llamo a buscar x nombre");
-		return emp;
-
-	}
-
 }
