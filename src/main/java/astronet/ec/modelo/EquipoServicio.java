@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "EquipoServicio")
 
 public class EquipoServicio implements Serializable {
-	
+
 	/**
 	 * 
 	 */
@@ -28,30 +28,29 @@ public class EquipoServicio implements Serializable {
 	@GeneratedValue(generator = "secuenciaEquiServ")
 	@SequenceGenerator(name = "secuenciaEquiServ", initialValue = 14)
 	private int id;
-	
+
 	@Column(name = "equipoServi_serial")
-	private String cedula;
-	
+	private String serial;
+
 	@Column(name = "equipoServi_passwd")
-	private String nombre;
+	private String password;
 
 	@Column(name = "equipoServi_ip")
 	private String ip;
-	
-	
+
 	/*
 	 * Relacion EquipoServicio con Equipo
 	 */
 	@OneToOne
-	@JoinColumn(name="equipoServicioEquipo_fk")
+	@JoinColumn
 	@JsonIgnore
 	private Equipo equipo;
-	
+
 	/*
 	 * Relacion EquipoServicio con Servicio
 	 */
 	@OneToOne
-	@JoinColumn(name="equipoServicioServicio_fk")
+	@JoinColumn
 	@JsonIgnore
 	private Servicio servicio;
 
@@ -61,22 +60,6 @@ public class EquipoServicio implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getCedula() {
-		return cedula;
-	}
-
-	public void setCedula(String cedula) {
-		this.cedula = cedula;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
 	}
 
 	public String getIp() {
@@ -103,12 +86,26 @@ public class EquipoServicio implements Serializable {
 		this.servicio = servicio;
 	}
 
+	public String getSerial() {
+		return serial;
+	}
+
+	public void setSerial(String serial) {
+		this.serial = serial;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	@Override
 	public String toString() {
-		return "EquipoServicio [id=" + id + ", cedula=" + cedula + ", nombre=" + nombre + ", ip=" + ip + ", equipo="
+		return "EquipoServicio [id=" + id + ", serial=" + serial + ", password=" + password + ", ip=" + ip + ", equipo="
 				+ equipo + ", servicio=" + servicio + "]";
 	}
-	
-	
 
 }

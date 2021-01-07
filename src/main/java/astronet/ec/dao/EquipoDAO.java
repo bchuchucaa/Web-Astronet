@@ -1,5 +1,4 @@
 
-
 package astronet.ec.dao;
 import java.util.List;
 
@@ -89,4 +88,3 @@ public class EquipoDAO {
 	}
 
 }
-

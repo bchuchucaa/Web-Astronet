@@ -15,11 +15,18 @@ import astronet.ec.modelo.Telefono;
 
 @Stateless
 public class TelefonoDAO {
-	
+
 	@Inject
 	private EntityManager em;
-	
-	
+
+
+
+	public void create(Telefono tel) {
+		em.persist(tel);
+
+	}
+
+
 	public List<Telefono> getTelefonos(Cliente cliente) {
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 		CriteriaQuery<Telefono> criteriaQuery = criteriaBuilder.createQuery(Telefono.class);
@@ -29,11 +36,11 @@ public class TelefonoDAO {
 		// // Se configuran los predicados,
 		// combinados por AND
 		System.out.println("************8");
-		
+
 		return em.createQuery(criteriaQuery).getResultList();
-		
+
 	}
-	
+
 	public int getMaxId() {
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 		CriteriaQuery<Telefono> criteriaQuery = criteriaBuilder.createQuery(Telefono.class);
@@ -44,10 +51,10 @@ public class TelefonoDAO {
 		// combinados por AND
 		System.out.println("************8");
 		int maxId=em.createQuery(criteriaQuery).getResultList().size();
-		return maxId+1;
-	
+		return maxId;
+
 	}
-	
+
 	public void update(Telefono telefono) {
 		try {
 			//System.out.println("registro "+cli.getRegistro().get(0).toString());
@@ -55,56 +62,29 @@ public class TelefonoDAO {
 		}catch (Exception e) {
 			System.out.println("DANGEROUS OPERATION : = "+ e);
 		}
-	
-		
+
+
 	}
-	public void create(Telefono telefono) {
-		em.persist(telefono);
-		
-	}
-	
-	
+
+
+
 	public void save(Telefono tel) {
-		
-		this.create(tel);
+		if (this.read(tel.getId())!=null) {
+			this.update(tel);
+		}else
+			this.create(tel);
 	}
-	
+
 		public Telefono read(int id) {
 			return em.find(Telefono.class, id);
 		}
-		
-		
-		public void delete(int id) {
-			
-			Telefono telefon=read(id);
-			try {
-				
-				em.remove(telefon);
-			}catch (Exception e) {
-				System.out.println("Exception -> "+ e);
-			}
-			
-			
-		
+
+
+		public void delete(Telefono telefono) {
+			Telefono telefono2=read(telefono.getId());
+			em.remove(telefono2);
 		}
-	
 
-		
-	public Telefono buscarTelefonoId(int id) {
-		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-		CriteriaQuery<Telefono> criteriaQuery = criteriaBuilder.createQuery(Telefono.class);
-		// Se establece la clausula FROM
-		Root<Telefono> root = criteriaQuery.from(Telefono.class);
-		criteriaQuery.select(root).where(criteriaBuilder.equal(root.get("id"), id)); // criteriaQuery.multiselect(root.get(atr))
-		// // Se configuran los predicados,
-		// combinados por AND
-		System.out.println("************8");
-		
-		return em.createQuery(criteriaQuery).getSingleResult();
-		
-	}
+
 	//THIS THE NEW SHIT
-
-
-
 }

@@ -128,17 +128,6 @@ public class ClienteDAO {
 		return clien;
 	}
 	
-	
-	public Cliente buscarNombreAellido(String nombre, String apellido) {
-		String jpql = "SELECT cli FROM Cliente cli WHERE cli.nombre = :nombre and cli.apellidos = :apellido";
-		Query q = em.createQuery(jpql, Cliente.class);
-		q.setParameter("nombre", nombre);
-		q.setParameter("apellido", apellido);
-		Cliente clien = (Cliente) q.getSingleResult();
-		return clien;
-	}
-	
-	
 	public List<EquipoServicio> getServiciosCliente(Cliente cliente){
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 		CriteriaQuery<Servicio> criteriaQuery = criteriaBuilder.createQuery(Servicio.class);

@@ -14,7 +14,9 @@
 	<script type="text/javascript"
 		src="https://kit.fontawesome.com/a81368914c.js"></script>
 	<script type="text/javascript" src="resources/assets/js/mainLogin.js"></script>
-		
+	
+	
+
 </h:head>
 <h:body>
 	<div class="container">
@@ -37,7 +39,7 @@
 					
 					<div class="div">
 						<h:inputText a:placeholder="Usuario" class="input"
-							value="#{loginBean.empleado.email}" required="true" id="correo"></h:inputText>
+							value="#{login.empleado.email}" required="true" id="correo"></h:inputText>
 					</div>
 				</div>
 				<div class="input-div pass">
@@ -46,7 +48,7 @@
 					</div>
 					<div class="div">
 						<h:inputSecret a:placeholder="Contraseña" class="input"
-							value="#{loginBean.empleado.password}" required="true" id="contrase">
+							value="#{login.empleado.password}" required="true" id="contrase">
 							</h:inputSecret>
 					</div>
 					
@@ -58,8 +60,8 @@
 					</div>
 				
 				<div>
-				<p:commandButton action="#{loginBean.login()}" class="btn"
-					value="Ingresar" id="login1" />							
+				<p:commandButton action="#{login.login()}" class="btn"
+					value="Ingresar" id="login1" />
 					
 				</div>
 		

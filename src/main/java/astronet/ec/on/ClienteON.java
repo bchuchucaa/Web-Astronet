@@ -25,6 +25,7 @@ public class ClienteON {
 	@Inject
 	private Registro registro;
 	
+	//Probando
 	
 
 	public void guardar(Cliente cli) {
@@ -84,10 +85,6 @@ public class ClienteON {
 		
 	}
     
-	
-	public Cliente buscarNombreApellido(String nombre,String apellido) {
-		return clidao.buscarNombreAellido(nombre, apellido);
-	}
   
 	
 	

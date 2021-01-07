@@ -19,9 +19,6 @@ public class EmpleadoON {
 		empdao.save(emp);
 	}
 	
-	public void eliminarByID(int id) {
-		empdao.deleteEmpleadoByID(id);
-	}
 	public List<Empleado> getEmpleado() {
 		return empdao.getEmpleado();
 	}
@@ -34,10 +31,6 @@ public class EmpleadoON {
 	
 	public Empleado login(String email, String password) {
 		return empdao.login(email, password);
-	}
-	
-	public Empleado read(int id) {
-		return empdao.read(id);
 	}
 	
 	public List<Empleado> getListadoEmpleado() {

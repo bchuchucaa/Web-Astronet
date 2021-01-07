@@ -36,16 +36,12 @@ public class TelefonoON {
 		return teldao.getMaxId();
 	}
 	
-	public void delete(int telefono) {
-		int telefon=telefono;
-		teldao.delete(telefon);
+	public void delete(Telefono telefono) {
+		teldao.delete(telefono);
 	}
-	
-	public Telefono read(int id) {
-		Telefono tel=teldao.read(id);
-		 return tel;
+	public void guardar(Telefono tel) {
+
+		teldao.save(tel);
 	}
-	
-	
 
 }
