@@ -95,11 +95,28 @@
 
 						</div>
 
-					
+						<div class="modal-body">
+
+							<div class="form-group">
+								<h:inputText type="text" class="form-control" id="IDRegTEm"
+									value="#{clienteController.agendamiento.codigoRegistroTemp}"
+									a:placeholder="IDRegTEm" rendered="" />
+							</div>
+
 							<div class="form-group col-xs-6">
 								<h:inputText type="text" class="form-control" id="Nombres"
 									value="#{clienteController.registro.cliente.nombre}"
 									a:placeholder="Nombres" />
+							</div>
+							<div class="form-group col-xs-6">
+								<h:inputText type="text" class="form-control" id="Convencional"
+									value="#{clienteController.registro.cliente.convencional}"
+									a:placeholder="Convencional" />
+							</div>
+							<div class="form-group col-xs-6">
+								<h:inputText type="text" class="form-control" id="Celular"
+									value="#{clienteController.registro.cliente.celular}"
+									a:placeholder="Celular" />
 							</div>
 							<div class="form-group col-xs-6">
 								<h:inputText type="text" class="form-control"
@@ -129,12 +146,21 @@
 									value="#{clienteController.registro.cliente.longitud}"
 									a:placeholder="Longitud" />
 							</div>
+							<div class="form-group col-xs-6">
+								<h:inputText type="text" class="form-control" id="DireccionIP"
+									value="#{clienteController.registro.cliente.servicio.get(i).ip}"
+									a:placeholder="Direccion IP" />
+							</div>
 <!-- 							<div class="form-group col-xs-6"> -->
 <!-- 								<h:inputText type="text" class="form-control" id="Password" -->
 <!-- 									value="#{clienteController.registro.cliente.servicio.get(i).password}" -->
 <!-- 									a:placeholder="Password" /> -->
 <!-- 							</div> -->
-						
+							<div class="form-group col-xs-6">
+								<h:inputText type="text" class="form-control" id="Plan"
+									value="#{clienteController.registro.cliente.servicio.get(i).plan}"
+									a:placeholder="Plan" />
+							</div>
 
 							<div class="form-group col-xs-6">
 <!-- 								  <label for="sel1">Ingresado por:</label>      -->
@@ -165,6 +191,16 @@
 
 					</div>
 
+					<div class="form-group col-sm-6">
+						  <label for="sel1">Revisado por:</label>     
+						<h:selectOneMenu class="form-control" id="sel1"
+							value="#{clienteController.agendamiento.tecnicoAsigna}">
+							<f:ajax listener="#{clienteController.cargarDatosCallCenter()}"></f:ajax>
+							<f:selectItems value="#{clienteController.empleados}"
+								var="empleado" itemLabel="#{empleado.nombre}"
+								itemValue="#{empleado.nombre}" />
+						</h:selectOneMenu>
+					</div>
 
 					
 					<div class="form-group col-sm-6">
@@ -177,7 +213,33 @@
 						</h:selectOneMenu>
 					</div>
 
-				
+					<div class="form-group col-sm-6">
+						  <label for="sel3">Asignado a:</label>
+						<h:selectOneMenu class="form-control" id="sel3"
+							value="#{clienteController.agendamiento.tecnicoResponsable}">
+							<f:selectItem itemLabel="---" itemalue="--"/>
+							<f:selectItems value="#{clienteController.empleados}"
+								var="empleado" itemLabel="#{empleado.nombre}"
+								itemValue="#{empleado.nombre}" />
+						</h:selectOneMenu>
+					</div>
+
+					<div class="form-group">
+						<label>Observaciones</label>
+						<h:inputTextarea
+							value="#{clienteController.agendamiento.observaciones}"
+							class="form-control" id="exampleFormControlTextarea11" rows="5" />
+					</div>
+
+					<div class="btnsIngre_Agen">
+						<h:commandButton action="#{clienteController.cmd()}"
+							onclick="#{clienteController.consultarRegistro()}"
+							class="btn btn-primary botonesPW" value="PING" />
+
+						<h:commandButton action="#{clienteController.winbox()}"
+							immediate="true" class="btn btn-primary" value="WINBOX" />
+
+					</div>
 
 					<div class="btnsIngre_Agen">
 						<h:commandButton
@@ -193,6 +255,7 @@
 
 			</div>
 
+		</div>
 
 	</h:form>
 

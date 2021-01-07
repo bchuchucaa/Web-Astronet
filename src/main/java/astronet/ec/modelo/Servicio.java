@@ -10,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -74,7 +73,7 @@ public class Servicio implements Serializable {
 	 * Relacion Servicio con EquipoServicio
 	 */
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn
+	@JoinColumn(name = "servicioEquipoServicio_fk")
 	@JsonIgnore
 	private List<EquipoServicio> equipoServicios;
 	
@@ -82,7 +81,7 @@ public class Servicio implements Serializable {
 	 * Relacion Servicio con ServicioFibra
 	 */
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn
+	@JoinColumn(name = "servicioServicioFibra_fk")
 	@JsonIgnore
 	private List<ServicioFibra> serviciosFibra;
 	

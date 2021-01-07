@@ -1,6 +1,5 @@
 package astronet.ec.modelo;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,10 +16,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Equipo")
 
-public class Equipo implements Serializable{
-
+public class Equipo {
+	
 	/**
-	 *
+	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -29,31 +28,31 @@ public class Equipo implements Serializable{
 	@GeneratedValue(generator = "secuenciaEquipo")
 	@SequenceGenerator(name = "secuenciaEquipo", initialValue = 14)
 	private int id;
-
+	
 	@Column(name = "equi_nombre")
 	private String nombre;
-
+	
 	@Column(name = "equi_modelo")
 	private String modelo;
-
+	
 	@Column(name = "equi_tipoEquipo")
 	private String tipoEquipo;
 
 	@Column(name = "equi_marca")
 	private String marca;
-
+	
 	/*
 	 * Relacion Equipo Nodo
 	 */
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "equipoNodo_fk")
 	private List<Nodo> nodos;
-
+	
 	/*
 	 * Relacion Equipo Nodo
 	 */
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn
+	@JoinColumn(name = "equipoServicioEquipo_fk")
 	private List<EquipoServicio> equipoServicio;
 
 	public int getId() {
