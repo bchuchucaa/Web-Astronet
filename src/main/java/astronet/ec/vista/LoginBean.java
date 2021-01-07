@@ -60,7 +60,5 @@ public class LoginBean {
 		return "index.xhtml";
 
 	}
-	
-//	FIN ZONA METODOS 
 
 }

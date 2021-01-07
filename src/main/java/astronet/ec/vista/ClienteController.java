@@ -63,6 +63,7 @@ public class ClienteController implements Serializable {
 	// private static final long serialVersionUID = 8799656478674716638L;
 	private static final long serialVersionUID = 1L;
 	private Cliente cliente = new Cliente();
+	private EmpleadoController ubean = new EmpleadoController();
 	private List<Cliente> listadoCliente;
 	private List<Servicio> servicios;
 	private List<Registro> registros;
@@ -108,6 +109,14 @@ public class ClienteController implements Serializable {
 	private String convencional;
 	private String celular;
 	private String direccionPrincipal;
+	public EmpleadoController getUbn() {
+		return ubn;
+	}
+
+	public void setUbn(EmpleadoController ubn) {
+		this.ubn = ubn;
+	}
+
 	private String direccionSecundaria;
 	private String direccionReferencia;
 	private String latitud;
@@ -118,6 +127,7 @@ public class ClienteController implements Serializable {
 	public String soluciones;
 	private String empleados1;
 	private String servicioRB;
+	private EmpleadoController ubn;
 	public List<String> listaSugerencias;
 
 	private String servicioElegido;
@@ -168,16 +178,10 @@ public class ClienteController implements Serializable {
 		telefonos = new ArrayList<Telefono>();
 		equipo = new Equipo();
 		serviciosCliente = new ArrayList<EquipoServicio>();
-
-		cliente = new Cliente();
-		registro = new Registro();
-		instalacion = new Instalacion();
-		servicio = new Servicio();
-		agendamiento = new Agendamiento();
-		empleados = empon.getListadoEmpleado();
-		listadoCliente = clion.getListadoCliente();
-		registros = regon.getListadoRegistro();
-		listaInstalaciones = inson.getListadoInstalacion();
+		ubn= new EmpleadoController();
+		
+	   registros = regon.getListadoRegistro();
+	
 		nuevoTelefono = new Telefono();
 
 		servicioTmp = new Servicio();
@@ -864,6 +868,7 @@ public class ClienteController implements Serializable {
 
 		}
 		System.out.println("veniii" + cliente.getCedula());
+		System.out.println("q ha psado cabeza" + empleado.getId());
 		return null;
 
 	}
@@ -950,7 +955,7 @@ public class ClienteController implements Serializable {
 	/**
 	 * Metod para guardar los registros
 	 *
-	 * @return
+	 * @return"
 	 */
 	public String cargarDatosRegistro() {
 		try {
@@ -2055,6 +2060,7 @@ public class ClienteController implements Serializable {
 		System.out.println(tecnicoElegido);
 		System.out.println("************entro**************");
 		empleado = empon.getEmpleadobyName(tecnicoElegido);
+
 		System.out.println("************id**************");
 		System.out.println(empleado.getId());
 		System.out.println("************salio**************");
@@ -2071,30 +2077,6 @@ public class ClienteController implements Serializable {
 
 	public void setFiltradoCliente(List<Cliente> filtradoCliente) {
 		this.filtradoCliente = filtradoCliente;
-
-	}
-
-	public String ingresaVisita() {
-		Registro c = new Registro();
-		Visita g = new Visita();
-		Empleado eml = new Empleado();
-		Cliente cl = new Cliente();
-		g.setRegistro(c);
-		g.setCliente(cl);
-		g.setEmpleado(eml);
-
-		try {
-			this.visita.setRegistro(registro);
-			regon.guardar(registro);
-			// clion.guardar(cliente);
-			// empon.guardar(empleado);
-			init();
-			// System.out.println("la clave del id es: "+ registro);
-			return "callcenter";
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
 
 	}
 }

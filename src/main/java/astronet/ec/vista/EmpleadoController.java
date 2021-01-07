@@ -6,7 +6,6 @@ import java.util.List;
 
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -14,7 +13,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-
 import astronet.ec.modelo.Empleado;
 import astronet.ec.modelo.Instalacion;
 import astronet.ec.modelo.Registro;
@@ -34,14 +32,10 @@ public class EmpleadoController {
 	private int idUser;
 
 	private Empleado empleado;
-	private Empleado empUser;
+	private Empleado empUser;	
 	private Instalacion instalacion;
 	private Registro registro;
 	private List<Empleado> empleados;
-
-	private List<Empleado> tecnicos;
-	private String tecnicoElegido;
-
 	private List<String> departamentosList = new ArrayList<String>();
 	@Inject
 	private RolEmpleadoON rolEmpOn;
@@ -50,13 +44,10 @@ public class EmpleadoController {
 	private List<RolEmpleado> listaRolesEmpleados;
 	private String rolSelected;
 
-	@PostConstruct
+	// @PostConstruct //importante que esto este comentado caso contrario genera
+	// errores
 	public void init() {
-		empleado = new Empleado();
-		instalacion = new Instalacion();
-		registro = new Registro();
-		empleados = empon.getEmpleado();
-		tecnicos = empon.getListadoTecnico();
+
 		try {
 			departamentosList.add("Administrador");
 			departamentosList.add("Contabilidad");
@@ -91,20 +82,6 @@ public class EmpleadoController {
 			return;
 
 		empleado = empon.getEmpleado(id);
-
-	}
-
-	public String getTecnicoElegido() {
-		return tecnicoElegido;
-	}
-
-	public void setTecnicoElegido(String tecnicoElegido) {
-		this.tecnicoElegido = tecnicoElegido;
-	}
-
-	public List<Empleado> getTecnicos() {
-		return tecnicos;
-
 	}
 
 	// ZONA GET/SET
@@ -114,10 +91,6 @@ public class EmpleadoController {
 
 	public void setEmpleado(Empleado empleado) {
 		this.empleado = empleado;
-	}
-
-	public void setTecnicos(List<Empleado> tecnicos) {
-		this.tecnicos = tecnicos;
 	}
 
 	public Registro getRegistro() {
@@ -192,16 +165,16 @@ public class EmpleadoController {
 	public void setListaRolesEmpleados(List<RolEmpleado> listaRolesEmpleados) {
 		this.listaRolesEmpleados = listaRolesEmpleados;
 	}
-
 	public String getRolSelected() {
 		return rolSelected;
 	}
-
 	public void setRolSelected(String rolSelected) {
 		this.rolSelected = rolSelected;
 	}
 
 	// FIN ZONA GET/SET
+
+	
 
 //	ZONA METODOS BEAN
 
@@ -268,7 +241,6 @@ public class EmpleadoController {
 		// return "registrarEmpleado?faces-redirect=true&id=" + codigo;
 		return null;
 	}
-
 	public String eliminarRol(int codigo) {
 		rolEmpOn.eliminar(codigo);
 		init();
@@ -278,15 +250,15 @@ public class EmpleadoController {
 
 	/*
 	 * Metodo para guardar o actualizar empleado
-	 *
+	 * 
 	 */
 
 	public String guardarEmpleado() {
 		try {
-			if (validadorDeCedula(empleado.getCedula())) {
-				empleado.setRolEmpleado(rolEmpOn.read(mapaRoles.get(rolSelected)));
-				empleado.setNombre(empleado.getNombre().toUpperCase());// Mayusculas
-				empon.guardar(empleado);
+			if (validadorDeCedula(empleado.getCedula())) {														
+				empleado.setRolEmpleado(rolEmpOn.read(mapaRoles.get(rolSelected)));	
+				empleado.setNombre(empleado.getNombre().toUpperCase());//Mayusculas
+				empon.guardar(empleado);				
 				return "listadoEmpleado?faces-redirect=true&id=" + this.idUser;
 			} else {
 				FacesContext.getCurrentInstance().addMessage(null,
@@ -300,7 +272,7 @@ public class EmpleadoController {
 	}
 
 	public String guardarRol() {
-		this.rolEmpleado.setNombre(this.rolEmpleado.getNombre().toUpperCase());// poner en mayusculas
+		this.rolEmpleado.setNombre(this.rolEmpleado.getNombre().toUpperCase());//poner en mayusculas
 		this.rolEmpOn.guardar(this.rolEmpleado);
 		this.rolEmpleado = new RolEmpleado();// necesario para eliminar los campos
 		this.listaRolesEmpleados = null;
@@ -339,7 +311,6 @@ public class EmpleadoController {
 					break;
 				case "Administrador":
 					session.setAttribute("username", empleado);
-
 					System.out.println("login exitoso" + " " + empleado.getId() + " " + empleado.getNombre());
 					direccion = "viewAdmin?faces-redirect=true&id=" + empleado.getId();
 					// direccion="viewAdmin";
@@ -380,4 +351,3 @@ public class EmpleadoController {
 	}
 
 }
-//FIN ZONA METODOS BEAN 

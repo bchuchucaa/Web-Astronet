@@ -14,7 +14,6 @@
 	<title>#{usuarioBean.empleadoUser.rolEmpleado.nombre}</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-
 	<link rel="stylesheet"
 		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="resources/assets/css/table1.css" />
@@ -61,7 +60,7 @@
 				data-toggle="dropdown" href="#">Call Center <span
 					class="caret"></span></a>
 				<ul class="dropdown-menu">
-					<li><a href="callcenter.xhtml" id="boton">Call Center</a></li>
+					<li><a href="callcenter.xhtml?id=#{usuarioBean.empleadoUser.id}" id="boton" >Call Center  </a></li>
 					<li><a
 						href="listadoEmpleado.xhtml?id=#{usuarioBean.empleadoUser.id}"
 						id="boton1">Empleados</a></li>
@@ -71,10 +70,6 @@
 						</h:link></li>
 
 				</ul></li>
-				
-				
-				
-
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">
@@ -110,8 +105,5 @@
 			</h:button>
 		</h:form>
 	</div>
-
 </body>
-
-
 </html>

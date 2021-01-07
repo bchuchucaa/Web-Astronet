@@ -65,6 +65,12 @@ public class Registro implements Serializable {
 	//@JsonIgnore
 	private Cliente cliente;
 	
+	public Registro(Empleado empleado) {
+		super();
+		this.empleado = empleado;
+		
+	}
+
 	/*
 	 * Relacion Registro con Agendamiento
 	 */
@@ -101,6 +107,10 @@ public class Registro implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	public Registro() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public String getFechaHora() {

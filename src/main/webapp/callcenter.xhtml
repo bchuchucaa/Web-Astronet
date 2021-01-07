@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -9,10 +8,8 @@
 
 <h:head>
 	<f:metadata>
-		<!-- 				<f:viewParam name="id" value="#{clienteController.id}"></f:viewParam>  -->
-		<!-- 
-					 <f:viewAction action="acceso()" />   
-		<f:event listener="acceso()" type="preRenderView" />  -->
+		<f:viewParam name="id" value="#{empleadoControllerBean.idUser}"></f:viewParam>
+		<f:viewAction action="#{empleadoControllerBean.init()}" />
 	</f:metadata>
 	<title>Call Center</title>
 	<meta charset="utf-8" />
@@ -24,49 +21,14 @@
 	<link rel="stylesheet" href="resources/assets/css/table.css" />
 	<link rel="stylesheet" href="resources/assets/css/fondo.css" />
 
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 
-	<script type="text/javascript">
-	
-	function acceso(){
-		var dep=document.getElementById("dep");
-		var dir='Radio';
-		var boton=document.getElementById("boton");
-		var boton1=document.getElementById("boton1");
-		var boton12=document.getElementById("boton12")
-		if(dep.innerText != 'Radio'){
-			alert("Bloqueado no tienes los permisos establecidos contacte con tu administrador")
-				boton.disabled=true;
-			boton1.disabled=true;
-			boton12.disabled=true;
-				
-			}
-		else{
-			alert("Bievenido");
-			boton.disabled =false;
-			boton1.disabled=false;
-			boton12.disabled=false;
-			
-			}
-		}
-	function showGrpMemberSearchPageCalenderLeave() { 
-	     window.open('./index.xhtml','mywindow', 'resizable=no,toolbar=no,scrollbars=yes,height=450,width=530,top=145,left=235');
-	     return true;
-	 }
-	
-	
-	
-	function CopyToLabel() {
-		alert("funcion peligrosa");
-        //Reference the TextBox.
-        var txtName = document.getElementById("itemselected");
-        
-        alert(txtName.value);
- 
-    }
-	
-	
-	</script>
+
 	<style>
 .columnacontacto {
 	width: 10px;
@@ -81,24 +43,26 @@
 	<nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="callcenter.xhtml"><img
-				src="resources/assets/img/logo.png" /></a>
+			<!--AL HACER CLIC EN EL LOGO DE LA EMPRESA RETORNAMOS AL MENU INICIAL DEL USUARIO-->
+			<h:form class="navbar-brand">
+				<h:link outcome="viewUser">
+					<h:graphicImage value="resources/assets/img/logo.png" />
+					<f:param name="id" value="#{empleadoControllerBean.idUser}" />
+				</h:link>
+			</h:form>
 		</div>
 
-
 		<ul class="nav navbar-nav navbar-right">
-			<li><a> #{usuarioBean.empleadoUser.nombre}</a></li>
+			<li><a> #{empleadoControllerBean.empUser.nombre}</a></li>
 			<li><a id="dep">
-					#{usuarioBean.empleadoUser.rolEmpleado.nombre}</a></li>
+					#{empleadoControllerBean.empUser.rolEmpleado.nombre}</a></li>
 			<li><h:form>
 					<a> <h:commandButton class="btnExit"
 							action="#{loginBean.logout()}" value="Exit"
 							image="./resources/assets/img/exit.png" />
 					</a>
 				</h:form></li>
-
 		</ul>
-
 	</div>
 	</nav>
 
@@ -219,9 +183,7 @@
 				<div class="panel-heading">
 					<h>Datos Cliente</h>
 
-
 				</div>
-
 
 
 
@@ -232,12 +194,12 @@
 						<div class="form-group col-sm-3">
 							<div class="input-group marginBuscar">
 								<h:inputText id="textce" class="form-control"
-									value="#{clienteController.cedula}"
+									value="#{callcenterBean.cedula}"
 									a:placeholder="Cedula del Cliente" name="search" />
 								<div class="input-group-btn" id="txtCedula">
 									<h:commandButton render="Nombres"
 										class="btn btn-default botonBuscar"
-										action="#{clienteController.buscarCedula()}"
+										action="#{callcenterBean.buscarCedula()}"
 										image="/resources/assets/img/buscar.png" />
 								</div>
 							</div>
@@ -245,19 +207,15 @@
 
 						<div class="form-group col-sm-5">
 
-
-
-
-
 							<h:form>
         Enter Name:
         <p:autoComplete id="itemselected"
-									value="#{clienteController.inputName}" maxResults="10"
-									completeMethod="#{clienteController.getSugerencias}">
+									value="#{callcenterBean.inputName}" maxResults="10"
+									completeMethod="#{callcenterBean.getSugerencias}">
 
 								</p:autoComplete>
 								<h:commandButton value="BUSCAR"
-									onclick="#{clienteController.findByNames()}" />
+									onclick="#{callcenterBean.findByNames()}" />
 
 
 							</h:form>
@@ -267,8 +225,8 @@
 
 
 							<p:outputPanel id="outputPanel">
-								<p:outputLabel id="outlabel"
-									value="#{clienteController.inputName}" />
+								<!-- <p:outputLabel  type="hidden" id="outlabel"
+									value="#{clienteController.inputName}" /> -->
 							</p:outputPanel>
 
 
@@ -286,7 +244,7 @@
 
 				<div id="main-container" class="cabecera">
 
-					<h:dataTable id="Nombres" value="#{clienteController.cliente}"
+					<h:dataTable id="Nombres" value="#{callcenterBean.cliente}"
 						var="cliente">
 
 						<h:column>
@@ -324,22 +282,23 @@
 
 							<!-- ARRAY CON LOS TELEFONOS -->
 							<!-- TABLA TELEFONOS -->
-							<p:dataTable id="koka" value="#{cliente.telefonos}" var="t"
-								headerClass="cabeceraTabla" rowClasses="filaPar,filaImpar"
-								style="width:100%">
+							<h:form id="list">
+								<h:dataTable id="kuka" value="#{cliente.telefonos}" var="t"
+									headerClass="cabeceraTabla" rowClasses="filaPar,filaImpar"
+									style="width:100%">
 
-								<p:column>
+									<h:column>
 
-									<span class="glyphicon glyphicon-earphone"></span>
+										<span class="glyphicon glyphicon-earphone"></span>
 
-									<h:outputText value="#{t.telNumero}" size="10" />
+										<h:outputText value="#{t.tipoTelefono}" size="10" />
 
-								</p:column>
+									</h:column>
 
 
 
-							</p:dataTable>
-
+								</h:dataTable>
+							</h:form>
 
 							<h:panelGrid columns="1" cellpadding="1" style="width:40%">
 
@@ -353,10 +312,6 @@
 
 							<!--  FINARRAY CON LOS TELEFONOS -->
 							<!--  Aqui termina la tabla -->
-
-
-
-
 
 
 						</h:column>
@@ -384,35 +339,55 @@
 						action="#{clienteController.cargarDatosCallCenter()}"
 						value="Actualizar" />
 				</div>
+				<div class="form-group col-sm-5">
+							<div class="input-group marginBuscar">
+								<h:inputText class="form-control"
+									value="#{clienteController.registro.fechaHora}"
+									a:placeholder="Fecha Hora" rendered="" />
+
+							</div>
+
+						</div>
+
+						<div class="form-group col-sm-5">
+							<div class="input-group marginBuscar">
+								<h:inputText class="form-control"
+									value="#{callcenterBean.registro.idClienteTemp}"
+									a:placeholder="clid" id="txtCliente1" rendered="">
+								</h:inputText>
+								<h:panelGroup id="datosPersona123">
+									<h:message for="txtCliente1" rendered="" />
+							#{callcenterBean.registro.cliente.nombre}
+					</h:panelGroup>
+							</div>
+						</div>
+				
 
 				<div class="form-group col-sm-6">
 					  <label for="sel1" class="etiquetas">Problema:</label>     
 					<h:selectOneMenu class="form-control" id="sel1"
-						value="#{clienteController.registro.problema}">
+						value="#{callcenterBean.registro.problema}">
 						<f:ajax execute="txtCliente1"
-							listener="#{clienteController.consultarCliente()}"
+							listener="#{callcenterBean.consultarCliente()}"
 							render="datosPersona123" />
-						<f:selectItems value="#{clienteController.problemas1}" var="pro1"
+						<f:selectItems value="#{callcenterBean.problemas1}" var="pro1"
 							itemLabel="#{pro1.carLabel}" itemValue="#{pro1.carLabel}" />
 					</h:selectOneMenu>
 				</div>
 
 
-				<div class="form-group col-sm-6">
+							<div class="form-group col-sm-6">
 					  <label for="sel1" class="etiquetas">Acción:</label>     
 					<h:selectOneMenu class="form-control" id="selAc"
-						value="#{clienteController.registro.accion}">
+						value="#{callcenterBean.registro.accion}">
 						<f:selectItems value="#{clienteController.accion}" var="pro1"
 							itemLabel="#{pro1.carLabel}" itemValue="#{pro1.carLabel}" />
 					</h:selectOneMenu>
 				</div>
-
-
-
 				<div class="form-group cabecera">
 					<label for="exampleFormControlTextarea1">Observaciones</label>
 					<h:inputTextarea
-						value="#{clienteController.registro.observaciones}"
+						value="#{callcenterBean.registro.observaciones}"
 						class="form-control" id="exampleFormControlTextarea1" rows="5">
 					</h:inputTextarea>
 				</div>
@@ -421,7 +396,7 @@
 
 
 					<h:commandButton
-						action="#{clienteController.cargarDatosRegistro()}"
+						action="#{callcenterBean.cargarDatosRegistro(empleadoControllerBean.idUser)}"
 						class="btn btn-primary btnIn" value="Ingresar" />
 
 				</div>
@@ -433,8 +408,6 @@
 
 
 	</h:form>
-
-
 
 	<p:dialog header="Editar telefonos" widgetVar="dlg1" minHeight="40">
 
@@ -449,7 +422,7 @@
 
 					<span class="glyphicon glyphicon-earphone"></span>
 
-					<h:inputText value="#{t.telNumero}" size="10" />
+					<h:inputText value="#{t.tipoTelefono}" size="10" />
 
 				</h:column>
 
@@ -459,38 +432,22 @@
 				<h:column>
 					<f:facet name="header">ACCION</f:facet>
 					<h:commandButton value="Editar"
-						onclick="#{clienteController.editTelefono(t)}"
+						onclick="#{telefonoController.editTelefono(t)}"
 						styleClass="btn btn-primary" />
-					<h:commandButton value="Eliminar"
-						onclick="#{telefonoController.deleteTelefono(t.id)}"
-						styleClass="btn btn-danger" />
+					<h:commandButton value="Eliminar" styleClass="btn btn-danger" />
 
 				</h:column>
 
 
 			</h:dataTable>
 		</h:form>
-		<h:form>
-			<h3>Nuevo telefono</h3>
-			<h:outputText value="numero" />
-			<h:inputText value="#{clienteController.nuevoTipoTelefono}" size="10" />
-			<h:outputText value="Tipo" />
 
-
-			<h:inputText value="#{clienteController.nuevoNumero}" size="10" />
-
-			<h:commandButton value="Guardar"
-				onclick="#{clienteController.newTelefono()}"
-				styleClass="btn btn-primary">
-
-
-			</h:commandButton>
-
-
-		</h:form>
 
 	</p:dialog>
+	<h:form id="text">
 
+
+	</h:form>
 </body>
 
 
