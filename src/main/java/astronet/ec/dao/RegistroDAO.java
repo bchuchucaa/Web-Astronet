@@ -73,8 +73,12 @@ public class RegistroDAO {
 	
 		
 	public List<Registro> listarRegistros() {
+<<<<<<< HEAD
 		String jpql = "SELECT reg FROM Registro reg ORDER BY\n"
 				+ "        reg_fechahora";
+=======
+		String jpql = "SELECT reg FROM Registro reg ";
+>>>>>>> parent of 992591c... unido
 		Query q = em.createQuery(jpql, Registro.class);
 		List<Registro> registros = q.getResultList();
 		return registros;

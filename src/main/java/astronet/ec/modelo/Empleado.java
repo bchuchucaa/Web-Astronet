@@ -142,7 +142,12 @@ public class Empleado implements Serializable{
 	@Override
 	public String toString() {
 		return "Empleado [id=" + id + ", cedula=" + cedula + ", nombre=" + nombre + ", celular=" + celular + ", email="
+<<<<<<< HEAD
 				+ email + ", password=" + password + ", departamento=" + departamento + "]";
+=======
+				+ email + ", password=" + password + ", departamento=" + departamento + ", registro=" + registro
+				+ ", instalacion=" + instalacion + ", rolEmpleado=" + rolEmpleado + "]";
+>>>>>>> parent of 992591c... unido
 	}
 	
 	

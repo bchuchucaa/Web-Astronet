@@ -18,6 +18,7 @@ public class TelefonoDAO {
 
 	@Inject
 	private EntityManager em;
+<<<<<<< HEAD
 
 
 
@@ -27,6 +28,10 @@ public class TelefonoDAO {
 	}
 
 
+=======
+	
+	
+>>>>>>> parent of 992591c... unido
 	public List<Telefono> getTelefonos(Cliente cliente) {
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 		CriteriaQuery<Telefono> criteriaQuery = criteriaBuilder.createQuery(Telefono.class);
@@ -51,8 +56,13 @@ public class TelefonoDAO {
 		// combinados por AND
 		System.out.println("************8");
 		int maxId=em.createQuery(criteriaQuery).getResultList().size();
+<<<<<<< HEAD
 		return maxId;
 
+=======
+		return maxId+1;
+	
+>>>>>>> parent of 992591c... unido
 	}
 
 	public void update(Telefono telefono) {
@@ -62,6 +72,7 @@ public class TelefonoDAO {
 		}catch (Exception e) {
 			System.out.println("DANGEROUS OPERATION : = "+ e);
 		}
+<<<<<<< HEAD
 
 
 	}
@@ -85,6 +96,47 @@ public class TelefonoDAO {
 			em.remove(telefono2);
 		}
 
+=======
+	
+		
+	}
+	public void create(Telefono telefono) {
+		em.persist(telefono);
+		
+	}
+	
+	
+	public void save(Telefono tel) {
+		
+		this.create(tel);
+	}
+	
+		public Telefono read(int id) {
+			return em.find(Telefono.class, id);
+		}
+		
+		
+		public void delete(int id) {
+			
+			Telefono telefon=read(id);
+			try {
+				
+				em.remove(telefon);
+			}catch (Exception e) {
+				System.out.println("Exception -> "+ e);
+			}
+			
+			
+		
+		}
+	
+>>>>>>> parent of 992591c... unido
 
 	//THIS THE NEW SHIT
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> parent of 992591c... unido
 }
